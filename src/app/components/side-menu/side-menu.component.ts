@@ -162,7 +162,7 @@ import { LoaderService } from '../../services/loader.service';
     .menu-items {
       padding: 1rem 0;
       margin-top: 60px;
-      width: calc(100% - 24px); /* Ajuste para o botão de recolher */
+      width: calc(100%); /* Ajuste para o botão de recolher */
     }
 
     .menu-item {
