@@ -33,11 +33,22 @@ import { SearchService } from '../../services/search.service';
   `,
   styles: [`
     .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 60px;
+      height: 64px;
+      z-index: 1001;
       display: flex;
       align-items: center;
       padding: 1rem;
       background: white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+    }
+
+    :host-context(.menu-expanded) .header {
+      left: 240px;
     }
 
     .search-box {

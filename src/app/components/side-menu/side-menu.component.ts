@@ -56,6 +56,7 @@ import { LoaderService } from '../../services/loader.service';
       transition: width 0.3s ease;
       box-shadow: 2px 0 4px rgba(0,0,0,0.1);
       overflow-x: hidden;
+      z-index: 1002;
     }
 
     .side-menu.expanded {
@@ -77,7 +78,7 @@ import { LoaderService } from '../../services/loader.service';
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: 1003;
       transition: all 0.3s ease;
     }
 
