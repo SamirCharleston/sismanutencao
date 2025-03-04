@@ -2,9 +2,11 @@
   padding: 1.5rem;
   background-color: #f0f0f0;
   min-height: calc(100vh - 64px);
+  position: relative;
 }
 
 .os-grid {
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;

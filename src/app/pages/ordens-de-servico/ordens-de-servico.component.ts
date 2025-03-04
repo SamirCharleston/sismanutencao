@@ -3,13 +3,31 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 import { SearchService } from '../../services/search.service';
 import { Subscription } from 'rxjs';
+import { OrdemSortComponent } from '../../components/ordem-sort/ordem-sort.component';
 
 @Component({
   selector: 'app-ordens-de-servico',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OrdemSortComponent],
   providers: [DatePipe],
-  templateUrl: './ordens-de-servico.component.html',
+  template: `
+    <div class="os-container">
+      <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
+      <div class="os-grid">
+        <div *ngFor="let os of ordensDeServico" class="os-card">
+          <div class="warning-indicator" *ngIf="isOverdue(os)">
+            <i class="material-icons">warning</i>
+          </div>
+          <div class="os-content">
+            <div class="os-number">OS #{{os.numero}}</div>
+            <div class="os-glpi">GLPI <b>{{os.glpi}}</b></div>
+            <div class="os-date">Vencimento: <b>{{os.dataFim | date:'dd/MM/yyyy'}}</b></div>
+            <div class="os-status">{{os.status}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
   styleUrls: ['./ordens-de-servico.component.css']
 })
 export class OrdensDeServicoComponent implements OnInit, OnDestroy {
@@ -88,5 +106,21 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
   isOverdue(os: OrdemDeServico): boolean {
     const today = new Date();
     return os.dataFim < today && os.status !== 'Concluída';
+  }
+
+  onSort(sortEvent: {field: string, direction: 'asc' | 'desc'}) {
+    const sortedOrdens = [...this.ordensDeServico];
+    sortedOrdens.sort((a, b) => {
+      const modifier = sortEvent.direction === 'asc' ? 1 : -1;
+      
+      if (sortEvent.field === 'numero') {
+        return modifier * a.numero.localeCompare(b.numero);
+      } else if (sortEvent.field === 'data') {
+        return modifier * (a.dataFim.getTime() - b.dataFim.getTime());
+      }
+      return 0;
+    });
+    
+    this.ordensDeServico = sortedOrdens;
   }
 }
