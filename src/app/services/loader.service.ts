@@ -11,7 +11,7 @@ export class LoaderService {
 
   constructor(private router: Router) {}
 
-  async navigateWithLoader(path: string, duration: number = 3000) {
+  async navigateWithLoader(path: string, duration: number = 2000) {
     this.show();
     try {
       await new Promise(resolve => setTimeout(resolve, duration));
@@ -21,11 +21,11 @@ export class LoaderService {
     }
   }
 
-  private show() {
+  show() {
     this.isLoading.next(true);
   }
 
-  private hide() {
+  hide() {
     this.isLoading.next(false);
   }
 }

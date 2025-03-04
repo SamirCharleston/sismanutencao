@@ -21,7 +21,7 @@
           required>
       </div>
       <div class="buttons">
-        <button type="submit" class="btn-primary">ENTRAR</button>
+        <button type="submit" class="btn-primary" [disabled]="!loginForm.form.valid">ENTRAR</button>
         <button type="button" class="btn-secondary" (click)="onRegister()">REGISTRAR-SE</button>
       </div>
     </form>

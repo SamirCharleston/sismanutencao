@@ -21,9 +21,19 @@ export class HomeComponent {
     private loaderService: LoaderService
   ) {}
 
-  onSubmit() {
-    console.log('Login attempt:', this.loginData);
-    // Adicionar lógica de autenticação aqui
+  async onSubmit() {
+    // Simulação básica de autenticação
+    if (this.loginData.username && this.loginData.password) {
+      this.loaderService.show();
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simula verificação
+        await this.loaderService.navigateWithLoader('/dashboard');
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+      } finally {
+        this.loaderService.hide();
+      }
+    }
   }
 
   onRegister() {
