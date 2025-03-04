@@ -1,8 +1,8 @@
 <div class="dashboard-container">
-  <app-side-menu [items]="menuItems"></app-side-menu>
+  <app-side-menu class="app-side-menu" [items]="menuItems"></app-side-menu>
   
   <div class="main-content" [class.menu-expanded]="menuService.isExpanded$ | async">
-    <app-header></app-header>
+    <app-header class="header-menu"></app-header>
     <router-outlet></router-outlet>
   </div>
 </div>

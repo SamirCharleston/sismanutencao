@@ -22,7 +22,7 @@ import { SearchService } from '../../services/search.service';
         <i class="material-icons">search</i>
         <input 
           type="text" 
-          placeholder="Buscar funcionalidade..."
+          [placeholder]="getPlaceholder()"
           [ngModel]="searchValue"
           (ngModelChange)="onSearch($event)">
       </div>
@@ -117,6 +117,12 @@ export class HeaderComponent {
   get showBackButton(): boolean {
     const currentRoute = this.router.url;
     return currentRoute !== '/dashboard' && currentRoute.startsWith('/dashboard/');
+  }
+
+  getPlaceholder(): string {
+    return this.router.url.includes('/dashboard/ordens') 
+      ? 'Pesquisar OS por número, GLPI, status ou data...'
+      : 'Buscar funcionalidade...';
   }
 
   onSearch(value: string) {

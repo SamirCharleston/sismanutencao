@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
+import { SearchService } from '../../services/search.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ordens-de-servico',
@@ -10,8 +12,8 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
   templateUrl: './ordens-de-servico.component.html',
   styleUrls: ['./ordens-de-servico.component.css']
 })
-export class OrdensDeServicoComponent {
-  ordensDeServico: OrdemDeServico[] = [
+export class OrdensDeServicoComponent implements OnInit, OnDestroy {
+  allOrdens: OrdemDeServico[] = [
     ...Array.from({ length: 15 }, (_, i) => {
       const os = new OrdemDeServico();
       os.id = i + 1;
@@ -44,6 +46,39 @@ export class OrdensDeServicoComponent {
       status: 'Em análise'
     } as OrdemDeServico
   ];
+  ordensDeServico: OrdemDeServico[] = [];
+  private searchSubscription: Subscription;
+
+  constructor(private searchService: SearchService) {
+    this.searchSubscription = this.searchService.searchTerm$.subscribe(term => {
+      this.filterOrdens(term);
+    });
+  }
+
+  ngOnInit() {
+    this.ordensDeServico = this.allOrdens;
+  }
+
+  ngOnDestroy() {
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+  }
+
+  private filterOrdens(term: string) {
+    if (!term) {
+      this.ordensDeServico = this.allOrdens;
+      return;
+    }
+
+    term = term.toLowerCase();
+    this.ordensDeServico = this.allOrdens.filter(os => 
+      os.numero.toLowerCase().includes(term) ||
+      os.glpi.toString().includes(term) ||
+      os.status.toLowerCase().includes(term) ||
+      (os.dataFim && os.dataFim.toLocaleDateString().includes(term))
+    );
+  }
 
   private getRandomStatus(): string {
     const status = ['Concluída', 'Em andamento', 'Pendente', 'Em análise'];
