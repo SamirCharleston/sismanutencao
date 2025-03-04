@@ -3,14 +3,6 @@
   
   <div class="main-content" [class.menu-expanded]="menuService.isExpanded$ | async">
     <app-header></app-header>
-    
-    <div class="dashboard-grid">
-      <div *ngFor="let item of menuItems" class="dashboard-item">
-        <div class="item-content">
-          <i class="material-icons">{{item.icon}}</i>
-          <span>{{item.label}}</span>
-        </div>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>

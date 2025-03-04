@@ -1,40 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SideMenuComponent } from '../../components/side-menu/side-menu.component';
 import { MenuService } from '../../services/menu.service';
-import { SearchService } from '../../services/search.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SideMenuComponent, RouterLink],
-  template: `
-    <div class="dashboard-container">
-      <app-side-menu [items]="menuItems"></app-side-menu>
-      
-      <div class="main-content" [class.menu-expanded]="menuService.isExpanded$ | async">
-        <app-header></app-header>
-        
-        <div class="dashboard-grid">
-          <ng-container *ngFor="let item of filteredItems">
-            <div class="dashboard-item" [routerLink]="item.route">
-              <div class="item-content">
-                <i class="material-icons">{{item.icon}}</i>
-                <span>{{item.label}}</span>
-              </div>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-  `,
+  imports: [CommonModule, RouterOutlet, HeaderComponent, SideMenuComponent],
+  templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
   menuItems = [
-    { icon: 'assignment', label: 'Ordens de serviço', route: '/ordens' },
+    { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
     { icon: 'speed', label: 'Medições', route: '/medicoes' },
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/pedidos' },
     { icon: 'build', label: 'Inventário ferramental', route: '/inventario' },
@@ -44,20 +24,5 @@ export class DashboardComponent {
     { icon: 'route', label: 'Logística', route: '/logistica' }
   ];
 
-  filteredItems = this.menuItems;
-
-  constructor(
-    public menuService: MenuService,
-    private searchService: SearchService
-  ) {
-    this.searchService.searchTerm$.subscribe(term => {
-      if (!term) {
-        this.filteredItems = this.menuItems;
-      } else {
-        this.filteredItems = this.menuItems.filter(item =>
-          item.label.toLowerCase().includes(term.toLowerCase())
-        );
-      }
-    });
-  }
+  constructor(public menuService: MenuService) {}
 }

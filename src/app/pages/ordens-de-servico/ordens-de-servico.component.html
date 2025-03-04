@@ -1,1 +1,10 @@
-<p>ordens-de-servico works!</p>
+<div class="os-container">
+  <div class="os-grid">
+    <div *ngFor="let os of ordensDeServico" class="os-card">
+      <div class="os-content">
+        <div class="os-number">OS #{{os.numero}}</div>
+        <div class="os-date">Data Fim: {{os.dataFim}}</div>
+      </div>
+    </div>
+  </div>
+</div>

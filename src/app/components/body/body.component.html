@@ -1,0 +1,10 @@
+<div class="body-grid">
+  <ng-container *ngFor="let item of filteredItems">
+    <div class="body-item" [routerLink]="item.route">
+      <div class="item-content">
+        <i class="material-icons">{{item.icon}}</i>
+        <span>{{item.label}}</span>
+      </div>
+    </div>
+  </ng-container>
+</div>

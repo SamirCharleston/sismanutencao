@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { RegistrarComponent } from './pages/registrar/registrar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { HomeDashboardComponent } from './pages/dashboard/home-dashboard/home-dashboard.component';
+import { OrdensDeServicoComponent } from './pages/ordens-de-servico/ordens-de-servico.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,7 +13,8 @@ export const routes: Routes = [
     path: 'dashboard', 
     component: DashboardComponent,
     children: [
-      { path: 'ordens', component: DashboardComponent },
+      { path: '', component: HomeDashboardComponent },
+      { path: 'ordens', component: OrdensDeServicoComponent },
       { path: 'medicoes', component: DashboardComponent },
       { path: 'pedidos', component: DashboardComponent },
       { path: 'inventario', component: DashboardComponent },
