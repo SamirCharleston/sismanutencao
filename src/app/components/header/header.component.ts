@@ -41,7 +41,7 @@ import { SearchService } from '../../services/search.service';
       z-index: 1001;
       display: flex;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 2rem;
       background: white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       transition: left 0.3s ease;
