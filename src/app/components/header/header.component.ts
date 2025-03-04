@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -9,6 +10,14 @@ import { SearchService } from '../../services/search.service';
   imports: [CommonModule, FormsModule],
   template: `
     <header class="header">
+      <button 
+        *ngIf="showBackButton" 
+        class="back-button"
+        (click)="goToMenu()">
+        <i class="material-icons">arrow_back</i>
+        <!-- <span>Menu Principal</span> -->
+      </button>
+
       <div class="search-box">
         <i class="material-icons">search</i>
         <input 
@@ -67,15 +76,55 @@ import { SearchService } from '../../services/search.service';
     .material-icons {
       font-size: 1.5rem;
     }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #ff9248;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .back-button:hover {
+      background-color: #ffaa70;
+      transform: translateX(-3px);
+    }
+
+    .back-button i {
+      font-size: 1.2rem;
+    }
+
+    .search-box {
+      margin-left: 1rem;
+    }
   `]
 })
 export class HeaderComponent {
   searchValue: string = '';
 
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private router: Router
+  ) {}
+
+  get showBackButton(): boolean {
+    const currentRoute = this.router.url;
+    return currentRoute !== '/dashboard' && currentRoute.startsWith('/dashboard/');
+  }
 
   onSearch(value: string) {
     this.searchValue = value;
     this.searchService.updateSearch(value);
+  }
+
+  goToMenu() {
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -3,13 +3,13 @@ import { Item } from "./item";
 export class OrdemDeServico {
     id!: number;
     numero!: string;
-    glpi!: string;
+    glpi!: number;
     fiscal!: string;
     local!: string;
     areaSolicitante!: string;
-    dataInicio!: string;
-    dataFim!: string;
-    dataConclusao!: string;
+    dataInicio!: Date;
+    dataFim!: Date;
+    dataConclusao!: Date;
     valorInicial!: number;
     valorFinal!: number;
     descricaoServico!: string;

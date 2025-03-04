@@ -1,9 +1,14 @@
 <div class="os-container">
   <div class="os-grid">
     <div *ngFor="let os of ordensDeServico" class="os-card">
+      <div class="warning-indicator" *ngIf="isOverdue(os)">
+        <i class="material-icons">warning</i>
+      </div>
       <div class="os-content">
         <div class="os-number">OS #{{os.numero}}</div>
-        <div class="os-date">Data Fim: {{os.dataFim}}</div>
+        <div class="os-glpi">GLPI <b>{{os.glpi}}</b></div>
+        <div class="os-date">Vencimento: <b>{{os.dataFim | date:'dd/MM/yyyy'}}</b></div>
+        <div class="os-status">{{os.status}}</div>
       </div>
     </div>
   </div>
