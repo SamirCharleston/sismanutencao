@@ -1,0 +1,87 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.login-box {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 360px;
+}
+
+h2 {
+  text-align: center;
+  color: #ff9248;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #333333;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: #999999;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255,146,72,0.1);
+}
+
+.buttons {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+button {
+  flex: 1;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #ff9248;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #ffaa70;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid #ff9248;
+  color: #ff9248;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255,146,72,0.05);
+}

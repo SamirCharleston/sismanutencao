@@ -1,0 +1,51 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>CADASTRO DE USUÁRIO</h2>
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <input 
+          type="text" 
+          placeholder="Nome"
+          [(ngModel)]="registerData.nome"
+          name="nome"
+          required>
+      </div>
+      <div class="form-group">
+        <input 
+          type="text" 
+          placeholder="Matrícula"
+          [(ngModel)]="registerData.matricula"
+          name="matricula"
+          required>
+      </div>
+      <div class="form-group">
+        <input 
+          type="text" 
+          placeholder="Login"
+          [(ngModel)]="registerData.login"
+          name="login"
+          required>
+      </div>
+      <div class="form-group">
+        <input 
+          type="password" 
+          placeholder="Senha"
+          [(ngModel)]="registerData.senha"
+          name="senha"
+          required>
+      </div>
+      <div class="form-group">
+        <input 
+          type="password" 
+          placeholder="Confirmar senha"
+          [(ngModel)]="registerData.confirmarSenha"
+          name="confirmarSenha"
+          required>
+      </div>
+      <div class="buttons">
+        <button type="submit" class="btn-primary">SALVAR</button>
+        <button type="button" class="btn-secondary" (click)="onCancel()">CANCELAR</button>
+      </div>
+    </form>
+  </div>
+</div>

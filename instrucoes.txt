@@ -1,0 +1,28 @@
+Este é o frontend de um sistema web que está sendo desenvolvido em angular.
+
+Este será um sistema de gerenciamento de manutenções.
+
+1 - crie uma tela de login contendo os campos de login e senha, e tambem um botão para entrar e um para registrar-se
+
+2 - Ao clicar em registrar-se exiba uma tela contendo os campos
+Nome
+RG
+Matricula
+Login
+Senha
+Repita a senha
+
+Tambem deve conter um botão de salvar e um de cancelar
+
+Ao clicar em salvar deverá voltar para a tela de login, mostrando uma mensagem "Salvo com sucesso!"
+Ao clicar em cancelar deverá voltar para a tela de login
+
+3 - Ao clicar em entrar o sistema deve ir para a tela dashboard
+
+4 - A tela dashboard deverá conter as opções 
+Manutenções em andamento
+Registrar manutenção
+Manutenções finalizadas
+Histórico de manutenções
+
+e tambem um menu lateral recolhivel com as mesmas opções da dashboard, e tambem um botão sair que ao ser clicado deve retornar para a tela de login
