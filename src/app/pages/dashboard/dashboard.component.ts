@@ -18,7 +18,9 @@ export class DashboardComponent {
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/pedidos' },
     { icon: 'build', label: 'Inventário ferramental', route: '/inventario' },
     { icon: 'people', label: 'Colaboradores', route: '/colaboradores' },
-    { icon: 'analytics', label: 'Estatísticas', route: '/estatisticas' }
+    { icon: 'analytics', label: 'Estatísticas', route: '/estatisticas' },
+    { icon: 'local_shipping', label: 'Frota', route: '/frota' },
+    { icon: 'route', label: 'Logística', route: '/logistica' }
   ];
 
   constructor(public menuService: MenuService) {}

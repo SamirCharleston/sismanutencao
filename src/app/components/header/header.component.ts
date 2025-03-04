@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +8,6 @@ import { MenuService } from '../../services/menu.service';
   imports: [CommonModule, FormsModule],
   template: `
     <header class="header">
-      <button class="menu-toggle" (click)="toggleMenu()">
-        <i class="material-icons">menu</i>
-      </button>
       <div class="search-box">
         <i class="material-icons">search</i>
         <input type="text" placeholder="Buscar funcionalidade...">
@@ -28,14 +24,6 @@ import { MenuService } from '../../services/menu.service';
       padding: 1rem;
       background: white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .menu-toggle {
-      background: none;
-      border: none;
-      color: #666;
-      cursor: pointer;
-      padding: 0.5rem;
     }
 
     .search-box {
@@ -72,9 +60,5 @@ import { MenuService } from '../../services/menu.service';
   `]
 })
 export class HeaderComponent {
-  constructor(private menuService: MenuService) {}
-
-  toggleMenu() {
-    this.menuService.toggle();
-  }
+  constructor() {}
 }

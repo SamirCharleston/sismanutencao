@@ -16,7 +16,9 @@ export const routes: Routes = [
       { path: 'pedidos', component: DashboardComponent },
       { path: 'inventario', component: DashboardComponent },
       { path: 'colaboradores', component: DashboardComponent },
-      { path: 'estatisticas', component: DashboardComponent }
+      { path: 'estatisticas', component: DashboardComponent },
+      { path: 'frota', component: DashboardComponent },
+      { path: 'logistica', component: DashboardComponent }
     ]
   }
 ];

@@ -10,6 +10,13 @@ import { LoaderService } from '../../services/loader.service';
   imports: [CommonModule, RouterModule],
   template: `
     <aside class="side-menu" [class.expanded]="menuService.isExpanded$ | async">
+      <button class="menu-toggle" (click)="menuService.toggle()" [class.expanded]="menuService.isExpanded$ | async">
+        <div class="menu-icon-wrapper">
+          <i class="material-icons">{{ (menuService.isExpanded$ | async) ? 'menu_open' : 'menu' }}</i>
+          <span class="tooltip">{{ (menuService.isExpanded$ | async) ? 'Recolher menu' : 'Expandir menu' }}</span>
+        </div>
+      </button>
+
       <div class="menu-items">
         <a *ngFor="let item of items" 
            [routerLink]="item.route"
@@ -41,6 +48,76 @@ import { LoaderService } from '../../services/loader.service';
 
     .side-menu.expanded {
       width: 240px;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      top: 15px;
+      right: -25px;
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      background: #ff9248;
+      border: 2px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .menu-icon-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-toggle:hover {
+      background: #ffaa70;
+      transform: scale(1.05);
+    }
+
+    .menu-toggle i {
+      color: white;
+      font-size: 24px;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-toggle.expanded i {
+      transform: rotate(180deg);
+    }
+
+    .tooltip {
+      position: absolute;
+      right: calc(100% + 10px);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 4px solid rgba(0, 0, 0, 0.8);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
     }
 
     .menu-items {
