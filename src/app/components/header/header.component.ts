@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,11 @@ import { FormsModule } from '@angular/forms';
     <header class="header">
       <div class="search-box">
         <i class="material-icons">search</i>
-        <input type="text" placeholder="Buscar funcionalidade...">
+        <input 
+          type="text" 
+          placeholder="Buscar funcionalidade..."
+          [ngModel]="searchValue"
+          (ngModelChange)="onSearch($event)">
       </div>
       <div class="user-info">
         <i class="material-icons">account_circle</i>
@@ -43,10 +48,15 @@ import { FormsModule } from '@angular/forms';
       margin-left: 0.5rem;
       flex: 1;
       font-size: 0.9rem;
+      color: #333;
     }
 
     .search-box input:focus {
       outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: #999;
     }
 
     .user-info {
@@ -60,5 +70,12 @@ import { FormsModule } from '@angular/forms';
   `]
 })
 export class HeaderComponent {
-  constructor() {}
+  searchValue: string = '';
+
+  constructor(private searchService: SearchService) {}
+
+  onSearch(value: string) {
+    this.searchValue = value;
+    this.searchService.updateSearch(value);
+  }
 }

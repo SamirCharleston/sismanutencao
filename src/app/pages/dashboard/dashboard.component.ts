@@ -3,13 +3,34 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SideMenuComponent } from '../../components/side-menu/side-menu.component';
 import { MenuService } from '../../services/menu.service';
+import { SearchService } from '../../services/search.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SideMenuComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  imports: [CommonModule, HeaderComponent, SideMenuComponent, RouterLink],
+  template: `
+    <div class="dashboard-container">
+      <app-side-menu [items]="menuItems"></app-side-menu>
+      
+      <div class="main-content" [class.menu-expanded]="menuService.isExpanded$ | async">
+        <app-header></app-header>
+        
+        <div class="dashboard-grid">
+          <ng-container *ngFor="let item of filteredItems">
+            <div class="dashboard-item" [routerLink]="item.route">
+              <div class="item-content">
+                <i class="material-icons">{{item.icon}}</i>
+                <span>{{item.label}}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  `,
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
   menuItems = [
@@ -23,5 +44,20 @@ export class DashboardComponent {
     { icon: 'route', label: 'Logística', route: '/logistica' }
   ];
 
-  constructor(public menuService: MenuService) {}
+  filteredItems = this.menuItems;
+
+  constructor(
+    public menuService: MenuService,
+    private searchService: SearchService
+  ) {
+    this.searchService.searchTerm$.subscribe(term => {
+      if (!term) {
+        this.filteredItems = this.menuItems;
+      } else {
+        this.filteredItems = this.menuItems.filter(item =>
+          item.label.toLowerCase().includes(term.toLowerCase())
+        );
+      }
+    });
+  }
 }
