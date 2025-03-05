@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-ordem-detalhes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmModalComponent],
   template: `
     <div class="ordem-container" *ngIf="ordem">
       <div class="ordem-header">
@@ -155,6 +156,15 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
         </div>
       </div>
     </div>
+
+    <app-confirm-modal
+      [show]="showConfirmModal"
+      [title]="modalTitle"
+      [message]="modalMessage"
+      [confirmText]="modalConfirmText"
+      (confirm)="onModalConfirm()"
+      (cancel)="onModalCancel()">
+    </app-confirm-modal>
   `,
   styleUrls: ['./ordem-detalhes.component.css']
 })
@@ -162,6 +172,11 @@ export class OrdemDetalhesComponent implements OnInit {
   ordem: OrdemDeServico = new OrdemDeServico();
   isEditing = false;
   private originalOrdem: OrdemDeServico = new OrdemDeServico();
+  showConfirmModal = false;
+  modalTitle = '';
+  modalMessage = '';
+  modalConfirmText = '';
+  private modalAction: (() => void) | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -181,24 +196,31 @@ export class OrdemDetalhesComponent implements OnInit {
   }
 
   onSave() {
-    if (confirm('Deseja salvar as alterações?')) {
+    this.showConfirmModal = true;
+    this.modalTitle = 'Salvar Alterações';
+    this.modalMessage = 'Deseja salvar as alterações?';
+    this.modalConfirmText = 'Salvar';
+    this.modalAction = () => {
       this.isEditing = false;
       console.log('Salvando alterações:', this.ordem);
       // Aqui você implementaria a lógica para salvar no backend
-    }
+    };
   }
 
   onCancel() {
-    if (confirm('Deseja cancelar as alterações?')) {
-      this.ordem = { ...this.originalOrdem };
-      this.isEditing = false;
-    }
+    this.ordem = { ...this.originalOrdem };
+    this.isEditing = false;
   }
 
   onDelete() {
-    if (confirm(`Tem certeza que deseja excluir a OS ${this.ordem?.numero}?`)) {
+    this.showConfirmModal = true;
+    this.modalTitle = 'Excluir Ordem de Serviço';
+    this.modalMessage = `Tem certeza que deseja excluir a OS ${this.ordem?.numero}?`;
+    this.modalConfirmText = 'Excluir';
+    this.modalAction = () => {
       console.log('Excluir OS:', this.ordem?.numero);
-    }
+      // Implement delete logic
+    };
   }
 
   onReview() {
@@ -207,14 +229,32 @@ export class OrdemDetalhesComponent implements OnInit {
 
   onComplete() {
     if (this.ordem && this.ordem.status !== 'Concluída') {
-      if (confirm(`Deseja marcar a OS ${this.ordem.numero} como concluída?`)) {
-        console.log('Concluir OS:', this.ordem.numero);
-      }
+      this.showConfirmModal = true;
+      this.modalTitle = 'Concluir Ordem de Serviço';
+      this.modalMessage = `Tem certeza que deseja concluir a OS ${this.ordem.numero}?`;
+      this.modalConfirmText = 'Concluir';
+      this.modalAction = () => {
+        // Quando a OS é concluída, a data de conclusão é preenchida
+        this.ordem.dataConclusao = new Date();
+      };
     }
   }
 
   onPrint() {
     console.log('Imprimir OS:', this.ordem?.numero);
     window.print();
+  }
+
+  onModalConfirm() {
+    if (this.modalAction) {
+      this.modalAction();
+    }
+    this.showConfirmModal = false;
+    this.modalAction = null;
+  }
+
+  onModalCancel() {
+    this.showConfirmModal = false;
+    this.modalAction = null;
   }
 }
