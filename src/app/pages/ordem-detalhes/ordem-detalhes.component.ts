@@ -236,6 +236,7 @@ export class OrdemDetalhesComponent implements OnInit {
       this.modalAction = () => {
         // Quando a OS é concluída, a data de conclusão é preenchida
         this.ordem.dataConclusao = new Date();
+        this.ordem.status = 'Concluída';
       };
     }
   }
