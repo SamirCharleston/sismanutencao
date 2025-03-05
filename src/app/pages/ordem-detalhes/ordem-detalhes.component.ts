@@ -6,6 +6,7 @@ import { DataService } from '../../services/data.service';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 import { Item } from '../../models/ordem-de-servico/item';
+import { Arquivo } from '../../models/ordem-de-servico/arquivo';
 
 @Component({
   selector: 'app-ordem-detalhes',
@@ -299,6 +300,7 @@ export class OrdemDetalhesComponent implements OnInit {
     { label: 'Total', value: 'total' }
   ];
   isDragging = false;
+  fileList: Arquivo[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -315,6 +317,8 @@ export class OrdemDetalhesComponent implements OnInit {
   onEdit() {
     this.isEditing = true;
     this.originalOrdem = { ...this.ordem, id: this.ordem?.id ?? 0 };
+    //Copia os arquivos que ja estao no objeto
+    this.ordem.arquivos = this.ordem.arquivos?.map(arquivo => ({ ...arquivo }));
   }
 
   onSave() {

@@ -1,3 +1,4 @@
+import { Arquivo } from "./arquivo";
 import { Item } from "./item";
 
 export class OrdemDeServico {
@@ -15,5 +16,5 @@ export class OrdemDeServico {
     descricaoServico!: string;
     status!: string;
     itens!: Item[];
-    arquivos?: { nome: string; tipo: string; tamanho: number; url: string }[] = [];
+    arquivos!: Arquivo[];
 }
