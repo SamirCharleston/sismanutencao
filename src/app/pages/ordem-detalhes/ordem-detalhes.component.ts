@@ -35,23 +35,23 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
             <i class="material-icons">save</i>
             <span>Salvar</span>
           </button>
-          <button *ngIf="isEditing" class="control-btn cancel" (click)="onCancel()">
+          <button *ngIf="isEditing" class="control-btn delete" (click)="onCancel()">
             <i class="material-icons">cancel</i>
             <span>Cancelar</span>
           </button>
-          <button class="control-btn delete" (click)="onDelete()">
+          <button *ngIf="!isEditing" class="control-btn delete" (click)="onDelete()">
             <i class="material-icons">delete</i>
             <span>Apagar</span>
           </button>
-          <button class="control-btn review" (click)="onReview()">
+          <button *ngIf="!isEditing" class="control-btn review" (click)="onReview()">
             <i class="material-icons">rate_review</i>
             <span>Revisar</span>
           </button>
-          <button class="control-btn complete" (click)="onComplete()" [disabled]="ordem.status === 'Concluída'">
+          <button *ngIf="!isEditing" class="control-btn complete" (click)="onComplete()" [disabled]="ordem.status === 'Concluída'">
             <i class="material-icons">check_circle</i>
             <span>Concluir</span>
           </button>
-          <button class="control-btn print" (click)="onPrint()">
+          <button *ngIf="!isEditing" class="control-btn print" (click)="onPrint()">
             <i class="material-icons">print</i>
             <span>Imprimir</span>
           </button>
@@ -159,9 +159,9 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
   styleUrls: ['./ordem-detalhes.component.css']
 })
 export class OrdemDetalhesComponent implements OnInit {
-  ordem: OrdemDeServico | undefined;
+  ordem: OrdemDeServico = new OrdemDeServico();
   isEditing = false;
-  private originalOrdem: OrdemDeServico | undefined;
+  private originalOrdem: OrdemDeServico = new OrdemDeServico();
 
   constructor(
     private route: ActivatedRoute,
@@ -171,13 +171,13 @@ export class OrdemDetalhesComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const ordens = this.dataService.getOrdens();
-      this.ordem = ordens.find(o => o.numero === params['numero']);
+      this.ordem = ordens.find(o => o.numero === params['numero']) as OrdemDeServico;
     });
   }
 
   onEdit() {
     this.isEditing = true;
-    // this.originalOrdem = { ...this.ordem, id: this.ordem?.id ?? 0, numero: this.ordem?.numero ?? '' };
+    this.originalOrdem = { ...this.ordem, id: this.ordem?.id ?? 0 };
   }
 
   onSave() {
@@ -190,7 +190,7 @@ export class OrdemDetalhesComponent implements OnInit {
 
   onCancel() {
     if (confirm('Deseja cancelar as alterações?')) {
-      // this.ordem = { ...this.originalOrdem, id: this.originalOrdem?.id ?? 0 };
+      this.ordem = { ...this.originalOrdem };
       this.isEditing = false;
     }
   }
