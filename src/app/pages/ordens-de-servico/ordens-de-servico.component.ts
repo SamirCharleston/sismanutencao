@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { OrdemSortComponent } from '../../components/ordem-sort/ordem-sort.component';
 import { DataService } from '../../services/data.service';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ordens-de-servico',
@@ -16,7 +17,9 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
     <div class="os-container">
       <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
       <div class="os-grid">
-        <div *ngFor="let os of displayedOrdens" class="os-card">
+        <div *ngFor="let os of displayedOrdens" 
+             class="os-card"
+             (click)="navigateToDetails(os)">
           <div class="warning-indicator" *ngIf="isOverdue(os)">
             <i class="material-icons">warning</i>
           </div>
@@ -45,7 +48,8 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
 
   constructor(
     private searchService: SearchService,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ) {
     this.searchSubscription = this.searchService.searchTerm$.subscribe(term => {
       this.filterOrdens(term);
@@ -140,5 +144,9 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
     
     this.ordensDeServico = sortedOrdens;
     this.loadInitialOrdens(); // Reset to initial view after sorting
+  }
+
+  navigateToDetails(ordem: OrdemDeServico) {
+    this.router.navigate(['/dashboard/ordens', ordem.numero]);
   }
 }

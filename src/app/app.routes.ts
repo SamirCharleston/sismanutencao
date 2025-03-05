@@ -4,6 +4,7 @@ import { RegistrarComponent } from './pages/registrar/registrar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeDashboardComponent } from './pages/dashboard/home-dashboard/home-dashboard.component';
 import { OrdensDeServicoComponent } from './pages/ordens-de-servico/ordens-de-servico.component';
+import { OrdemDetalhesComponent } from './pages/ordem-detalhes/ordem-detalhes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: HomeDashboardComponent },
       { path: 'ordens', component: OrdensDeServicoComponent },
+      { path: 'ordens/:numero', component: OrdemDetalhesComponent },
       { path: 'medicoes', component: DashboardComponent },
       { path: 'pedidos', component: DashboardComponent },
       { path: 'inventario', component: DashboardComponent },
