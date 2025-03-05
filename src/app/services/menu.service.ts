@@ -5,10 +5,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MenuService {
-  private isExpanded = new BehaviorSubject<boolean>(false);
-  isExpanded$ = this.isExpanded.asObservable();
+  isExpanded$ = new BehaviorSubject<boolean>(false);
 
   toggle() {
-    this.isExpanded.next(!this.isExpanded.value);
+    this.isExpanded$.next(!this.isExpanded$.value);
+  }
+
+  collapse() {
+    this.isExpanded$.next(false);
   }
 }

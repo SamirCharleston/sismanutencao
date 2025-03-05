@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
@@ -9,7 +9,7 @@ import { LoaderService } from '../../services/loader.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <aside class="side-menu" [class.expanded]="menuService.isExpanded$ | async">
+    <aside #sideMenu class="side-menu" [class.expanded]="menuService.isExpanded$ | async">
       <!-- Botão de expandir (visível apenas quando menu recolhido) -->
       <button 
         *ngIf="!(menuService.isExpanded$ | async)"
@@ -271,7 +271,8 @@ export class SideMenuComponent {
 
   constructor(
     public menuService: MenuService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private elementRef: ElementRef
   ) {}
 
   async onLogout() {
@@ -300,5 +301,16 @@ export class SideMenuComponent {
         this.currentTooltip = null;
       }
     }, 300);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    const menuButton = document.querySelector('.menu-toggle');
+    const clickedMenuButton = menuButton?.contains(event.target as Node);
+    
+    if (!clickedInside && !clickedMenuButton && this.menuService.isExpanded$.value) {
+      this.menuService.toggle();
+    }
   }
 }
