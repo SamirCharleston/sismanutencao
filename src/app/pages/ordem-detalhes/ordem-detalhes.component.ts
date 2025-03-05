@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -130,23 +130,52 @@ import { Item } from '../../models/ordem-de-servico/item';
           <textarea *ngIf="isEditing" [(ngModel)]="ordem.descricaoServico" rows="4"></textarea>
         </div>
 
-        <div class="info-section full-width">
+        <div id="itens-utilizados" class="info-section full-width">
           <div class="section-header">
-            <h3>Itens Utilizados</h3>
+            <div class="header-left">
+              <h3>Itens Utilizados</h3>
+              <div class="filters-container">
+                <div class="filter-item" *ngFor="let field of sortFields" (click)="sortItems(field.value)">
+                  <span>{{field.label}}</span>
+                  <i class="material-icons">{{getSortIcon(field.value)}}</i>
+                </div>
+              </div>
+            </div>
             <button *ngIf="isEditing" class="btn-add" (click)="addItem()">
               <i class="material-icons">add</i>
               Adicionar Item
             </button>
           </div>
+
           <div class="items-table">
             <table>
               <thead>
                 <tr>
-                  <th>Descrição</th>
-                  <th>Unidade</th>
-                  <th>Quantidade</th>
-                  <th>Valor Unitário</th>
-                  <th>Total</th>
+                  <th>
+                    <div class="header-content">
+                      <span>Descrição</span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-content">
+                      <span>Unidade</span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-content">
+                      <span>Quantidade</span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-content">
+                      <span>Valor Unitário</span>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-content">
+                      <span>Total</span>
+                    </div>
+                  </th>
                   <th *ngIf="isEditing">Ações</th>
                 </tr>
               </thead>
@@ -213,6 +242,17 @@ export class OrdemDetalhesComponent implements OnInit {
   private modalAction: (() => void) | null = null;
   editingItemIndex: number = -1;
   editingItem: Item | null = null;
+  private currentSort = {
+    column: '',
+    direction: 'asc'
+  };
+  sortFields = [
+    { label: 'Descrição', value: 'descricao' },
+    { label: 'Unidade', value: 'unidade' },
+    { label: 'Quantidade', value: 'quantidade' },
+    { label: 'Valor Unit.', value: 'valorUnitario' },
+    { label: 'Total', value: 'total' }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -332,5 +372,38 @@ export class OrdemDetalhesComponent implements OnInit {
     this.modalAction = () => {
       this.ordem.itens = this.ordem.itens.filter((_, i) => i !== index);
     };
+  }
+
+  sortItems(column: string) {
+    if (this.currentSort.column === column) {
+      this.currentSort.direction = this.currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.currentSort.column = column;
+      this.currentSort.direction = 'asc';
+    }
+
+    const modifier = this.currentSort.direction === 'asc' ? 1 : -1;
+
+    this.ordem.itens.sort((a, b) => {
+      if (column === 'total') {
+        const totalA = a.quantidade * a.valorUnitario;
+        const totalB = b.quantidade * b.valorUnitario;
+        return (totalA - totalB) * modifier;
+      }
+
+      const key = column as keyof Item;
+      if (typeof a[key] === 'string') {
+        return (a[key] as string).localeCompare(b[key] as string) * modifier;
+      }
+
+      return ((a[key] as number) - (b[key] as number)) * modifier;
+    });
+  }
+
+  getSortIcon(column: string): string {
+    if (this.currentSort.column !== column) {
+      return 'unfold_more';
+    }
+    return this.currentSort.direction === 'asc' ? 'arrow_upward' : 'arrow_downward';
   }
 }
