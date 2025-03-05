@@ -224,3 +224,76 @@ tr:hover {
   line-height: 1.6;
   color: #444;
 }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background: #45a049;
+  transform: translateY(-1px);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  background: #f0f0f0;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-icon:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn-icon.delete {
+  color: #ff4444;
+}
+
+.btn-icon.delete:hover {
+  background: #ffe6e6;
+}
+
+td input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+td input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.2);
+}

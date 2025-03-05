@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { Item } from '../../models/ordem-de-servico/item';
 
 @Component({
   selector: 'app-ordem-detalhes',
@@ -130,7 +131,13 @@ import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-mo
         </div>
 
         <div class="info-section full-width">
-          <h3>Itens Utilizados</h3>
+          <div class="section-header">
+            <h3>Itens Utilizados</h3>
+            <button *ngIf="isEditing" class="btn-add" (click)="addItem()">
+              <i class="material-icons">add</i>
+              Adicionar Item
+            </button>
+          </div>
           <div class="items-table">
             <table>
               <thead>
@@ -140,15 +147,42 @@ import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-mo
                   <th>Quantidade</th>
                   <th>Valor Unitário</th>
                   <th>Total</th>
+                  <th *ngIf="isEditing">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of ordem.itens">
-                  <td>{{item.descricao}}</td>
-                  <td>{{item.unidade}}</td>
-                  <td>{{item.quantidade}}</td>
-                  <td>{{item.valorUnitario | currency:'BRL'}}</td>
-                  <td>{{item.quantidade * item.valorUnitario | currency:'BRL'}}</td>
+                <tr *ngFor="let item of ordem.itens; let i = index">
+                  <ng-container *ngIf="editingItemIndex !== i; else editRow">
+                    <td>{{item.descricao}}</td>
+                    <td>{{item.unidade}}</td>
+                    <td>{{item.quantidade}}</td>
+                    <td>{{item.valorUnitario | currency:'BRL'}}</td>
+                    <td>{{item.quantidade * item.valorUnitario | currency:'BRL'}}</td>
+                    <td *ngIf="isEditing" class="actions-cell">
+                      <button class="btn-icon" (click)="editItem(i)">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn-icon delete" (click)="deleteItem(i)">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </ng-container>
+                  
+                  <ng-template #editRow>
+                    <td><input type="text" [(ngModel)]="editingItem!.descricao"></td>
+                    <td><input type="text" [(ngModel)]="editingItem!.unidade"></td>
+                    <td><input type="number" [(ngModel)]="editingItem!.quantidade" min="0"></td>
+                    <td><input type="number" [(ngModel)]="editingItem!.valorUnitario" min="0" step="0.01"></td>
+                    <td>{{editingItem!.quantidade * editingItem!.valorUnitario | currency:'BRL'}}</td>
+                    <td class="actions-cell">
+                      <button class="btn-icon" (click)="saveItem()">
+                        <i class="material-icons">check</i>
+                      </button>
+                      <button class="btn-icon delete" (click)="cancelEditItem()">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </ng-template>
                 </tr>
               </tbody>
             </table>
@@ -177,6 +211,8 @@ export class OrdemDetalhesComponent implements OnInit {
   modalMessage = '';
   modalConfirmText = '';
   private modalAction: (() => void) | null = null;
+  editingItemIndex: number = -1;
+  editingItem: Item | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -257,5 +293,44 @@ export class OrdemDetalhesComponent implements OnInit {
   onModalCancel() {
     this.showConfirmModal = false;
     this.modalAction = null;
+  }
+
+  addItem() {
+    const newItem = {
+      descricao: '',
+      unidade: '',
+      quantidade: 0,
+      valorUnitario: 0
+    } as Item;
+    
+    this.ordem.itens = [...this.ordem.itens, newItem];
+    this.editItem(this.ordem.itens.length - 1);
+  }
+
+  editItem(index: number) {
+    this.editingItemIndex = index;
+    this.editingItem = { ...this.ordem.itens[index] };
+  }
+
+  saveItem() {
+    if (this.editingItem && this.editingItemIndex >= 0) {
+      this.ordem.itens[this.editingItemIndex] = { ...this.editingItem };
+      this.cancelEditItem();
+    }
+  }
+
+  cancelEditItem() {
+    this.editingItemIndex = -1;
+    this.editingItem = null;
+  }
+
+  deleteItem(index: number) {
+    this.showConfirmModal = true;
+    this.modalTitle = 'Excluir Item';
+    this.modalMessage = 'Tem certeza que deseja excluir este item?';
+    this.modalConfirmText = 'Excluir';
+    this.modalAction = () => {
+      this.ordem.itens = this.ordem.itens.filter((_, i) => i !== index);
+    };
   }
 }
