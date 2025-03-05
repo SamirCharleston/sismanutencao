@@ -217,6 +217,51 @@ import { Item } from '../../models/ordem-de-servico/item';
             </table>
           </div>
         </div>
+
+        <div class="info-section full-width">
+          <div class="section-header">
+            <h3>Arquivos Anexados</h3>
+            <div class="upload-controls" *ngIf="isEditing">
+              <label class="upload-button" [class.dragover]="isDragging">
+                <input 
+                  type="file" 
+                  multiple 
+                  (change)="onFileSelected($event)"
+                  (dragover)="onDragOver($event)"
+                  (dragleave)="onDragLeave($event)"
+                  (drop)="onDrop($event)">
+                <i class="material-icons">cloud_upload</i>
+                <span>Arraste arquivos ou clique para selecionar</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="files-grid" *ngIf="ordem.arquivos?.length">
+            <div class="file-card" *ngFor="let arquivo of ordem.arquivos; let i = index">
+              <div class="file-icon">
+                <i class="material-icons">{{getFileIcon(arquivo.tipo)}}</i>
+              </div>
+              <div class="file-info">
+                <span class="file-name">{{arquivo.nome}}</span>
+                <span class="file-size">{{formatFileSize(arquivo.tamanho)}}</span>
+              </div>
+              <div class="file-actions">
+                <button class="btn-icon" (click)="downloadFile(arquivo)">
+                  <i class="material-icons">download</i>
+                </button>
+                <button *ngIf="isEditing" class="btn-icon delete" (click)="deleteFile(i)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-files" *ngIf="!ordem.arquivos?.length">
+            <i class="material-icons">folder_open</i>
+            <span>Nenhum arquivo anexado</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -253,6 +298,7 @@ export class OrdemDetalhesComponent implements OnInit {
     { label: 'Valor Unit.', value: 'valorUnitario' },
     { label: 'Total', value: 'total' }
   ];
+  isDragging = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -405,5 +451,100 @@ export class OrdemDetalhesComponent implements OnInit {
       return 'unfold_more';
     }
     return this.currentSort.direction === 'asc' ? 'arrow_upward' : 'arrow_downward';
+  }
+
+  getFileIcon(tipo: string): string {
+    const icons: { [key: string]: string } = {
+      'pdf': 'picture_as_pdf',
+      'image': 'image',
+      'doc': 'description',
+      'xls': 'table_chart',
+      'zip': 'folder_zip',
+      'default': 'insert_drive_file'
+    };
+    return icons[tipo] || icons['default'];
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+    const files = event.dataTransfer?.files;
+    if (files) this.handleFiles(files);
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) this.handleFiles(input.files);
+  }
+
+  private handleFiles(files: FileList) {
+    if (!this.ordem.arquivos) this.ordem.arquivos = [];
+    
+    Array.from(files).forEach(file => {
+      // Aqui você implementaria o upload real para o backend
+      const arquivo = {
+        nome: file.name,
+        tipo: this.getFileType(file.name),
+        tamanho: file.size,
+        url: URL.createObjectURL(file)
+      };
+      this.ordem.arquivos!.push(arquivo);
+    });
+  }
+
+  private getFileType(filename: string): string {
+    const ext = filename.split('.').pop()?.toLowerCase() || '';
+    const types: { [key: string]: string } = {
+      'pdf': 'pdf',
+      'jpg': 'image',
+      'jpeg': 'image',
+      'png': 'image',
+      'doc': 'doc',
+      'docx': 'doc',
+      'xls': 'xls',
+      'xlsx': 'xls',
+      'zip': 'zip',
+      'rar': 'zip'
+    };
+    return types[ext] || 'default';
+  }
+
+  downloadFile(arquivo: any) {
+    // Implementacao do download dos arquivos
+    const link = document.createElement('a');
+    link.href = arquivo.url;
+    link.download = arquivo.nome;
+    link.click();
+  }
+
+  deleteFile(index: number) {
+    this.showConfirmModal = true;
+    this.modalTitle = 'Excluir Arquivo';
+    this.modalMessage = 'Tem certeza que deseja excluir este arquivo?';
+    this.modalConfirmText = 'Excluir';
+    this.modalAction = () => {
+      this.ordem.arquivos?.splice(index, 1);
+    };
   }
 }

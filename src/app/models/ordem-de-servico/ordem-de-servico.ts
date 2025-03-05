@@ -15,4 +15,5 @@ export class OrdemDeServico {
     descricaoServico!: string;
     status!: string;
     itens!: Item[];
+    arquivos?: { nome: string; tipo: string; tamanho: number; url: string }[] = [];
 }
