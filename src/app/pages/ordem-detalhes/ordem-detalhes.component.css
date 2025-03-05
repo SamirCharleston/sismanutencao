@@ -62,6 +62,10 @@
   background-color: #757575;
 }
 
+.control-btn.save {
+  background-color: #4CAF50;
+}
+
 .control-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -75,6 +79,38 @@
   background-color: #ccc;
   cursor: not-allowed;
   transform: none;
+}
+
+input, select, textarea {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  width: 100%;
+  background: #fff;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.2);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+select {
+  cursor: pointer;
+}
+
+.status-badge select {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit;
+  width: auto;
+  padding: 0.25rem;
 }
 
 @media print {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
@@ -7,21 +8,36 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 @Component({
   selector: 'app-ordem-detalhes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="ordem-container" *ngIf="ordem">
       <div class="ordem-header">
         <div class="header-left">
           <h2>Ordem de Serviço #{{ordem.numero}}</h2>
           <span class="status-badge" [class]="ordem.status.toLowerCase()">
-            {{ordem.status}}
+            <span *ngIf="!isEditing">{{ordem.status}}</span>
+            <select *ngIf="isEditing" [(ngModel)]="ordem.status">
+              <option value="Em andamento">Em andamento</option>
+              <option value="Pendente">Pendente</option>
+              <option value="Concluída">Concluída</option>
+              <option value="Em análise">Em análise</option>
+              <option value="Atrasada">Atrasada</option>
+            </select>
           </span>
         </div>
         
         <div class="control-panel">
-          <button class="control-btn edit" (click)="onEdit()">
+          <button *ngIf="!isEditing" class="control-btn edit" (click)="onEdit()">
             <i class="material-icons">edit</i>
             <span>Editar</span>
+          </button>
+          <button *ngIf="isEditing" class="control-btn save" (click)="onSave()">
+            <i class="material-icons">save</i>
+            <span>Salvar</span>
+          </button>
+          <button *ngIf="isEditing" class="control-btn cancel" (click)="onCancel()">
+            <i class="material-icons">cancel</i>
+            <span>Cancelar</span>
           </button>
           <button class="control-btn delete" (click)="onDelete()">
             <i class="material-icons">delete</i>
@@ -48,19 +64,23 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
           <div class="info-grid">
             <div class="info-item">
               <label>GLPI:</label>
-              <span>{{ordem.glpi}}</span>
+              <span *ngIf="!isEditing">{{ordem.glpi}}</span>
+              <input *ngIf="isEditing" type="number" [(ngModel)]="ordem.glpi">
             </div>
             <div class="info-item">
               <label>Fiscal:</label>
-              <span>{{ordem.fiscal}}</span>
+              <span *ngIf="!isEditing">{{ordem.fiscal}}</span>
+              <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.fiscal">
             </div>
             <div class="info-item">
               <label>Local:</label>
-              <span>{{ordem.local}}</span>
+              <span *ngIf="!isEditing">{{ordem.local}}</span>
+              <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.local">
             </div>
             <div class="info-item">
               <label>Área Solicitante:</label>
-              <span>{{ordem.areaSolicitante}}</span>
+              <span *ngIf="!isEditing">{{ordem.areaSolicitante}}</span>
+              <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.areaSolicitante">
             </div>
           </div>
         </div>
@@ -70,15 +90,18 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
           <div class="info-grid">
             <div class="info-item">
               <label>Início:</label>
-              <span>{{ordem.dataInicio | date:'dd/MM/yyyy'}}</span>
+              <span *ngIf="!isEditing">{{ordem.dataInicio | date:'dd/MM/yyyy'}}</span>
+              <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataInicio">
             </div>
             <div class="info-item">
               <label>Fim Previsto:</label>
-              <span>{{ordem.dataFim | date:'dd/MM/yyyy'}}</span>
+              <span *ngIf="!isEditing">{{ordem.dataFim | date:'dd/MM/yyyy'}}</span>
+              <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataFim">
             </div>
             <div class="info-item" *ngIf="ordem.dataConclusao">
               <label>Conclusão:</label>
-              <span>{{ordem.dataConclusao | date:'dd/MM/yyyy'}}</span>
+              <span *ngIf="!isEditing">{{ordem.dataConclusao | date:'dd/MM/yyyy'}}</span>
+              <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataConclusao">
             </div>
           </div>
         </div>
@@ -88,18 +111,21 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
           <div class="info-grid">
             <div class="info-item">
               <label>Valor Inicial:</label>
-              <span>{{ordem.valorInicial | currency:'BRL'}}</span>
+              <span *ngIf="!isEditing">{{ordem.valorInicial | currency:'BRL'}}</span>
+              <input *ngIf="isEditing" type="number" step="0.01" [(ngModel)]="ordem.valorInicial">
             </div>
             <div class="info-item">
               <label>Valor Final:</label>
-              <span>{{ordem.valorFinal | currency:'BRL'}}</span>
+              <span *ngIf="!isEditing">{{ordem.valorFinal | currency:'BRL'}}</span>
+              <input *ngIf="isEditing" type="number" step="0.01" [(ngModel)]="ordem.valorFinal">
             </div>
           </div>
         </div>
 
         <div class="info-section full-width">
           <h3>Descrição do Serviço</h3>
-          <p class="descricao">{{ordem.descricaoServico}}</p>
+          <p *ngIf="!isEditing" class="descricao">{{ordem.descricaoServico}}</p>
+          <textarea *ngIf="isEditing" [(ngModel)]="ordem.descricaoServico" rows="4"></textarea>
         </div>
 
         <div class="info-section full-width">
@@ -134,6 +160,8 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 })
 export class OrdemDetalhesComponent implements OnInit {
   ordem: OrdemDeServico | undefined;
+  isEditing = false;
+  private originalOrdem: OrdemDeServico | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -148,7 +176,23 @@ export class OrdemDetalhesComponent implements OnInit {
   }
 
   onEdit() {
-    console.log('Editar OS:', this.ordem?.numero);
+    this.isEditing = true;
+    // this.originalOrdem = { ...this.ordem, id: this.ordem?.id ?? 0, numero: this.ordem?.numero ?? '' };
+  }
+
+  onSave() {
+    if (confirm('Deseja salvar as alterações?')) {
+      this.isEditing = false;
+      console.log('Salvando alterações:', this.ordem);
+      // Aqui você implementaria a lógica para salvar no backend
+    }
+  }
+
+  onCancel() {
+    if (confirm('Deseja cancelar as alterações?')) {
+      // this.ordem = { ...this.originalOrdem, id: this.originalOrdem?.id ?? 0 };
+      this.isEditing = false;
+    }
   }
 
   onDelete() {
