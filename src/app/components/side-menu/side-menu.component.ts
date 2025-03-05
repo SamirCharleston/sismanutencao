@@ -32,9 +32,17 @@ import { LoaderService } from '../../services/loader.service';
       <div class="menu-items">
         <a *ngFor="let item of items" 
            [routerLink]="item.route"
-           class="menu-item">
+           class="menu-item"
+           (mouseover)="showTooltip(item, $event)"
+           (mouseleave)="hideTooltip()">
           <i class="material-icons">{{item.icon}}</i>
           <span class="label">{{item.label}}</span>
+          <div *ngIf="currentTooltip === item && !(menuService.isExpanded$ | async)" 
+               class="item-tooltip"
+               [class.visible]="showingTooltip"
+               [style.top]="tooltipTop">
+            {{item.label}}
+          </div>
         </a>
       </div>
       <div class="logout-container">
@@ -174,6 +182,7 @@ import { LoaderService } from '../../services/loader.service';
       text-decoration: none;
       transition: background-color 0.3s ease;
       white-space: nowrap;
+      position: relative;
     }
 
     .menu-item:hover {
@@ -219,10 +228,46 @@ import { LoaderService } from '../../services/loader.service';
     .collapse-button {
       animation: fadeIn 0.3s ease;
     }
+
+    .item-tooltip {
+      position: fixed;
+      left: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1004;
+    }
+
+    .item-tooltip.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .item-tooltip::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-right: 4px solid rgba(0, 0, 0, 0.8);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
   `]
 })
 export class SideMenuComponent {
   @Input() items: any[] = [];
+  currentTooltip: any = null;
+  showingTooltip = false;
+  tooltipTop: string = '0px';
+  private tooltipTimer: any;
 
   constructor(
     public menuService: MenuService,
@@ -231,5 +276,29 @@ export class SideMenuComponent {
 
   async onLogout() {
     await this.loaderService.navigateWithLoader('/home');
+  }
+
+  showTooltip(item: any, event: MouseEvent) {
+    // Muda o valor da propriedade top para o valor da altura do cursor
+    // para que o tooltip siga o cursor verticalmente implementada abaixo
+    // Mas executa somente se a tela não for de celular
+    if (window.innerWidth > 768) {
+      clearTimeout(this.tooltipTimer);    
+      this.tooltipTimer = setTimeout(() => {
+        this.currentTooltip = item;
+        this.showingTooltip = true;
+        this.tooltipTop = `${event.clientY}px`;
+      }, 1000);
+    }
+  }
+
+  hideTooltip() {
+    clearTimeout(this.tooltipTimer);
+    this.showingTooltip = false;
+    setTimeout(() => {
+      if (!this.showingTooltip) {
+        this.currentTooltip = null;
+      }
+    }, 300);
   }
 }

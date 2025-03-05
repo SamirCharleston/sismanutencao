@@ -1,21 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 import { SearchService } from '../../services/search.service';
 import { Subscription } from 'rxjs';
 import { OrdemSortComponent } from '../../components/ordem-sort/ordem-sort.component';
 import { DataService } from '../../services/data.service';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-ordens-de-servico',
   standalone: true,
-  imports: [CommonModule, OrdemSortComponent],
+  imports: [CommonModule, OrdemSortComponent, LoadingSpinnerComponent],
   providers: [DatePipe],
   template: `
     <div class="os-container">
       <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
       <div class="os-grid">
-        <div *ngFor="let os of ordensDeServico" class="os-card">
+        <div *ngFor="let os of displayedOrdens" class="os-card">
           <div class="warning-indicator" *ngIf="isOverdue(os)">
             <i class="material-icons">warning</i>
           </div>
@@ -27,6 +28,7 @@ import { DataService } from '../../services/data.service';
           </div>
         </div>
       </div>
+      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
     </div>
   `,
   styleUrls: ['./ordens-de-servico.component.css']
@@ -34,7 +36,12 @@ import { DataService } from '../../services/data.service';
 export class OrdensDeServicoComponent implements OnInit, OnDestroy {
   allOrdens: OrdemDeServico[] = [];
   ordensDeServico: OrdemDeServico[] = [];
+  displayedOrdens: OrdemDeServico[] = [];
   private searchSubscription: Subscription;
+  private page = 1;
+  private pageSize = 10;
+  private initialLoad = 15;
+  isLoading = false;
 
   constructor(
     private searchService: SearchService,
@@ -48,6 +55,7 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.allOrdens = this.dataService.getOrdens();
     this.ordensDeServico = this.allOrdens;
+    this.loadInitialOrdens();
   }
 
   ngOnDestroy() {
@@ -56,19 +64,55 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
     }
   }
 
+  private loadInitialOrdens() {
+    this.displayedOrdens = this.ordensDeServico.slice(0, this.initialLoad);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    if (this.isLoading) return;
+    
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.scrollY;
+    
+    if (windowHeight + scrollTop >= documentHeight - 300) {
+      this.loadMore();
+    }
+  }
+
+  private async loadMore() {
+    if (this.displayedOrdens.length >= this.ordensDeServico.length) return;
+    
+    this.isLoading = true;
+    
+    // Simular delay de carregamento
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    const start = this.displayedOrdens.length;
+    const end = start + this.pageSize;
+    const newOrdens = this.ordensDeServico.slice(start, end);
+    this.displayedOrdens = [...this.displayedOrdens, ...newOrdens];
+    this.page++;
+    
+    this.isLoading = false;
+  }
+
   private filterOrdens(term: string) {
     if (!term) {
       this.ordensDeServico = this.allOrdens;
-      return;
+    } else {
+      term = term.toLowerCase();
+      this.ordensDeServico = this.allOrdens.filter(os => 
+        os.numero.toLowerCase().includes(term) ||
+        os.glpi.toString().includes(term) ||
+        os.status.toLowerCase().includes(term) ||
+        (os.dataFim && os.dataFim.toLocaleDateString().includes(term))
+      );
     }
-
-    term = term.toLowerCase();
-    this.ordensDeServico = this.allOrdens.filter(os => 
-      os.numero.toLowerCase().includes(term) ||
-      os.glpi.toString().includes(term) ||
-      os.status.toLowerCase().includes(term) ||
-      (os.dataFim && os.dataFim.toLocaleDateString().includes(term))
-    );
+    // Reset pagination when filtering
+    this.page = 1;
+    this.loadInitialOrdens();
   }
 
   private getRandomStatus(): string {
@@ -95,5 +139,6 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
     });
     
     this.ordensDeServico = sortedOrdens;
+    this.loadInitialOrdens(); // Reset to initial view after sorting
   }
 }
