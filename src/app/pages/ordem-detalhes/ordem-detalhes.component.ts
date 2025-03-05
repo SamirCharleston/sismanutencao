@@ -11,10 +11,35 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
   template: `
     <div class="ordem-container" *ngIf="ordem">
       <div class="ordem-header">
-        <h2>Ordem de Serviço #{{ordem.numero}}</h2>
-        <span class="status-badge" [class]="ordem.status.toLowerCase()">
-          {{ordem.status}}
-        </span>
+        <div class="header-left">
+          <h2>Ordem de Serviço #{{ordem.numero}}</h2>
+          <span class="status-badge" [class]="ordem.status.toLowerCase()">
+            {{ordem.status}}
+          </span>
+        </div>
+        
+        <div class="control-panel">
+          <button class="control-btn edit" (click)="onEdit()">
+            <i class="material-icons">edit</i>
+            <span>Editar</span>
+          </button>
+          <button class="control-btn delete" (click)="onDelete()">
+            <i class="material-icons">delete</i>
+            <span>Apagar</span>
+          </button>
+          <button class="control-btn review" (click)="onReview()">
+            <i class="material-icons">rate_review</i>
+            <span>Revisar</span>
+          </button>
+          <button class="control-btn complete" (click)="onComplete()" [disabled]="ordem.status === 'Concluída'">
+            <i class="material-icons">check_circle</i>
+            <span>Concluir</span>
+          </button>
+          <button class="control-btn print" (click)="onPrint()">
+            <i class="material-icons">print</i>
+            <span>Imprimir</span>
+          </button>
+        </div>
       </div>
 
       <div class="ordem-grid">
@@ -120,5 +145,32 @@ export class OrdemDetalhesComponent implements OnInit {
       const ordens = this.dataService.getOrdens();
       this.ordem = ordens.find(o => o.numero === params['numero']);
     });
+  }
+
+  onEdit() {
+    console.log('Editar OS:', this.ordem?.numero);
+  }
+
+  onDelete() {
+    if (confirm(`Tem certeza que deseja excluir a OS ${this.ordem?.numero}?`)) {
+      console.log('Excluir OS:', this.ordem?.numero);
+    }
+  }
+
+  onReview() {
+    console.log('Revisar OS:', this.ordem?.numero);
+  }
+
+  onComplete() {
+    if (this.ordem && this.ordem.status !== 'Concluída') {
+      if (confirm(`Deseja marcar a OS ${this.ordem.numero} como concluída?`)) {
+        console.log('Concluir OS:', this.ordem.numero);
+      }
+    }
+  }
+
+  onPrint() {
+    console.log('Imprimir OS:', this.ordem?.numero);
+    window.print();
   }
 }
