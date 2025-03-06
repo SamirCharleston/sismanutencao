@@ -6,33 +6,37 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-      <!-- <span>Ordenar por</span> -->
     <div class="sort-container">
       <div class="sort-header">
-        <i class="material-icons">sort</i>
-        <span>Ordenar por</span>
+        <span>Ordenar por: </span>
       </div>
       <div class="sort-options">
         <button (click)="sort('numero')" [class.active]="currentSort === 'numero'">
           <i class="material-icons">{{getSortIcon('numero')}}</i>
-          Número OS
+          #OS
         </button>
         <button (click)="sort('data')" [class.active]="currentSort === 'data'">
           <i class="material-icons">{{getSortIcon('data')}}</i>
           Data
+        </button>
+        <!-- Ordenar por status -->
+        <button (click)="sort('status')" [class.active]="currentSort === 'status'">
+          <i class="material-icons">{{getSortIcon('status')}}</i>
+          Status
         </button>
       </div>
     </div>
   `,
   styles: [`
     .sort-container {
-      position: fixed;
-      top: calc(64px + 1rem);
-      right: 1rem;
+      position: relative;
+      display: flex;
+      // top: calc(64px + 1rem);
+      // right: 10rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 1rem;
+      padding: 5px;
       z-index: 1000;
       opacity: 0.3;
       transition: all 0.3s ease;
@@ -45,17 +49,19 @@ import { CommonModule } from '@angular/common';
     .sort-header {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      // gap: 0.5rem;
       color: #666;
-      margin-bottom: 0.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #eee;
+      margin-right: 0.5rem;
+      // margin-bottom: 0.5rem;
+      // padding-bottom: 0.5rem;
+      // border-bottom: 1px solid #eee;
     }
 
     .sort-options {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 0.5rem;
+      min-width: 300px;
     }
 
     button {

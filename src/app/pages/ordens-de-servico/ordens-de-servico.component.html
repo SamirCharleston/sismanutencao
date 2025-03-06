@@ -1,6 +1,7 @@
 <div class="ordens-container">
   <div class="header">
     <h2>Ordens de Serviço</h2>
+    <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
     <button class="btn-add" (click)="onNovaOrdem()">
       <i class="material-icons">add</i>
       <span>Nova OS</span>
@@ -8,7 +9,6 @@
   </div>
 
   <div class="content">
-    <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
     
     <div class="os-grid">
       <div *ngFor="let os of displayedOrdens" 

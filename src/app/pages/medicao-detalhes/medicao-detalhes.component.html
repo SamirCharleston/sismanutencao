@@ -6,23 +6,23 @@
     </div>
     
     <div class="control-panel">
-      <button *ngIf="!isEditing" class="control-btn edit" (click)="onEdit()">
+      <button *ngIf="!isEditing" class="btn-primary" (click)="onEdit()">
         <i class="material-icons">edit</i>
         <span>Editar</span>
       </button>
-      <button *ngIf="isEditing" class="control-btn save" (click)="onSave()">
+      <button *ngIf="isEditing" class="btn-primary" (click)="onSave()">
         <i class="material-icons">save</i>
         <span>Salvar</span>
       </button>
-      <button *ngIf="isEditing" class="control-btn cancel" (click)="onCancel()">
+      <button *ngIf="isEditing" class="btn-secondary" (click)="onCancel()">
         <i class="material-icons">close</i>
         <span>Cancelar</span>
       </button>
-      <button *ngIf="!isEditing" class="control-btn delete" (click)="onDelete()">
+      <button *ngIf="!isEditing" class="btn-secondary" (click)="onDelete()">
         <i class="material-icons">delete</i>
         <span>Excluir</span>
       </button>
-      <button *ngIf="!isEditing" class="control-btn print" (click)="onPrint()">
+      <button *ngIf="!isEditing" class="btn-secondary" (click)="onPrint()">
         <i class="material-icons">print</i>
         <span>Imprimir</span>
       </button>

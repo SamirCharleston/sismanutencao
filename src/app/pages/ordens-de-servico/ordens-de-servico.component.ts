@@ -118,6 +118,8 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
         return modifier * a.numero.localeCompare(b.numero);
       } else if (sortEvent.field === 'data') {
         return modifier * (a.dataFim.getTime() - b.dataFim.getTime());
+      } else if (sortEvent.field === 'status') {
+        return modifier * a.status.localeCompare(b.status);
       }
       return 0;
     });

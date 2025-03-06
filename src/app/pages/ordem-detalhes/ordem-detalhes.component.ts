@@ -275,7 +275,7 @@ import { Arquivo } from '../../models/ordem-de-servico/arquivo';
       (cancel)="onModalCancel()">
     </app-confirm-modal>
   `,
-  styleUrls: ['./ordem-detalhes.component.css']
+  styleUrls: ['./ordem-detalhes.component.css', '../../styles/shared-buttons.css']
 })
 export class OrdemDetalhesComponent implements OnInit {
   ordem: OrdemDeServico = new OrdemDeServico();

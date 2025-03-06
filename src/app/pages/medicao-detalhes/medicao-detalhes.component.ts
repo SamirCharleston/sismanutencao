@@ -13,7 +13,7 @@ import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
   standalone: true,
   imports: [CommonModule, FormsModule, ConfirmModalComponent, OrdemPreviewModalComponent],
   templateUrl: './medicao-detalhes.component.html',
-  styleUrls: ['./medicao-detalhes.component.css']
+  styleUrls: ['./medicao-detalhes.component.css', '../../styles/shared-buttons.css']
 })
 export class MedicaoDetalhesComponent implements OnInit {
   medicao: Medicao | undefined;
