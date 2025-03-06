@@ -1,0 +1,6 @@
+/* // ...existing styles... */
+
+.header {
+  z-index: 1000; /* Lower than modal's z-index */
+  /* // ...rest of existing header styles... */
+}

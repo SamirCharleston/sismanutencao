@@ -54,11 +54,11 @@
           <span>{{medicao.valorTotalOSs | currency:'BRL'}}</span>
         </div>
         <div class="info-item">
-          <label>Valor RPL (95%):</label>
+          <label>Valor RPL:</label>
           <span>{{medicao.valorRPL | currency:'BRL'}}</span>
         </div>
         <div class="info-item">
-          <label>Valor REQ (5%):</label>
+          <label>Valor REQ:</label>
           <span>{{medicao.valorREQ | currency:'BRL'}}</span>
         </div>
         <div class="info-item">
@@ -86,7 +86,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let os of medicao.ordensDeServico">
+            <tr *ngFor="let os of medicao.ordensDeServico" (click)="openOSPreview(os)" class="clickable-row">
               <td>{{os.numero}}</td>
               <td>{{os.local}}</td>
               <td>{{os.fiscal}}</td>
@@ -107,4 +107,10 @@
     (confirm)="onModalConfirm()"
     (cancel)="onModalCancel()">
   </app-confirm-modal>
+
+  <app-ordem-preview-modal
+    [show]="showOSModal"
+    [ordem]="selectedOS"
+    (closeModal)="closeOSModal()">
+  </app-ordem-preview-modal>
 </div>

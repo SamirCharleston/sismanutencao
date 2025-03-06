@@ -5,11 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Medicao } from '../../models/medicao/medicao';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { OrdemPreviewModalComponent } from '../../components/ordem-preview-modal/ordem-preview-modal.component';
+import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 
 @Component({
   selector: 'app-medicao-detalhes',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmModalComponent],
+  imports: [CommonModule, FormsModule, ConfirmModalComponent, OrdemPreviewModalComponent],
   templateUrl: './medicao-detalhes.component.html',
   styleUrls: ['./medicao-detalhes.component.css']
 })
@@ -22,6 +24,8 @@ export class MedicaoDetalhesComponent implements OnInit {
   modalConfirmText = '';
   private originalMedicao: Medicao | undefined;
   private modalAction: (() => void) | null = null;
+  selectedOS: OrdemDeServico | undefined;
+  showOSModal = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -102,5 +106,15 @@ export class MedicaoDetalhesComponent implements OnInit {
 
   onPrint() {
     window.print();
+  }
+
+  openOSPreview(os: OrdemDeServico) {
+    this.selectedOS = os;
+    this.showOSModal = true;
+  }
+
+  closeOSModal() {
+    this.showOSModal = false;
+    this.selectedOS = undefined;
   }
 }
