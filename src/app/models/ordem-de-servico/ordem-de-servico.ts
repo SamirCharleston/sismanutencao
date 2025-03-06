@@ -1,3 +1,4 @@
+import { Medicao } from "../medicao/medicao";
 import { Arquivo } from "./arquivo";
 import { Item } from "./item";
 
@@ -17,4 +18,6 @@ export class OrdemDeServico {
     status!: string;
     itens!: Item[];
     arquivos!: Arquivo[];
+    ans!: number;
+    Medicao!: Medicao;
 }
