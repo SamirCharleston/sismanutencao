@@ -77,3 +77,124 @@
   color: #666;
   margin-top: 0.5rem;
 }
+
+.ordens-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ff9248;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background: #ffaa70;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 146, 72, 0.2);
+}
+
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.os-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.os-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.warning-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #ff4444;
+}
+
+.os-content {
+  padding: 1rem;
+}
+
+.os-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.os-number {
+  font-weight: 500;
+  color: #333;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.concluída { background: #e6ffe6; color: #008000; }
+.status-badge.pendente { background: #fff3e6; color: #cc7700; }
+.status-badge.em.andamento { background: #e6f3ff; color: #0066cc; }
+.status-badge.em.análise { background: #f2e6ff; color: #6600cc; }
+.status-badge.atrasada { background: #ffe6e6; color: #cc0000; }
+
+.os-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.os-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.os-info i {
+  font-size: 1.1rem;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .ordens-container {
+    padding: 1rem;
+  }
+
+  .os-grid {
+    grid-template-columns: 1fr;
+  }
+}

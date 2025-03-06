@@ -13,27 +13,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, OrdemSortComponent, LoadingSpinnerComponent],
   providers: [DatePipe],
-  template: `
-    <div class="os-container">
-      <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
-      <div class="os-grid">
-        <div *ngFor="let os of displayedOrdens" 
-             class="os-card"
-             (click)="navigateToDetails(os)">
-          <div class="warning-indicator" *ngIf="isOverdue(os)">
-            <i class="material-icons">warning</i>
-          </div>
-          <div class="os-content">
-            <div class="os-number">OS #{{os.numero}}</div>
-            <div class="os-glpi">GLPI <b>{{os.glpi}}</b></div>
-            <div class="os-date">Vencimento: <b>{{os.dataFim | date:'dd/MM/yyyy'}}</b></div>
-            <div class="os-status">{{os.status}}</div>
-          </div>
-        </div>
-      </div>
-      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-    </div>
-  `,
+  templateUrl: './ordens-de-servico.component.html',
   styleUrls: ['./ordens-de-servico.component.css']
 })
 export class OrdensDeServicoComponent implements OnInit, OnDestroy {
@@ -143,7 +123,7 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
     });
     
     this.ordensDeServico = sortedOrdens;
-    this.loadInitialOrdens(); // Reset to initial view after sorting
+    this.loadInitialOrdens();
   }
 
   navigateToDetails(ordem: OrdemDeServico) {
