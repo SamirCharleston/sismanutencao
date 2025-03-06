@@ -6,6 +6,7 @@ import { HomeDashboardComponent } from './pages/dashboard/home-dashboard/home-da
 import { OrdensDeServicoComponent } from './pages/ordens-de-servico/ordens-de-servico.component';
 import { OrdemDetalhesComponent } from './pages/ordem-detalhes/ordem-detalhes.component';
 import { MedicoesComponent } from './pages/medicoes/medicoes.component';
+import { MedicaoDetalhesComponent } from './pages/medicao-detalhes/medicao-detalhes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +20,7 @@ export const routes: Routes = [
       { path: 'ordens', component: OrdensDeServicoComponent },
       { path: 'ordens/:numero', component: OrdemDetalhesComponent },
       { path: 'medicoes', component: MedicoesComponent },
-      { path: 'medicoes/:numero', component: MedicoesComponent }, // Para detalhes da medição
+      { path: 'medicoes/:numero', component: MedicaoDetalhesComponent }, // Para detalhes da medição
       { path: 'pedidos', component: DashboardComponent },
       { path: 'inventario', component: DashboardComponent },
       { path: 'colaboradores', component: DashboardComponent },

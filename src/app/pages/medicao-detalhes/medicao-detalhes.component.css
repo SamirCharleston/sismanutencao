@@ -1,0 +1,182 @@
+.medicao-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.medicao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-left h2 {
+  margin: 0;
+  color: #333;
+}
+
+.data {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.control-panel {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.control-btn.edit { background-color: #2196F3; }
+.control-btn.save { background-color: #4CAF50; }
+.control-btn.cancel { background-color: #757575; }
+.control-btn.delete { background-color: #F44336; }
+.control-btn.print { background-color: #757575; }
+
+.medicao-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-section.full-width {
+  grid-column: 1 / -1;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.info-item span {
+  font-weight: 500;
+}
+
+.info-item.total {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.info-item.total span {
+  font-size: 1.2rem;
+  color: #ff9248;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.2);
+}
+
+.os-table {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background: #f8f8f8;
+  font-weight: 500;
+  color: #666;
+}
+
+tr:hover {
+  background: #f8f8f8;
+}
+
+@media print {
+  .control-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .medicao-container {
+    padding: 1rem;
+  }
+
+  .medicao-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .control-panel {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .control-btn {
+    flex: 1;
+  }
+
+  .control-btn span {
+    display: none;
+  }
+
+  .control-btn i {
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,110 @@
+<div class="medicao-container" *ngIf="medicao">
+  <div class="medicao-header">
+    <div class="header-left">
+      <h2>Medição #{{medicao.numero}}</h2>
+      <span class="data">{{getMesAno(medicao.dataMedicao)}}</span>
+    </div>
+    
+    <div class="control-panel">
+      <button *ngIf="!isEditing" class="control-btn edit" (click)="onEdit()">
+        <i class="material-icons">edit</i>
+        <span>Editar</span>
+      </button>
+      <button *ngIf="isEditing" class="control-btn save" (click)="onSave()">
+        <i class="material-icons">save</i>
+        <span>Salvar</span>
+      </button>
+      <button *ngIf="isEditing" class="control-btn cancel" (click)="onCancel()">
+        <i class="material-icons">close</i>
+        <span>Cancelar</span>
+      </button>
+      <button *ngIf="!isEditing" class="control-btn delete" (click)="onDelete()">
+        <i class="material-icons">delete</i>
+        <span>Excluir</span>
+      </button>
+      <button *ngIf="!isEditing" class="control-btn print" (click)="onPrint()">
+        <i class="material-icons">print</i>
+        <span>Imprimir</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="medicao-grid">
+    <div class="info-section">
+      <h3>Informações Gerais</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Data da Medição:</label>
+          <span *ngIf="!isEditing">{{medicao.dataMedicao | date:'dd/MM/yyyy'}}</span>
+          <input *ngIf="isEditing" type="date" [(ngModel)]="medicao.dataMedicao" title="Data da Medição" placeholder="Selecione a data">
+        </div>
+        <div class="info-item">
+          <label>ANS Logística:</label>
+          <span *ngIf="!isEditing">{{medicao.ansLogistica}}%</span>
+          <input *ngIf="isEditing" type="number" [(ngModel)]="medicao.ansLogistica" min="0" max="100" step="0.1" title="ANS Logística" placeholder="Digite a ANS Logística">
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Valores</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Valor Total OS:</label>
+          <span>{{medicao.valorTotalOSs | currency:'BRL'}}</span>
+        </div>
+        <div class="info-item">
+          <label>Valor RPL (95%):</label>
+          <span>{{medicao.valorRPL | currency:'BRL'}}</span>
+        </div>
+        <div class="info-item">
+          <label>Valor REQ (5%):</label>
+          <span>{{medicao.valorREQ | currency:'BRL'}}</span>
+        </div>
+        <div class="info-item">
+          <label>Descontos ANS:</label>
+          <span>{{medicao.valorDescontosANS | currency:'BRL'}}</span>
+        </div>
+        <div class="info-item total">
+          <label>Total da Medição:</label>
+          <span>{{medicao.totalMedicao | currency:'BRL'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section full-width">
+      <h3>Ordens de Serviço</h3>
+      <div class="os-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Local</th>
+              <th>Fiscal</th>
+              <th>Data Conclusão</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let os of medicao.ordensDeServico">
+              <td>{{os.numero}}</td>
+              <td>{{os.local}}</td>
+              <td>{{os.fiscal}}</td>
+              <td>{{os.dataConclusao | date:'dd/MM/yyyy'}}</td>
+              <td>{{os.valorFinal | currency:'BRL'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <app-confirm-modal
+    [show]="showConfirmModal"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    [confirmText]="modalConfirmText"
+    (confirm)="onModalConfirm()"
+    (cancel)="onModalCancel()">
+  </app-confirm-modal>
+</div>
