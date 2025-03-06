@@ -149,4 +149,8 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
   navigateToDetails(ordem: OrdemDeServico) {
     this.router.navigate(['/dashboard/ordens', ordem.numero]);
   }
+
+  onNovaOrdem() {
+    this.router.navigate(['/dashboard/ordens/novo']);
+  }
 }

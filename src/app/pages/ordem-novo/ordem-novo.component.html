@@ -1,0 +1,128 @@
+<div class="ordem-container">
+  <div class="header">
+    <h2>Nova Ordem de Serviço</h2>
+    <div class="control-panel">
+      <button class="btn-primary" (click)="onSubmit()">
+        <i class="material-icons">save</i>
+        <span>Salvar</span>
+      </button>
+      <button class="btn-secondary" (click)="onCancel()">
+        <i class="material-icons">close</i>
+        <span>Cancelar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <section class="form-section">
+      <h3>Informações Básicas</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="glpi">GLPI</label>
+          <input id="glpi" type="number" [(ngModel)]="ordem.glpi" required>
+        </div>
+        <div class="form-group">
+          <label for="fiscal">Fiscal</label>
+          <input id="fiscal" type="text" [(ngModel)]="ordem.fiscal" required>
+        </div>
+        <div class="form-group">
+          <label for="local">Local</label>
+          <select id="local" [(ngModel)]="ordem.local" required>
+            <option value="">Selecione um local</option>
+            <option *ngFor="let local of locais" [value]="local">{{local}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="area">Área Solicitante</label>
+          <select id="area" [(ngModel)]="ordem.areaSolicitante" required>
+            <option value="">Selecione uma área</option>
+            <option *ngFor="let area of areasSolicitantes" [value]="area">{{area}}</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Datas</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="dataInicio">Data Início</label>
+          <input id="dataInicio" type="date" [(ngModel)]="ordem.dataInicio" required>
+        </div>
+        <div class="form-group">
+          <label for="dataFim">Data Fim Prevista</label>
+          <input id="dataFim" type="date" [(ngModel)]="ordem.dataFim" required>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Descrição do Serviço</h3>
+      <div class="form-group">
+        <label for="descricaoServico">Descrição do Serviço</label>
+        <textarea id="descricaoServico" [(ngModel)]="ordem.descricaoServico" rows="4" placeholder="Descreva o serviço" required></textarea>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Itens</h3>
+      <div class="new-item-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <input type="text" [(ngModel)]="newItem.descricao" placeholder="Descrição">
+          </div>
+          <div class="form-group">
+            <select id="unidade" title="Unidade" [(ngModel)]="newItem.unidade">
+              <option value="">Unidade</option>
+              <option *ngFor="let un of unidades" [value]="un">{{un}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="newItem.quantidade" placeholder="Quantidade">
+          </div>
+          <div class="form-group">
+            <input type="number" [(ngModel)]="newItem.valorUnitario" placeholder="Valor Unitário">
+          </div>
+          <button class="btn-add" (click)="addItem()" [disabled]="!validateItem()">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container" *ngIf="ordem.itens.length > 0">
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Unidade</th>
+              <th>Quantidade</th>
+              <th>Valor Unit.</th>
+              <th>Total</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ordem.itens; let i = index">
+              <td>{{item.descricao}}</td>
+              <td>{{item.unidade}}</td>
+              <td>{{item.quantidade}}</td>
+              <td>{{item.valorUnitario | currency:'BRL'}}</td>
+              <td>{{item.quantidade * item.valorUnitario | currency:'BRL'}}</td>
+              <td>
+                <button class="btn-icon" (click)="removeItem(i)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="text-right"><strong>Total:</strong></td>
+              <td colspan="2"><strong>{{ordem.valorInicial | currency:'BRL'}}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
