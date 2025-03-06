@@ -59,14 +59,14 @@
 
 .medicao-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+  gap: 1rem;
 }
 
 .info-section {
   background: white;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -123,12 +123,15 @@ input:focus {
 .os-table {
   overflow-x: auto;
   margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 800px;
 }
 
 th, td {
@@ -141,11 +144,89 @@ th {
   background: #f8f8f8;
   font-weight: 500;
   color: #666;
+  border-bottom: 2px solid #eee;
 }
 
-tr:hover {
-  background: #f8f8f8;
+td {
+  vertical-align: middle;
 }
+
+.clickable-row {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clickable-row:hover {
+  background: #f8f8f8;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.clickable-row.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ans-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.ans-badge.good {
+  background: #e6ffe6;
+  color: #008000;
+}
+
+.ans-badge.medium {
+  background: #fff3e6;
+  color: #cc7700;
+}
+
+.ans-badge.bad {
+  background: #ffe6e6;
+  color: #cc0000;
+}
+
+.ans-value {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 500;
+  min-width: 60px;
+  text-align: center;
+}
+
+.ans-value.low {
+  background: #ffe6e6;
+  color: #cc0000;
+}
+
+.ans-value.medium {
+  background: #fff3e6;
+  color: #cc7700;
+}
+
+.ans-value.high {
+  background: #e6ffe6;
+  color: #008000;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.concluída { background: #e6ffe6; color: #008000; }
+.status-badge.pendente { background: #fff3e6; color: #cc7700; }
+.status-badge.em.andamento { background: #e6f3ff; color: #0066cc; }
+.status-badge.em.análise { background: #f2e6ff; color: #6600cc; }
+.status-badge.atrasada { background: #ffe6e6; color: #cc0000; }
 
 @media print {
   .control-panel {

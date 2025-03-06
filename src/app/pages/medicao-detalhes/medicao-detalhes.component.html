@@ -46,6 +46,50 @@
       </div>
     </div>
 
+    
+    <div class="info-section full-width">
+      <h3>Ordens de Serviço</h3>
+      <div class="os-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Número OS</th>
+              <th>GLPI</th>
+              <th>Valor Inicial</th>
+              <th>ANS</th>
+              <th>Área Solicitante</th>
+              <th>Valor Final</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let os of medicao.ordensDeServico" 
+                (click)="openOSPreview(os)" 
+                class="clickable-row"
+                [class.disabled]="!os.dataConclusao">
+              <td>{{os.numero}}</td>
+              <td>{{os.glpi}}</td>
+              <td>{{os.valorInicial | currency:'BRL'}}</td>
+              <td>
+                <span class="ans-value" [class.low]="os.ans < 6" 
+                                       [class.medium]="os.ans >= 6 && os.ans < 8"
+                                       [class.high]="os.ans >= 8">
+                  {{os.ans | number:'1.2-2'}}
+                </span>
+              </td>
+              <td>{{os.areaSolicitante}}</td>
+              <td>{{os.valorFinal | currency:'BRL'}}</td>
+              <td>
+                <span class="status-badge" [class]="os.status.toLowerCase()">
+                  {{os.status}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="info-section">
       <h3>Valores</h3>
       <div class="info-grid">
@@ -72,31 +116,6 @@
       </div>
     </div>
 
-    <div class="info-section full-width">
-      <h3>Ordens de Serviço</h3>
-      <div class="os-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Número</th>
-              <th>Local</th>
-              <th>Fiscal</th>
-              <th>Data Conclusão</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let os of medicao.ordensDeServico" (click)="openOSPreview(os)" class="clickable-row">
-              <td>{{os.numero}}</td>
-              <td>{{os.local}}</td>
-              <td>{{os.fiscal}}</td>
-              <td>{{os.dataConclusao | date:'dd/MM/yyyy'}}</td>
-              <td>{{os.valorFinal | currency:'BRL'}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
   <app-confirm-modal
