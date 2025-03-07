@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Medicao } from '../../models/medicao/medicao';
 
@@ -14,7 +14,7 @@ import { Medicao } from '../../models/medicao/medicao';
 export class MedicoesComponent implements OnInit {
   medicoes: Medicao[] = [];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
     this.medicoes = this.dataService.getMedicoes()
@@ -28,5 +28,9 @@ export class MedicoesComponent implements OnInit {
     ];
     const dataObj = new Date(data);
     return `${meses[dataObj.getMonth()]} de ${dataObj.getFullYear()}`;
+  }
+
+  onNovaMedicao() {
+    this.router.navigate(['/dashboard/medicoes/novo']);
   }
 }

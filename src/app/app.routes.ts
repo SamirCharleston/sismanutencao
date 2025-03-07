@@ -8,6 +8,7 @@ import { OrdemDetalhesComponent } from './pages/ordem-detalhes/ordem-detalhes.co
 import { MedicoesComponent } from './pages/medicoes/medicoes.component';
 import { MedicaoDetalhesComponent } from './pages/medicao-detalhes/medicao-detalhes.component';
 import { OrdemNovoComponent } from './pages/ordem-novo/ordem-novo.component';
+import { MedicaoNovoComponent } from './pages/medicao-novo/medicao-novo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,8 +22,9 @@ export const routes: Routes = [
       { path: 'ordens/novo', component: OrdemNovoComponent }, // This route must come before :numero
       { path: 'ordens/:numero', component: OrdemDetalhesComponent },
       { path: 'ordens', component: OrdensDeServicoComponent },
-      { path: 'medicoes', component: MedicoesComponent },
+      { path: 'medicoes/novo', component: MedicaoNovoComponent }, // Add this route before :numero
       { path: 'medicoes/:numero', component: MedicaoDetalhesComponent }, // Para detalhes da medição
+      { path: 'medicoes', component: MedicoesComponent },
       { path: 'pedidos', component: DashboardComponent },
       { path: 'inventario', component: DashboardComponent },
       { path: 'colaboradores', component: DashboardComponent },

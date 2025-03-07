@@ -1,0 +1,123 @@
+<div class="medicao-container">
+  <div class="medicao-header">
+    <div class="header-left">
+      <h2>Nova Medição</h2>
+    </div>
+    <div class="control-panel">
+      <button class="btn-primary" (click)="onSubmit()">
+        <i class="material-icons">save</i>
+        <span>Salvar</span>
+      </button>
+      <button class="btn-secondary" (click)="onCancel()">
+        <i class="material-icons">close</i>
+        <span>Cancelar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="form-section">
+      <div class="form-row">
+        <div class="form-group">
+            <label>Numero da Medição</label>
+            <input type="text" title="Numero-medicao" [(ngModel)]="medicao.numero" required>
+          </div>
+        <div class="form-group">
+          <label>Data da Medição</label>
+          <input type="date" title="Data-medicao" [(ngModel)]="medicao.dataMedicao" required>
+        </div>
+
+        <div class="form-group">
+            <label>Valor REQ</label>
+            <input type="number" title="Valor-req" [(ngModel)]="medicao.valorREQ" 
+                   min="0" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+            <label>Valor RPL</label>
+            <input type="number" title="Valor-rpl" [(ngModel)]="medicao.valorRPL" 
+                   min="0" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label>ANS Logística</label>
+          <input type="number" title="Ans-logistica" [(ngModel)]="medicao.ansLogistica" 
+                 min="0" max="10" step="0.1" 
+                 (change)="onANSChange()" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-header">
+        <h3>Ordens de Serviço</h3>
+      </div>
+
+      <div class="os-grid">
+        <div class="os-list">
+          <h4>Ordens Disponíveis</h4>
+          <div class="os-items">
+            <div *ngFor="let os of ordensDisponiveis" 
+                 class="os-item"
+                 (click)="adicionarOrdem(os)">
+              <div class="os-info">
+                <span class="os-number">OS #{{os.numero}}</span>
+                <span class="os-value">{{os.valorFinal | currency:'BRL'}}</span>
+              </div>
+              <span class="ans-value" [class.low]="os.ans < 6" 
+                                     [class.medium]="os.ans >= 6 && os.ans < 8"
+                                     [class.high]="os.ans >= 8">
+                ANS: {{os.ans | number:'1.2-2'}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="os-list">
+          <h4>Ordens Selecionadas</h4>
+          <div class="os-items">
+            <div *ngFor="let os of ordensSelecionadas" 
+                 class="os-item selected"
+                 (click)="removerOrdem(os)">
+              <div class="os-info">
+                <span class="os-number">OS #{{os.numero}}</span>
+                <span class="os-value">{{os.valorFinal | currency:'BRL'}}</span>
+              </div>
+              <span class="ans-value" [class.low]="os.ans < 6" 
+                                     [class.medium]="os.ans >= 6 && os.ans < 8"
+                                     [class.high]="os.ans >= 8">
+                ANS: {{os.ans | number:'1.2-2'}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Valores</h3>
+      <div class="valores-grid">
+        <div class="valor-item">
+          <label>Valor Total OS</label>
+          <span>{{medicao.valorTotalOSs | currency:'BRL'}}</span>
+        </div>
+        <div class="valor-item">
+          <label>Valor RPL</label>
+          <span>{{medicao.valorRPL | currency:'BRL'}}</span>
+        </div>
+        <div class="valor-item">
+          <label>Valor REQ</label>
+          <span>{{medicao.valorREQ | currency:'BRL'}}</span>
+        </div>
+        <div class="valor-item">
+          <label>Descontos ANS</label>
+          <span>{{medicao.valorDescontosANS | currency:'BRL'}}</span>
+        </div>
+        <div class="valor-item total">
+          <label>Total da Medição</label>
+          <span>{{medicao.totalMedicao | currency:'BRL'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
