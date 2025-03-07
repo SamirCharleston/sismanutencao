@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { Medicao } from '../../models/medicao/medicao';
 import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
 import { DataService } from '../../services/data.service';
+import { DatepickerComponent } from '../../components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-medicao-novo',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DatepickerComponent],
   templateUrl: './medicao-novo.component.html',
   styleUrls: ['./medicao-novo.component.css', '../../../styles/shared-buttons.css']
 })

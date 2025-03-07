@@ -1,0 +1,119 @@
+.datepicker-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.5rem;
+  padding-right: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.2);
+}
+
+.input-container i {
+  position: absolute;
+  right: 0.5rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.calendar {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  width: 280px;
+  padding: 1rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.month-year {
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-nav {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #666;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+  background: #f0f0f0;
+  color: #ff9248;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #666;
+  padding: 0.5rem 0;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.day:hover {
+  background: #f0f0f0;
+}
+
+.day.other-month {
+  color: #ccc;
+}
+
+.day.selected {
+  background: #ff9248;
+  color: white;
+}
+
+.day.today {
+  border: 2px solid #ff9248;
+  font-weight: 500;
+}
+
+.day.selected:hover {
+  background: #ffaa70;
+}

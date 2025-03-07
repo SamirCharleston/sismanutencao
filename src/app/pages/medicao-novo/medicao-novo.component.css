@@ -41,6 +41,10 @@
   color: #666;
 }
 
+.form-group app-datepicker {
+  width: 100%;
+}
+
 input, select {
   padding: 0.5rem;
   border: 1px solid #ddd;
