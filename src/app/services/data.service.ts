@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Item } from '../models/ordem-de-servico/item';
 import { OrdemDeServico } from '../models/ordem-de-servico/ordem-de-servico';
 import { Medicao } from '../models/medicao/medicao';
+import { Insumo } from '../models/pedido/insumo';
+import { Pedido } from '../models/pedido/pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,15 @@ export class DataService {
   private items: Item[] = [];
   private ordens: OrdemDeServico[] = [];
   private medicoes: Medicao[] = [];
+  private insumos: Insumo[] = [];
+  private pedidos: Pedido[] = [];
 
   constructor() {
     this.generateItems();
     this.generateOrdens();
     this.generateMedicoes();
+    this.initializeInsumos();
+    this.initializePedidos();
   }
 
   private generateItems() {
@@ -146,6 +152,71 @@ export class DataService {
       });
   }
 
+  private initializeInsumos() {
+    const categorias = ['Elétrico', 'Hidráulico', 'Civil', 'Mecânico', 'Ferramentas', 'EPI', 'Material de Limpeza'];
+    const unidades = ['un', 'mt', 'kg', 'l', 'pc', 'cx', 'par'];
+    const nomes = ['Chave de Fenda', 'Martelo', 'Alicate', 'Parafuso', 'Porca', 'Cabo Elétrico', 'Disjuntor', 'Lâmpada LED', 'Fita Isolante', 'Luvas', 'Furadeira', 'Serra', 'Medidor', 'Nível', 'Trena'];
+
+    for (let i = 1; i <= 150; i++) {
+      const insumo = new Insumo();
+      insumo.id = i;
+      insumo.nome = nomes[i % nomes.length];
+      insumo.valorUnitario = parseFloat((Math.random() * 100 + 1).toFixed(2));
+      insumo.descricao = `${categorias[i % categorias.length]} - Item ${i}`;
+      insumo.categoria = categorias[i % categorias.length];
+      insumo.unidade = unidades[i % unidades.length];
+      insumo.quantidade = Math.floor(Math.random() * 100) + 1;
+      insumo.caminhonsImagens = ["app/assets/chave_fenda1.png", "app/assets/chave_fenda2.png"];
+      
+      this.insumos.push(insumo);
+    }
+  }
+
+  private initializePedidos() {
+    const status = ['Pendente', 'Em andamento', 'Concluído', 'Cancelado'];
+    const enderecos = ['Almoxarifado Central', 'Setor de Manutenção', 'Depósito 1', 'Depósito 2'];
+
+    for (let i = 1; i <= 60; i++) {
+      const pedido = new Pedido();
+      pedido.id = i;
+      pedido.descricao = `Pedido de materiais ${i}`;
+      
+      // Adiciona 3-8 insumos aleatórios ao pedido
+      const numInsumos = Math.floor(Math.random() * 6) + 3;
+      pedido.insumos = [];
+      let valorTotal = 0;
+      
+      for (let j = 0; j < numInsumos; j++) {
+        const insumoIndex = Math.floor(Math.random() * this.insumos.length);
+        const quantidade = Math.floor(Math.random() * 10) + 1;
+        const insumo = { ...this.insumos[insumoIndex] };
+        insumo.quantidade = quantidade;
+        pedido.insumos.push(insumo);
+        valorTotal += insumo.valorUnitario * quantidade;
+      }
+
+      pedido.valorTotal = parseFloat(valorTotal.toFixed(2));
+      pedido.status = status[Math.floor(Math.random() * status.length)];
+      
+      // Data do pedido entre hoje e 30 dias atrás
+      const dataPedido = new Date();
+      dataPedido.setDate(dataPedido.getDate() - Math.floor(Math.random() * 30));
+      pedido.dataPedido = dataPedido.toISOString().split('T')[0];
+      
+      // Data de entrega entre 1 e 15 dias após o pedido
+      const dataEntrega = new Date(dataPedido);
+      dataEntrega.setDate(dataEntrega.getDate() + Math.floor(Math.random() * 15) + 1);
+      pedido.dataEntrega = dataEntrega.toISOString().split('T')[0];
+      
+      pedido.enderecoEntrega = enderecos[Math.floor(Math.random() * enderecos.length)];
+      pedido.paraEstoque = Math.random() > 0.5;
+      pedido.atendido = pedido.status === 'Concluído';
+      pedido.OSVinculada = this.ordens[Math.floor(Math.random() * this.ordens.length)];
+
+      this.pedidos.push(pedido);
+    }
+  }
+
   private randomDate(start: Date, end: Date): Date {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   }
@@ -160,5 +231,13 @@ export class DataService {
 
   getMedicoes(): Medicao[] {
     return this.medicoes;
+  }
+
+  getInsumos(): Insumo[] {
+    return this.insumos;
+  }
+
+  getPedidos(): Pedido[] {
+    return this.pedidos;
   }
 }

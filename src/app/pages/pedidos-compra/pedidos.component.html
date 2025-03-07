@@ -1,0 +1,60 @@
+<div class="pedidos-container">
+  <div class="header">
+    <h2>Pedidos de Compra</h2>
+    <button class="btn-primary" (click)="onNovoPedido()">
+      <i class="material-icons">add</i>
+      <span>Novo Pedido</span>
+    </button>
+  </div>
+
+  <div class="pedidos-grid">
+    <div class="pedido-card" *ngFor="let pedido of pedidos">
+      <div class="pedido-header">
+        <div class="pedido-info">
+          <span class="pedido-number">Pedido #{{pedido.id}}</span>
+          <span class="status-badge" [class]="getStatusClass('Pendente')">
+            {{pedido.status}}
+          </span>
+        </div>
+        <span class="pedido-date">{{formatDate(pedido.dataPedido)}}</span>
+      </div>
+
+      <div class="pedido-body">
+        <p class="descricao">{{pedido.descricao}}</p>
+        <div class="details">
+          <div class="detail-item">
+            <i class="material-icons">shopping_cart</i>
+            <span>{{getInsumosText(pedido)}}</span>
+          </div>
+          <div class="detail-item">
+            <i class="material-icons">local_shipping</i>
+            <span>Entrega: {{formatDate(pedido.dataEntrega)}}</span>
+          </div>
+          <div class="detail-item">
+            <i class="material-icons">store</i>
+            <span>{{pedido.enderecoEntrega}}</span>
+          </div>
+          <div class="detail-item" *ngIf="pedido.OSVinculada">
+            <i class="material-icons">build</i>
+            <span>OS #{{pedido.OSVinculada.numero}}</span>
+          </div>
+          <div class="detail-item">
+            <i class="material-icons">inventory</i>
+            <span>{{pedido.paraEstoque ? 'Para Estoque' : 'Para Consumo'}}</span>
+          </div>
+        </div>
+        <div class="valor-total">
+          <span class="label">Valor Total:</span>
+          <span class="valor">{{pedido.valorTotal | currency:'BRL'}}</span>
+        </div>
+      </div>
+
+      <div class="pedido-footer">
+        <button class="btn-secondary" (click)="visualizarPedido(pedido.id)">
+          <i class="material-icons">visibility</i>
+          <span>Visualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

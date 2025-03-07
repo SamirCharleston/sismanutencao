@@ -1,3 +1,4 @@
+import { OrdemDeServico } from "../ordem-de-servico/ordem-de-servico";
 import { Insumo } from "./insumo";
 
 export class Pedido {
@@ -9,5 +10,7 @@ export class Pedido {
     dataPedido!: string;
     dataEntrega!: string;
     enderecoEntrega!: string;
-    // cotacoes!: any[];
+    OSVinculada!: OrdemDeServico;
+    paraEstoque!: boolean;
+    atendido!: boolean;
 }
