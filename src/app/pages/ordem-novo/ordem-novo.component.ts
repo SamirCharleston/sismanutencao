@@ -10,7 +10,7 @@ import { Item } from '../../models/ordem-de-servico/item';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './ordem-novo.component.html',
-  styleUrls: ['./ordem-novo.component.css']
+  styleUrls: ['./ordem-novo.component.css', '../../styles/shared-buttons.css']
 })
 export class OrdemNovoComponent {
   ordem: OrdemDeServico = new OrdemDeServico();
@@ -77,5 +77,9 @@ export class OrdemNovoComponent {
 
   onCancel() {
     this.router.navigate(['/dashboard/ordens']);
+  }
+
+  calcularTotal(): number {
+    return this.ordem.itens.reduce((total, item) => total + (item.quantidade * item.valorUnitario), 0);
   }
 }

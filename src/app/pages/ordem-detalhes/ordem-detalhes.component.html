@@ -1,22 +1,245 @@
-<div class="control-panel">
-  <button *ngIf="!isEditing" class="btn-primary" (click)="onEdit()">
-    <i class="material-icons">edit</i>
-    <span>Editar</span>
-  </button>
-  <button *ngIf="isEditing" class="btn-primary" (click)="onSave()">
-    <i class="material-icons">save</i>
-    <span>Salvar</span>
-  </button>
-  <button *ngIf="isEditing" class="btn-secondary" (click)="onCancel()">
-    <i class="material-icons">close</i>
-    <span>Cancelar</span>
-  </button>
-  <button *ngIf="!isEditing" class="btn-secondary" (click)="onDelete()">
-    <i class="material-icons">delete</i>
-    <span>Excluir</span>
-  </button>
-  <button *ngIf="!isEditing" class="btn-secondary" (click)="onPrint()">
-    <i class="material-icons">print</i>
-    <span>Imprimir</span>
-  </button>
+<div class="ordem-container" *ngIf="ordem">
+  <div class="ordem-header">
+    <div class="header-left">
+      <h2>Ordem de Serviço #{{ordem.numero}}</h2>
+      <span class="status-badge" [class]="ordem.status.toLowerCase()">
+        <span *ngIf="!isEditing">{{ordem.status}}</span>
+        <select *ngIf="isEditing" [(ngModel)]="ordem.status" title="Status da Ordem">
+          <option value="Em andamento">Em andamento</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Concluída">Concluída</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Atrasada">Atrasada</option>
+        </select>
+      </span>
+    </div>
+    
+    <div class="control-panel">
+      <button *ngIf="!isEditing" class="btn-primary" (click)="onEdit()">
+        <i class="material-icons">edit</i>
+        <span>Editar</span>
+      </button>
+      <button *ngIf="isEditing" class="btn-primary" (click)="onSave()">
+        <i class="material-icons">save</i>
+        <span>Salvar</span>
+      </button>
+      <button *ngIf="isEditing" class="btn-secondary" (click)="onCancel()">
+        <i class="material-icons">close</i>
+        <span>Cancelar</span>
+      </button>
+      <button *ngIf="!isEditing" class="btn-secondary" (click)="onDelete()">
+        <i class="material-icons">delete</i>
+        <span>Excluir</span>
+      </button>
+      <button *ngIf="!isEditing" class="btn-secondary" (click)="onReview()">
+        <i class="material-icons">rate_review</i>
+        <span>Revisar</span>
+      </button>
+      <button *ngIf="!isEditing" class="btn-secondary" 
+              (click)="onComplete()" 
+              [disabled]="ordem.status === 'Concluída'">
+        <i class="material-icons">check_circle</i>
+        <span>Concluir</span>
+      </button>
+      <button *ngIf="!isEditing" class="btn-secondary" (click)="onPrint()">
+        <i class="material-icons">print</i>
+        <span>Imprimir</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ordem-grid">
+    <div class="info-section">
+      <h3>Informações Gerais</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>GLPI:</label>
+          <span *ngIf="!isEditing">{{ordem.glpi}}</span>
+          <input *ngIf="isEditing" type="number" [(ngModel)]="ordem.glpi" required title="GLPI" placeholder="Digite o número do GLPI">
+        </div>
+        <div class="info-item">
+          <label>Fiscal:</label>
+          <span *ngIf="!isEditing">{{ordem.fiscal}}</span>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.fiscal" required title="Fiscal" placeholder="Digite o nome do fiscal">
+        </div>
+        <div class="info-item">
+          <label>Local:</label>
+          <span *ngIf="!isEditing">{{ordem.local}}</span>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.local" required title="Local" placeholder="Digite o local">
+        </div>
+        <div class="info-item">
+          <label>Área Solicitante:</label>
+          <span *ngIf="!isEditing">{{ordem.areaSolicitante}}</span>
+          <input *ngIf="isEditing" type="text" [(ngModel)]="ordem.areaSolicitante" required title="Área Solicitante" placeholder="Digite a área solicitante">
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Datas</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Início:</label>
+          <span *ngIf="!isEditing">{{ordem.dataInicio | date:'dd/MM/yyyy'}}</span>
+          <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataInicio" required title="Data de Início" placeholder="Selecione a data de início">
+        </div>
+        <div class="info-item">
+          <label>Fim Previsto:</label>
+          <span *ngIf="!isEditing">{{ordem.dataFim | date:'dd/MM/yyyy'}}</span>
+          <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataFim" required title="Data de Fim Previsto" placeholder="Selecione a data de fim previsto">
+        </div>
+        <div class="info-item" *ngIf="ordem.dataConclusao">
+          <label>Conclusão:</label>
+          <span *ngIf="!isEditing">{{ordem.dataConclusao | date:'dd/MM/yyyy'}}</span>
+          <input *ngIf="isEditing" type="date" [(ngModel)]="ordem.dataConclusao" title="Data de Conclusão" placeholder="Selecione a data de conclusão">
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Valores</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Valor Inicial:</label>
+          <span *ngIf="!isEditing">{{ordem.valorInicial | currency:'BRL'}}</span>
+          <input *ngIf="isEditing" type="number" step="0.01" [(ngModel)]="ordem.valorInicial" required title="Valor Inicial" placeholder="Digite o valor inicial">
+        </div>
+        <div class="info-item">
+          <label>Valor Final:</label>
+          <span *ngIf="!isEditing">{{ordem.valorFinal | currency:'BRL'}}</span>
+          <input *ngIf="isEditing" type="number" step="0.01" [(ngModel)]="ordem.valorFinal" required title="Valor Final" placeholder="Digite o valor final">
+        </div>
+        <div class="info-item">
+          <label>ANS:</label>
+          <span *ngIf="!isEditing">{{ordem.ans}}</span>
+          <input *ngIf="isEditing" type="number" step="0.5" min="0" max="10" [(ngModel)]="ordem.ans" required title="ANS" placeholder="Digite o ANS">
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section full-width">
+      <h3>Descrição do Serviço</h3>
+      <p *ngIf="!isEditing" class="descricao">{{ordem.descricaoServico}}</p>
+      <textarea *ngIf="isEditing" [(ngModel)]="ordem.descricaoServico" rows="4" required title="Descrição do Serviço" placeholder="Digite a descrição do serviço"></textarea>
+    </div>
+
+    <div class="info-section full-width">
+      <div class="section-header">
+        <h3>Itens Utilizados</h3>
+        <div class="filters-container">
+          <div class="filter-item" *ngFor="let field of sortFields" (click)="sortItems(field.value)">
+            <span>{{field.label}}</span>
+            <i class="material-icons">{{getSortIcon(field.value)}}</i>
+          </div>
+        </div>
+        <button *ngIf="isEditing" class="btn-add" (click)="addItem()">
+          <i class="material-icons">add</i>
+          <span>Adicionar Item</span>
+        </button>
+      </div>
+
+      <div class="items-table" *ngIf="ordem.itens?.length">
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Unidade</th>
+              <th>Quantidade</th>
+              <th>Valor Unitário</th>
+              <th>Total</th>
+              <th *ngIf="isEditing">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ordem.itens; let i = index">
+              <ng-container *ngIf="editingItemIndex !== i; else editRow">
+                <td>{{item.descricao}}</td>
+                <td>{{item.unidade}}</td>
+                <td>{{item.quantidade}}</td>
+                <td>{{item.valorUnitario | currency:'BRL'}}</td>
+                <td>{{item.quantidade * item.valorUnitario | currency:'BRL'}}</td>
+                <td *ngIf="isEditing" class="actions-cell">
+                  <button class="btn-icon" (click)="editItem(i)">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button class="btn-icon delete" (click)="deleteItem(i)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </td>
+              </ng-container>
+              
+              <ng-template #editRow>
+                <td><input type="text" [(ngModel)]="editingItem!.descricao" title="Descrição" placeholder="Digite a descrição"></td>
+                <td><input type="text" [(ngModel)]="editingItem!.unidade" title="Unidade" placeholder="Digite a unidade"></td>
+                <td><input type="number" [(ngModel)]="editingItem!.quantidade" min="0" title="Quantidade" placeholder="Digite a quantidade"></td>
+                <td><input type="number" [(ngModel)]="editingItem!.valorUnitario" min="0" step="0.01" title="Valor Unitário" placeholder="Digite o valor unitário"></td>
+                <td>{{editingItem!.quantidade * editingItem!.valorUnitario | currency:'BRL'}}</td>
+                <td class="actions-cell">
+                  <button class="btn-icon" (click)="saveItem()">
+                    <i class="material-icons">check</i>
+                  </button>
+                  <button class="btn-icon delete" (click)="cancelEditItem()">
+                    <i class="material-icons">close</i>
+                  </button>
+                </td>
+              </ng-template>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-section full-width">
+      <div class="section-header">
+        <h3>Arquivos Anexados</h3>
+        <div class="upload-controls" *ngIf="isEditing">
+          <label class="upload-button" [class.dragover]="isDragging">
+            <input 
+              type="file" 
+              multiple 
+              (change)="onFileSelected($event)"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)">
+            <i class="material-icons">cloud_upload</i>
+            <span>Arraste arquivos ou clique para selecionar</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="files-grid" *ngIf="ordem.arquivos?.length">
+        <div class="file-card" *ngFor="let arquivo of ordem.arquivos; let i = index">
+          <div class="file-icon">
+            <i class="material-icons">{{getFileIcon(arquivo.tipo)}}</i>
+          </div>
+          <div class="file-info">
+            <span class="file-name">{{arquivo.nome}}</span>
+            <span class="file-size">{{formatFileSize(arquivo.tamanho)}}</span>
+          </div>
+          <div class="file-actions">
+            <button class="btn-icon" (click)="downloadFile(arquivo)">
+              <i class="material-icons">download</i>
+            </button>
+            <button *ngIf="isEditing" class="btn-icon delete" (click)="deleteFile(i)">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-files" *ngIf="!ordem.arquivos?.length">
+        <i class="material-icons">folder_open</i>
+        <span>Nenhum arquivo anexado</span>
+      </div>
+    </div>
+  </div>
+
+  <app-confirm-modal
+    [show]="showConfirmModal"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    [confirmText]="modalConfirmText"
+    (confirm)="onModalConfirm()"
+    (cancel)="onModalCancel()">
+  </app-confirm-modal>
 </div>
