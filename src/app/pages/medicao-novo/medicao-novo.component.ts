@@ -31,7 +31,12 @@ export class MedicaoNovoComponent {
       ...new Medicao(),
       dataMedicao: new Date(),
       ordensDeServico: [],
-      ansLogistica: 10
+      ansLogistica: 10,
+      valorDescontosANS: 0,
+      valorRPL: 0,
+      valorREQ: 0,
+      valorTotalOSs: 0,
+      totalMedicao: 0
     };
   }
 
@@ -53,21 +58,18 @@ export class MedicaoNovoComponent {
     this.calcularValores();
   }
 
-  private calcularValores() {
+  calcularValores() {
     this.medicao.valorTotalOSs = this.ordensSelecionadas
       .reduce((total, os) => total + os.valorFinal, 0);
     
-    // this.medicao.valorRPL = parseFloat((this.medicao.valorTotalOSs * 0.95).toFixed(2));
-    // this.medicao.valorREQ = parseFloat((this.medicao.valorTotalOSs * 0.05).toFixed(2));
-    
-    // const percentualDesconto = (100 - this.medicao.ansLogistica) / 100;
-    // this.medicao.valorDescontosANS = parseFloat((percentualDesconto).toFixed(2));
     this.medicao.valorDescontosANS = 0;
     this.ordensSelecionadas.forEach(os => {
       let desconto = os.valorFinal - (os.valorFinal * (os.ans/10));
       this.medicao.valorDescontosANS += desconto;
-      // console.log(this.medicao.valorDescontosANS);
     });
+
+    // Realiza os descontos da ANS sobre o valor RPL e soma ao valor de descontos
+    this.medicao.valorDescontosANS += this.medicao.valorRPL - (this.medicao.valorRPL * (this.medicao.ansLogistica/10))
 
     this.medicao.totalMedicao = parseFloat(
       (this.medicao.valorRPL + this.medicao.valorREQ + this.medicao.valorTotalOSs - this.medicao.valorDescontosANS).toFixed(2)

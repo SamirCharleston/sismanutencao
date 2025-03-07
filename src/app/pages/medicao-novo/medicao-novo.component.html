@@ -24,18 +24,18 @@
           </div>
         <div class="form-group">
           <label>Data da Medição</label>
-          <input type="date" title="Data-medicao" [(ngModel)]="medicao.dataMedicao" required>
+            <input type="date" title="Data-medicao" [(ngModel)]="medicao.dataMedicao" required>
         </div>
 
         <div class="form-group">
             <label>Valor REQ</label>
-            <input type="number" title="Valor-req" [(ngModel)]="medicao.valorREQ" 
+            <input (change)="calcularValores()" type="number" title="Valor-req" [(ngModel)]="medicao.valorREQ" 
                    min="0" step="0.01" required>
         </div>
 
         <div class="form-group">
             <label>Valor RPL</label>
-            <input type="number" title="Valor-rpl" [(ngModel)]="medicao.valorRPL" 
+            <input (change)="calcularValores()" type="number" title="Valor-rpl" [(ngModel)]="medicao.valorRPL" 
                    min="0" step="0.01" required>
         </div>
 
@@ -102,12 +102,12 @@
           <span>{{medicao.valorTotalOSs | currency:'BRL'}}</span>
         </div>
         <div class="valor-item">
-          <label>Valor RPL</label>
-          <span>{{medicao.valorRPL | currency:'BRL'}}</span>
-        </div>
-        <div class="valor-item">
           <label>Valor REQ</label>
           <span>{{medicao.valorREQ | currency:'BRL'}}</span>
+        </div>
+        <div class="valor-item">
+          <label>Valor RPL</label>
+          <span>{{medicao.valorRPL | currency:'BRL'}}</span>
         </div>
         <div class="valor-item">
           <label>Descontos ANS</label>
