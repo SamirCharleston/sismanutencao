@@ -23,6 +23,7 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   showImageModal = false;
   selectedInsumo: Insumo | null = null;
   currentImageIndex = 0;
+  showHint = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -133,9 +134,18 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
     this.showImageModal = false;
     this.selectedInsumo = null;
     this.currentImageIndex = 0;
+    this.showHint = false;
   }
 
   onModalClick(event: Event) {
     event.stopPropagation();
+  }
+
+  toggleHint() {
+    this.showHint = !this.showHint;
+    event?.stopPropagation();
+    setTimeout(() => {
+      this.showHint = false;
+    }, 2000);
   }
 }

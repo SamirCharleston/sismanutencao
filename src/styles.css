@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-.btn-close-modal {
+.btn-close-modal, .btn-modal {
   background: none;
   border: none;
   cursor: pointer;
@@ -12,7 +12,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-close-modal:hover {
+.btn-close-modal:hover, .btn-modal:hover {
   background: #f0f0f0;
   color: #333;
 }
