@@ -4,7 +4,7 @@ export class Insumo {
     descricao!: string;
     quantidade!: number;
     categoria!: string;
-    caminhonsImagens!: string[];
+    enderecosImagens!: string[];
     unidade!: string;
     valorUnitario!: number;
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pedido } from '../../../models/pedido/pedido';
 import { DataService } from '../../../services/data.service';
+import { Insumo } from '../../../models/pedido/insumo';
 
 @Component({
   selector: 'app-pedido-detalhes',
@@ -19,6 +20,9 @@ export class PedidoDetalhesComponent implements OnInit {
     'Concluído': 'status-completed',
     'Cancelado': 'status-cancelled'
   };
+  showImageModal = false;
+  selectedInsumo: Insumo | null = null;
+  currentImageIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,5 +81,33 @@ export class PedidoDetalhesComponent implements OnInit {
 
   onPrint() {
     window.print();
+  }
+
+  showInsumoImages(insumo: Insumo) {
+    this.selectedInsumo = insumo;
+    this.currentImageIndex = 0;
+    this.showImageModal = true;
+  }
+
+  nextImage() {
+    if (this.selectedInsumo && this.currentImageIndex < this.selectedInsumo.enderecosImagens.length - 1) {
+      this.currentImageIndex++;
+    }
+  }
+
+  previousImage() {
+    if (this.selectedInsumo && this.currentImageIndex > 0) {
+      this.currentImageIndex--;
+    }
+  }
+
+  closeImageModal() {
+    this.showImageModal = false;
+    this.selectedInsumo = null;
+    this.currentImageIndex = 0;
+  }
+
+  onModalClick(event: Event) {
+    event.stopPropagation();
   }
 }

@@ -96,7 +96,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let insumo of pedido.insumos">
+            <tr *ngFor="let insumo of pedido.insumos" class="insumo-row" (click)="showInsumoImages(insumo)">
               <td>{{insumo.descricao}}</td>
               <td class="text-center">{{insumo.unidade}}</td>
               <td class="text-center">{{insumo.quantidade}}</td>
@@ -119,6 +119,38 @@
     <div class="info-section full-width" *ngIf="pedido.observacoes">
       <h3>Observações</h3>
       <p class="observacoes">{{pedido.observacoes}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
+  <div class="modal-content" (click)="onModalClick($event)">
+    <div class="modal-header">
+      <h3>{{selectedInsumo?.nome}}</h3>
+      <button class="btn-icon" (click)="closeImageModal()">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    
+    <div class="image-container" *ngIf="selectedInsumo">
+      <button class="nav-button prev" 
+              *ngIf="currentImageIndex > 0"
+              (click)="previousImage()">
+        <i class="material-icons">chevron_left</i>
+      </button>
+      
+      <img title="imagem-insumo" class="material-image" [src]="selectedInsumo.enderecosImagens[currentImageIndex]" 
+           [alt]="selectedInsumo.nome">
+      
+      <button class="nav-button next" 
+              *ngIf="selectedInsumo.enderecosImagens.length > currentImageIndex + 1"
+              (click)="nextImage()">
+        <i class="material-icons">chevron_right</i>
+      </button>
+    </div>
+    
+    <div class="image-counter" *ngIf="selectedInsumo">
+      {{currentImageIndex + 1}} / {{selectedInsumo.enderecosImagens.length}}
     </div>
   </div>
 </div>

@@ -166,7 +166,12 @@ export class DataService {
       insumo.categoria = categorias[i % categorias.length];
       insumo.unidade = unidades[i % unidades.length];
       insumo.quantidade = Math.floor(Math.random() * 100) + 1;
-      insumo.caminhonsImagens = ["app/assets/chave_fenda1.png", "app/assets/chave_fenda2.png"];
+
+      // Adiciona o endereco das imagens que estao na pasta app/assets
+      insumo.enderecosImagens = [`https://madeirasgasometro.vtexassets.com/arquivos/ids/170972/chave-de-fenda-5-16-x-4-vonder-plus-imagem-01.jpg?v=636858456547700000`, "https://www.hfmultiferramentas.com.br/media/catalog/product/cache/90dbb86a669057d15fdb380e69490e5a/0/7/07d60d41-a5c5-408d-9f7f-416557434284ch_fenda_sata_6x100_2.jpg"];
+
+
+      // insumo.enderecosImagens = ["app/assets/chave_fenda1.png", "app/assets/chave_fenda2.png"];
       
       this.insumos.push(insumo);
     }
