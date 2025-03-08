@@ -123,11 +123,11 @@
   </div>
 </div>
 
-<div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()">
+<div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()" tabindex="0">
   <div class="modal-content" (click)="onModalClick($event)">
     <div class="modal-header">
       <h3>{{selectedInsumo?.nome}}</h3>
-      <button class="btn-icon" (click)="closeImageModal()">
+      <button class="btn-close-modal" (click)="closeImageModal()">
         <i class="material-icons">close</i>
       </button>
     </div>
@@ -136,7 +136,7 @@
       <button class="nav-button prev" 
               *ngIf="currentImageIndex > 0"
               (click)="previousImage()">
-        <i class="material-icons">chevron_left</i>
+        <i class="material-icons color-white">chevron_left</i>
       </button>
       
       <img title="imagem-insumo" class="material-image" [src]="selectedInsumo.enderecosImagens[currentImageIndex]" 
@@ -151,6 +151,11 @@
     
     <div class="image-counter" *ngIf="selectedInsumo">
       {{currentImageIndex + 1}} / {{selectedInsumo.enderecosImagens.length}}
+    </div>
+    
+    <div class="keyboard-hint" *ngIf="selectedInsumo && selectedInsumo?.enderecosImagens?.length && selectedInsumo.enderecosImagens.length > 1">
+      <span><i class="material-icons">keyboard_arrow_left</i> / <i class="material-icons">keyboard_arrow_right</i> para navegar</span>
+      <span><i class="material-icons">close</i> ESC para fechar</span>
     </div>
   </div>
 </div>

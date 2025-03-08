@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pedido } from '../../../models/pedido/pedido';
@@ -12,7 +12,7 @@ import { Insumo } from '../../../models/pedido/insumo';
   templateUrl: './pedido-detalhes.component.html',
   styleUrls: ['./pedido-detalhes.component.css', '../../../../styles/shared-buttons.css']
 })
-export class PedidoDetalhesComponent implements OnInit {
+export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   pedido: Pedido | null = null;
   statusColors = {
     'Pendente': 'status-pending',
@@ -39,6 +39,27 @@ export class PedidoDetalhesComponent implements OnInit {
         this.router.navigate(['/dashboard/pedidos']);
       }
     });
+  }
+
+  ngOnDestroy() {
+    // Cleanup logic if needed
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (this.showImageModal && this.selectedInsumo) {
+      switch (event.key) {
+        case 'ArrowRight':
+          this.nextImage();
+          break;
+        case 'ArrowLeft':
+          this.previousImage();
+          break;
+        case 'Escape':
+          this.closeImageModal();
+          break;
+      }
+    }
   }
 
   private loadPedido(id: number) {
@@ -87,6 +108,13 @@ export class PedidoDetalhesComponent implements OnInit {
     this.selectedInsumo = insumo;
     this.currentImageIndex = 0;
     this.showImageModal = true;
+    // Add focus to modal for keyboard navigation
+    setTimeout(() => {
+      const modalElement = document.querySelector('.image-modal');
+      if (modalElement) {
+        (modalElement as HTMLElement).focus();
+      }
+    });
   }
 
   nextImage() {
