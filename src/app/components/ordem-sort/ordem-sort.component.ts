@@ -31,8 +31,6 @@ import { CommonModule } from '@angular/common';
     .sort-container {
       position: relative;
       display: flex;
-      // top: calc(64px + 1rem);
-      // right: 10rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -49,12 +47,8 @@ import { CommonModule } from '@angular/common';
     .sort-header {
       display: flex;
       align-items: center;
-      // gap: 0.5rem;
       color: #666;
       margin-right: 0.5rem;
-      // margin-bottom: 0.5rem;
-      // padding-bottom: 0.5rem;
-      // border-bottom: 1px solid #eee;
     }
 
     .sort-options {

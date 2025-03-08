@@ -1,3 +1,7 @@
+.confirm-modal {
+  z-index: 10000000;
+}
+
 .pedido-container {
   padding: 1.5rem;
   max-width: 1200px;

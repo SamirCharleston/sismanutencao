@@ -4,11 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Pedido } from '../../../models/pedido/pedido';
 import { DataService } from '../../../services/data.service';
 import { Insumo } from '../../../models/pedido/insumo';
+import { ConfirmModalComponent } from '../../../components/confirm-modal/confirm-modal.component';
+
 
 @Component({
   selector: 'app-pedido-detalhes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmModalComponent],
   templateUrl: './pedido-detalhes.component.html',
   styleUrls: ['./pedido-detalhes.component.css', '../../../../styles/shared-buttons.css']
 })
@@ -24,6 +26,7 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   selectedInsumo: Insumo | null = null;
   currentImageIndex = 0;
   showHint = false;
+  showConfirmModal = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -91,10 +94,22 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    if (confirm('Tem certeza que deseja excluir este pedido?')) {
-      // TODO: Implement delete functionality
+    this.showConfirmModal = true;
+    console.log('Abrindo modal de confirmação de exclusão');
+  } 
+
+  onCancelDelete(){
+    this.showConfirmModal = false;
+    console.log('Fechando modal de confirmação de exclusão');
+  }
+
+  onConfirmDelete() {
+    if (this.pedido) {
+      // TODO: Implement actual delete logic
+      console.log('Deletando pedido:', this.pedido.id);
       this.router.navigate(['/dashboard/pedidos']);
     }
+    this.showConfirmModal = false;
   }
 
   onBack() {

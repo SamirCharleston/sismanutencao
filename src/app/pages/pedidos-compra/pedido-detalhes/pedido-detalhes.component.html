@@ -1,4 +1,15 @@
 <div class="pedido-container" *ngIf="pedido">
+  <!-- Modal de confirmação de exclusão -->
+  <app-confirm-modal
+  [show]="showConfirmModal"
+  [title]="'Confirmar Exclusão'"
+  [message]="'Tem certeza que deseja excluir este pedido?'"
+  [confirmText]="'Excluir'"
+  [cancelText]="'Cancelar'"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+  </app-confirm-modal>
+
   <div class="pedido-header">
     <div class="header-left">
       <h2>Pedido #{{pedido.numero}}</h2>
@@ -164,3 +175,4 @@
     </div>
   </div>
 </div>
+
