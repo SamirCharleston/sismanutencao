@@ -3,7 +3,7 @@ import { Item } from '../models/ordem-de-servico/item';
 import { OrdemDeServico } from '../models/ordem-de-servico/ordem-de-servico';
 import { Medicao } from '../models/medicao/medicao';
 import { Insumo } from '../models/pedido/insumo';
-import { Pedido } from '../models/pedido/pedido';
+import { Pedido, PedidoStatus } from '../models/pedido/pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -173,7 +173,7 @@ export class DataService {
   }
 
   private initializePedidos() {
-    const status = ['Pendente', 'Em andamento', 'Concluído', 'Cancelado'];
+    const status: PedidoStatus[] = ['Pendente', 'Em andamento', 'Concluído', 'Cancelado'];
     const enderecos = ['Almoxarifado Central', 'Setor de Manutenção', 'Depósito 1', 'Depósito 2'];
 
     for (let i = 1; i <= 60; i++) {
@@ -201,12 +201,12 @@ export class DataService {
       // Data do pedido entre hoje e 30 dias atrás
       const dataPedido = new Date();
       dataPedido.setDate(dataPedido.getDate() - Math.floor(Math.random() * 30));
-      pedido.dataPedido = dataPedido.toISOString().split('T')[0];
+      pedido.dataPedido = dataPedido;
       
       // Data de entrega entre 1 e 15 dias após o pedido
       const dataEntrega = new Date(dataPedido);
       dataEntrega.setDate(dataEntrega.getDate() + Math.floor(Math.random() * 15) + 1);
-      pedido.dataEntrega = dataEntrega.toISOString().split('T')[0];
+      pedido.dataEntrega = dataEntrega;
       
       pedido.enderecoEntrega = enderecos[Math.floor(Math.random() * enderecos.length)];
       pedido.paraEstoque = Math.random() > 0.5;

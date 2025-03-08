@@ -16,7 +16,7 @@
             {{pedido.status}}
           </span>
         </div>
-        <span class="pedido-date">{{formatDate(pedido.dataPedido)}}</span>
+        <span class="pedido-date">{{formatDate(pedido.dataPedido.toISOString())}}</span>
       </div>
 
       <div class="pedido-body">
@@ -28,7 +28,7 @@
           </div>
           <div class="detail-item">
             <i class="material-icons">local_shipping</i>
-            <span>Entrega: {{formatDate(pedido.dataEntrega)}}</span>
+            <span>Entrega: {{formatDate(pedido.dataEntrega.toISOString())}}</span>
           </div>
           <div class="detail-item">
             <i class="material-icons">store</i>
