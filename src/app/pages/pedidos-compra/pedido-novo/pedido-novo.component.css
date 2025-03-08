@@ -219,3 +219,46 @@ th {
     grid-template-columns: 1fr;
   }
 }
+
+.flex-2 {
+  flex: 2;
+}
+
+.form-actions {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.25rem;
+}
+
+.items-container {
+  margin-top: 1rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.actions {
+  text-align: center;
+  width: 80px;
+}
+
+thead {
+  background: #f8f8f8;
+}
+
+tbody tr:hover {
+  background: #f8f8f8;
+}
+
+tfoot {
+  background: #f8f8f8;
+  font-weight: 500;
+}
+
+tfoot td {
+  border-bottom: none;
+}

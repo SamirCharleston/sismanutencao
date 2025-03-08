@@ -134,37 +134,42 @@
 
       <div class="insumo-form">
         <div class="form-row">
-          <div class="form-group">
-            <select [(ngModel)]="insumoSelecionado.id" 
-                    name="insumoId"
-                    title="Selecione um insumo"
-                    >
-              <option [ngValue]="undefined">Selecione um insumo</option>
+          <div class="form-group flex-2">
+            <label>Insumo</label>
+            <select [(ngModel)]="insumoSelecionado" 
+                    name="insumo"
+                    (ngModelChange)="onInsumoSelect($event)"
+                    title="Selecione um insumo">
+              <option [ngValue]="null">Selecione um insumo</option>
               <option *ngFor="let insumo of insumosDisponiveis" 
-                      [ngValue]="insumo.id">
-                {{insumo.descricao}} ({{insumo.unidade}})
+                      [ngValue]="insumo">
+                {{insumo.descricao}} ({{insumo.unidade}}) - {{insumo.valorUnitario | currency:'BRL'}}
               </option>
             </select>
           </div>
 
           <div class="form-group">
-            <input type="number" 
-                   [(ngModel)]="insumoSelecionado.quantidade" 
+            <label>Quantidade</label>
+            <input title="quantidade" type="number" 
+                   [(ngModel)]="quantidade" 
                    name="quantidade"
-                   placeholder="Quantidade"
-                   min="1">
+                   min="1"
+                   [disabled]="!insumoSelecionado">
           </div>
 
-          <button type="button" 
-                  class="btn-add" 
-                  (click)="adicionarInsumo()"
-                  [disabled]="!insumoSelecionado.id || !insumoSelecionado.quantidade">
-            <i class="material-icons">add</i>
-          </button>
+          <div class="form-actions">
+            <button type="button" 
+                    class="btn-add" 
+                    (click)="adicionarInsumo()"
+                    [disabled]="!insumoSelecionado || !quantidade || quantidade < 1"
+                    title="Adicionar insumo">
+              <i class="material-icons">add</i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="items-table" *ngIf="pedido.insumos.length">
+      <div class="items-container" *ngIf="pedido.insumos.length">
         <table>
           <thead>
             <tr>
@@ -179,14 +184,15 @@
           <tbody>
             <tr *ngFor="let insumo of pedido.insumos; let i = index">
               <td>{{insumo.descricao}}</td>
-              <td>{{insumo.unidade}}</td>
-              <td>{{insumo.quantidade}}</td>
-              <td>{{insumo.valorUnitario | currency:'BRL'}}</td>
-              <td>{{insumo.quantidade * insumo.valorUnitario | currency:'BRL'}}</td>
-              <td>
+              <td class="text-center">{{insumo.unidade}}</td>
+              <td class="text-center">{{insumo.quantidade}}</td>
+              <td class="text-right">{{insumo.valorUnitario | currency:'BRL'}}</td>
+              <td class="text-right">{{insumo.quantidade * insumo.valorUnitario | currency:'BRL'}}</td>
+              <td class="actions">
                 <button type="button" 
                         class="btn-icon delete" 
-                        (click)="removerInsumo(i)">
+                        (click)="removerInsumo(i)"
+                        title="Remover insumo">
                   <i class="material-icons">delete</i>
                 </button>
               </td>
@@ -197,7 +203,7 @@
               <td colspan="4" class="text-right">
                 <strong>Total do Pedido:</strong>
               </td>
-              <td colspan="2">
+              <td class="text-right" colspan="2">
                 <strong>{{pedido.valorTotal | currency:'BRL'}}</strong>
               </td>
             </tr>

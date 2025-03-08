@@ -18,7 +18,7 @@ import { DatepickerComponent } from '../../../components/datepicker/datepicker.c
 export class PedidoNovoComponent implements OnInit {
   pedido: Pedido = new Pedido();
   insumosDisponiveis: Insumo[] = [];
-  insumoSelecionado: Insumo = new Insumo();
+  insumoSelecionado: Insumo | null = null;
   ordensDisponiveis: OrdemDeServico[] = [];
   enderecos: string[] = ['Almoxarifado Central', 'Setor de Manutenção', 'Depósito 1', 'Depósito 2'];
   formErrors: { [key: string]: string } = {};
@@ -27,6 +27,7 @@ export class PedidoNovoComponent implements OnInit {
   categorias = ['Material de Construção', 'Material Elétrico', 'Material Hidráulico', 'Ferramentas', 'EPI', 'Material de Escritório'];
   prioridades = ['Baixa', 'Média', 'Alta', 'Urgente'];
   insumoAtual: Insumo | null = null;
+  quantidade: number = 1;
 
   constructor(
     private router: Router,
@@ -67,26 +68,26 @@ export class PedidoNovoComponent implements OnInit {
       .filter(os => os.status !== 'Concluída');
   }
 
-  onInsumoSelect(event: any) {
-    const insumoId = event.target.value;
-    this.insumoAtual = this.insumosDisponiveis.find(i => i.id === +insumoId) || null;
-    if (this.insumoAtual) {
-      this.insumoSelecionado = { ...this.insumoAtual, quantidade: 1 };
+  onInsumoSelect(insumo: Insumo | null) {
+    if (insumo && !this.pedido.insumos.some(i => i.id === insumo.id)) {
+      this.quantidade = 1;
+    } else if (insumo) {
+      this.showError('Este insumo já foi adicionado ao pedido');
+      this.insumoSelecionado = null;
+      this.quantidade = 1;
     }
   }
 
   adicionarInsumo() {
     if (this.validateInsumo()) {
-      if (this.insumoAtual) {
-        const novoInsumo = {
-          ...this.insumoAtual,
-          quantidade: this.insumoSelecionado.quantidade
-        };
-        this.pedido.insumos.push(novoInsumo);
-        this.calcularTotal();
-        this.insumoSelecionado = new Insumo();
-        this.insumoAtual = null;
-      }
+      const novoInsumo = {
+        ...this.insumoSelecionado!,
+        quantidade: this.quantidade
+      };
+      this.pedido.insumos.push(novoInsumo);
+      this.calcularTotal();
+      this.insumoSelecionado = null;
+      this.quantidade = 1;
     }
   }
 
@@ -103,11 +104,11 @@ export class PedidoNovoComponent implements OnInit {
   }
 
   private validateInsumo(): boolean {
-    if (!this.insumoSelecionado.id) {
+    if (!this.insumoSelecionado) {
       this.showError('Selecione um insumo');
       return false;
     }
-    if (!this.insumoSelecionado.quantidade || this.insumoSelecionado.quantidade <= 0) {
+    if (!this.quantidade || this.quantidade <= 0) {
       this.showError('Quantidade deve ser maior que zero');
       return false;
     }
