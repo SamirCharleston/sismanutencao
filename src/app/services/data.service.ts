@@ -175,6 +175,9 @@ export class DataService {
   private initializePedidos() {
     const status: PedidoStatus[] = ['Pendente', 'Em andamento', 'Concluído', 'Cancelado'];
     const enderecos = ['Almoxarifado Central', 'Setor de Manutenção', 'Depósito 1', 'Depósito 2'];
+    const solicitantes = ['João Silva', 'Maria Santos', 'Pedro Oliveira', 'Ana Costa', 'Carlos Souza'];
+    const categorias = ['Material de Construção', 'Material Elétrico', 'Material Hidráulico', 'Ferramentas', 'EPI', 'Material de Escritório'];
+    const prioridade = ['Baixa', 'Média', 'Alta', 'Urgente'];
 
     for (let i = 1; i <= 60; i++) {
       const pedido = new Pedido();
@@ -185,6 +188,15 @@ export class DataService {
       const numInsumos = Math.floor(Math.random() * 6) + 3;
       pedido.insumos = [];
       let valorTotal = 0;
+
+      // Adiciona o solicitante do pedido
+      pedido.solicitante = solicitantes[Math.floor(Math.random() * solicitantes.length)];
+
+      //Adiciona a categoria
+      pedido.categoria = categorias[Math.floor(Math.random() * categorias.length)];
+
+      //Adiciona a prioridade
+      pedido.prioridade = prioridade[Math.floor(Math.random() * prioridade.length)] as PedidoStatus;
       
       for (let j = 0; j < numInsumos; j++) {
         const insumoIndex = Math.floor(Math.random() * this.insumos.length);

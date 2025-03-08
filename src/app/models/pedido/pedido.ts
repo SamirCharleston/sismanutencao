@@ -18,6 +18,6 @@ export class Pedido {
     atendido!: boolean;
     solicitante!: string;
     categoria!: string;
-    observacoes?: string;
-    prioridade!: 'Baixa' | 'Média' | 'Alta' | 'Urgente';
+    observacoes!: string;
+    prioridade!: string;
 }

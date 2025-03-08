@@ -52,7 +52,7 @@ export class PedidosComponent implements OnInit {
     this.router.navigate(['/dashboard/pedidos/novo']);
   }
 
-  visualizarPedido(id: number) {
-    this.router.navigate([`/dashboard/pedidos/${id}`]);
+  visualizarPedido(pedido: Pedido) {
+    this.router.navigate(['/dashboard/pedidos', pedido.id]);
   }
 }

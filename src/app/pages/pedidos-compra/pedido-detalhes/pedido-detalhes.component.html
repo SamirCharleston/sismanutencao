@@ -1,0 +1,124 @@
+<div class="pedido-container" *ngIf="pedido">
+  <div class="pedido-header">
+    <div class="header-left">
+      <h2>Pedido #{{pedido.numero}}</h2>
+      <span class="status-badge" [class]="getStatusClass(pedido.status)">
+        {{pedido.status}}
+      </span>
+    </div>
+    
+    <div class="control-panel">
+      <button class="btn-primary" (click)="onEdit()">
+        <i class="material-icons">edit</i>
+        <span>Editar</span>
+      </button>
+      <button class="btn-secondary" (click)="onDelete()">
+        <i class="material-icons">delete</i>
+        <span>Excluir</span>
+      </button>
+      <button class="btn-secondary" (click)="onPrint()">
+        <i class="material-icons">print</i>
+        <span>Imprimir</span>
+      </button>
+      <button class="btn-secondary" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+        <span>Voltar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="info-section">
+      <h3>Informações Gerais</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Descrição</label>
+          <span>{{pedido.descricao}}</span>
+        </div>
+        <div class="info-item">
+          <label>Solicitante</label>
+          <span>{{pedido.solicitante}}</span>
+        </div>
+        <div class="info-item">
+          <label>Categoria</label>
+          <span>{{pedido.categoria}}</span>
+        </div>
+        <div class="info-item">
+          <label>Prioridade</label>
+          <span [class]="'prioridade-' + pedido.prioridade.toLowerCase()">
+            {{pedido.prioridade}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>Datas e Local</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Data do Pedido</label>
+          <span>{{formatDate(pedido.dataPedido)}}</span>
+        </div>
+        <div class="info-item">
+          <label>Data de Entrega</label>
+          <span>{{formatDate(pedido.dataEntrega)}}</span>
+        </div>
+        <div class="info-item">
+          <label>Local de Entrega</label>
+          <span>{{pedido.enderecoEntrega}}</span>
+        </div>
+        <div class="info-item">
+          <label>Tipo</label>
+          <span>{{pedido.paraEstoque ? 'Para Estoque' : 'Para Consumo'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section" *ngIf="pedido.OSVinculada">
+      <h3>OS Vinculada</h3>
+      <div class="os-info">
+        <span class="os-number">OS #{{pedido.OSVinculada.numero}}</span>
+        <span class="os-desc">{{pedido.OSVinculada.descricaoServico}}</span>
+      </div>
+    </div>
+
+    <div class="info-section full-width">
+      <h3>Insumos</h3>
+      <div class="items-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th class="text-center">Unidade</th>
+              <th class="text-center">Quantidade</th>
+              <th class="text-right">Valor Unit.</th>
+              <th class="text-right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let insumo of pedido.insumos">
+              <td>{{insumo.descricao}}</td>
+              <td class="text-center">{{insumo.unidade}}</td>
+              <td class="text-center">{{insumo.quantidade}}</td>
+              <td class="text-right">{{insumo.valorUnitario | currency:'BRL'}}</td>
+              <td class="text-right">
+                {{calcularTotalInsumo(insumo.quantidade, insumo.valorUnitario) | currency:'BRL'}}
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="text-right"><strong>Total do Pedido:</strong></td>
+              <td class="text-right"><strong>{{pedido.valorTotal | currency:'BRL'}}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-section full-width" *ngIf="pedido.observacoes">
+      <h3>Observações</h3>
+      <p class="observacoes">{{pedido.observacoes}}</p>
+    </div>
+  </div>
+</div>
