@@ -51,6 +51,7 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   showAlertModal = false;
   alertMessage = '';
   alertTitle = 'Atenção';
+  showConfirmSaveModal = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -136,26 +137,34 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
 
   onSave() {
     if (this.validateForm()) {
-      try {
-        // Atualiza os valores
-        if (this.pedido) {
-          this.pedido.valorTotal = this.pedido.insumos.reduce(
-            (total, insumo) => total + (insumo.valorUnitario * insumo.quantidade),
-            0
-          );
-          
-          // Aqui você implementaria a lógica real de salvamento no backend
-          console.log('Pedido atualizado:', this.pedido);
-          
-          this.isEditing = false;
-          this.originalPedido = null;
-          this.showError('Pedido atualizado com sucesso!');
-        }
-      } catch (error) {
-        this.showError('Erro ao salvar o pedido.');
-        console.error('Erro ao salvar:', error);
-      }
+      this.showConfirmSaveModal = true;
     }
+  }
+
+  onConfirmSave() {
+    try {
+      if (this.pedido) {
+        this.pedido.valorTotal = this.pedido.insumos.reduce(
+          (total, insumo) => total + (insumo.valorUnitario * insumo.quantidade),
+          0
+        );
+        
+        // Aqui você implementaria a lógica real de salvamento no backend
+        console.log('Pedido atualizado:', this.pedido);
+        
+        this.isEditing = false;
+        this.originalPedido = null;
+        this.showConfirmSaveModal = false;
+        this.showError('Pedido atualizado com sucesso!', 'Sucesso');
+      }
+    } catch (error) {
+      this.showError('Erro ao salvar o pedido.');
+      console.error('Erro ao salvar:', error);
+    }
+  }
+
+  onCancelSave() {
+    this.showConfirmSaveModal = false;
   }
 
   private validateForm(): boolean {

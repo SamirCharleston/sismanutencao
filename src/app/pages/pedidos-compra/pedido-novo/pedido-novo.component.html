@@ -23,15 +23,14 @@
           <input title="numero-pedido" type="text" [value]="pedido.numero" disabled>
         </div>
 
-        <div class="form-group" [class.error]="formErrors['descricao']">
-          <label>Descrição</label>
-          <input type="text" 
-                 [(ngModel)]="pedido.descricao" 
-                 name="descricao"
-                 placeholder="Digite a descrição"
+        <div class="form-group" [class.error]="formErrors['solicitante']">
+          <label>Solicitante</label>
+          <input title="solicitante" type="text" 
+                 [(ngModel)]="pedido.solicitante" 
+                 name="solicitante"
                  required>
-          <span class="error-message" *ngIf="formErrors['descricao']">
-            {{formErrors['descricao']}}
+          <span class="error-message" *ngIf="formErrors['solicitante']">
+            {{formErrors['solicitante']}}
           </span>
         </div>
 
@@ -63,7 +62,18 @@
           </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.error]="formErrors['descricao']">
+          <label>Descrição</label>
+          <input type="text" 
+                 [(ngModel)]="pedido.descricao" 
+                 name="descricao"
+                 placeholder="Digite a descrição"
+                 required>
+          <span class="error-message" *ngIf="formErrors['descricao']">
+            {{formErrors['descricao']}}
+          </span>
+        </div>
+        <!-- <div class="form-group">
           <label>OS Vinculada</label>
           <select [(ngModel)]="pedido.OSVinculada" name="osVinculada" title="OS Vinculada">
             <option [ngValue]="null">Nenhuma</option>
@@ -71,27 +81,7 @@
               OS #{{os.numero}} - {{os.descricaoServico}}
             </option>
           </select>
-        </div>
-
-        <div class="form-group checkbox">
-          <label>
-            <input type="checkbox" 
-                   [(ngModel)]="pedido.paraEstoque"
-                   name="paraEstoque">
-            Para Estoque
-          </label>
-        </div>
-
-        <div class="form-group" [class.error]="formErrors['solicitante']">
-          <label>Solicitante</label>
-          <input title="solicitante" type="text" 
-                 [(ngModel)]="pedido.solicitante" 
-                 name="solicitante"
-                 required>
-          <span class="error-message" *ngIf="formErrors['solicitante']">
-            {{formErrors['solicitante']}}
-          </span>
-        </div>
+        </div> -->
 
         <div class="form-group" [class.error]="formErrors['categoria']">
           <label>Categoria</label>
@@ -112,6 +102,27 @@
             <option *ngFor="let p of prioridades" [value]="p">{{p}}</option>
           </select>
         </div>
+
+        <div class="form-group checkbox">
+          <label>
+            <input type="checkbox" 
+                   [(ngModel)]="pedido.paraEstoque"
+                   name="paraEstoque">
+            Para Estoque
+          </label>
+        </div>
+
+        
+      </div>
+      
+      <div class="form-group">
+        <label>OS Vinculada</label>
+        <select [(ngModel)]="pedido.OSVinculada" name="osVinculada" title="OS Vinculada">
+          <option [ngValue]="null">Nenhuma</option>
+          <option *ngFor="let os of ordensDisponiveis" [ngValue]="os">
+            OS #{{os.numero}} - {{os.descricaoServico}}
+          </option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -122,6 +133,7 @@
                   placeholder="Observações adicionais sobre o pedido">
         </textarea>
       </div>
+
     </div>
 
     <div class="form-section">
