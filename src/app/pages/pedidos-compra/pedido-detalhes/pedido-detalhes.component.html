@@ -199,16 +199,39 @@
               <th class="text-center">Quantidade</th>
               <th class="text-right">Valor Unit.</th>
               <th class="text-right">Total</th>
+              <th *ngIf="isEditing" class="text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let insumo of pedido.insumos" class="insumo-row" (click)="showInsumoImages(insumo)">
+            <tr *ngFor="let insumo of pedido.insumos; let i = index" 
+                class="insumo-row" 
+                [class.editing]="isEditing"
+                (click)="!isEditing && showInsumoImages(insumo)">
               <td>{{insumo.descricao}}</td>
               <td class="text-center">{{insumo.unidade}}</td>
-              <td class="text-center">{{insumo.quantidade}}</td>
+              <td class="text-center">
+                <ng-container *ngIf="!isEditing">
+                  {{insumo.quantidade}}
+                </ng-container>
+                <ng-container *ngIf="isEditing">
+                  <input title="quantidade" type="number"
+                         class="quantity-input"
+                         [(ngModel)]="insumo.quantidade"
+                         (ngModelChange)="onQuantidadeChange()"
+                         min="1"
+                         [name]="'quantidade_' + i">
+                </ng-container>
+              </td>
               <td class="text-right">{{insumo.valorUnitario | currency:'BRL'}}</td>
               <td class="text-right">
                 {{calcularTotalInsumo(insumo.quantidade, insumo.valorUnitario) | currency:'BRL'}}
+              </td>
+              <td *ngIf="isEditing" class="text-center actions">
+                <button class="btn-icon delete" 
+                        (click)="removerInsumo(i)"
+                        title="Remover insumo">
+                  <i class="material-icons">delete</i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -216,6 +239,7 @@
             <tr>
               <td colspan="4" class="text-right"><strong>Total do Pedido:</strong></td>
               <td class="text-right"><strong>{{pedido.valorTotal | currency:'BRL'}}</strong></td>
+              <td *ngIf="isEditing"></td>
             </tr>
           </tfoot>
         </table>
@@ -261,13 +285,15 @@
     </div>
   </div>
 
-  <div class="error-modal" *ngIf="showErrorModal">
-    <div class="modal-content">
-      <h3>Erro</h3>
-      <p>{{errorMessage}}</p>
-      <button class="btn-primary" (click)="onCloseError()">Ok</button>
-    </div>
-  </div>
+  <app-alert-modal
+    [show]="showAlertModal"
+    [title]="alertTitle"
+    [message]="alertMessage"
+    [buttonText]="'OK'"
+    (close)="onCloseAlert()">
+  </app-alert-modal>
+
+  
 </div>
 
 <div class="image-modal" *ngIf="showImageModal" (click)="closeImageModal()" tabindex="0">

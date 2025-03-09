@@ -8,11 +8,18 @@ import { Insumo } from '../../../models/pedido/insumo';
 import { ConfirmModalComponent } from '../../../components/confirm-modal/confirm-modal.component';
 import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { AlertModalComponent } from '../../../components/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-pedido-detalhes',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmModalComponent, DatepickerComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ConfirmModalComponent, 
+    DatepickerComponent,
+    AlertModalComponent
+  ],
   templateUrl: './pedido-detalhes.component.html',
   styleUrls: ['./pedido-detalhes.component.css', '../../../../styles/shared-buttons.css']
 })
@@ -41,6 +48,9 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   quantidade: number = 1;
   insumosDisponiveis: Insumo[] = [];
   ordensDisponiveis: OrdemDeServico[] = [];
+  showAlertModal = false;
+  alertMessage = '';
+  alertTitle = 'Atenção';
 
   constructor(
     private route: ActivatedRoute,
@@ -205,14 +215,16 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private showError(message: string) {
-    this.errorMessage = message;
-    this.showErrorModal = true;
+  private showError(message: string, title: string = 'Atenção') {
+    this.alertMessage = message;
+    this.alertTitle = title;
+    this.showAlertModal = true;
   }
 
-  onCloseError() {
-    this.showErrorModal = false;
-    this.errorMessage = '';
+  onCloseAlert() {
+    this.showAlertModal = false;
+    this.alertMessage = '';
+    this.alertTitle = 'Atenção';
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -292,8 +304,10 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
 
   removerInsumo(index: number) {
     if (this.pedido && this.isEditing) {
-      this.pedido.insumos.splice(index, 1);
-      this.calcularTotal();
+      if (confirm('Tem certeza que deseja remover este insumo?')) {
+        this.pedido.insumos.splice(index, 1);
+        this.calcularTotal();
+      }
     }
   }
 
@@ -304,5 +318,10 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
         0
       );
     }
+  }
+
+  onQuantidadeChange() {
+    // Recalcula o valor total sempre que uma quantidade for alterada
+    this.calcularTotal();
   }
 }

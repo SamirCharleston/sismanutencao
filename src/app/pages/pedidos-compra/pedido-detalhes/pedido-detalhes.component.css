@@ -484,18 +484,124 @@ textarea {
   transition: all 0.3s ease;
 }
 
-/* Remova ou comente este estilo pois não é mais necessário */
-/* input[type="date"] {
-  padding: 0.45rem;
-  font-family: inherit;
+/* Remova os estilos do error-modal se existirem */
+/* .error-modal {
+  ...
 } */
 
-/* ...existing styles... */
+/* ...rest of existing styles... */
 
 .no-os {
   color: #666;
   font-style: italic;
 }
+
+.insumo-form {
+  background: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid #eee;
+}
+
+.insumo-form .form-row {
+  display: grid;
+  grid-template-columns: minmax(300px, 2fr) minmax(120px, 1fr) auto;
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+
+.insumo-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.insumo-form label {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.insumo-form select,
+.insumo-form input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.insumo-form select:hover,
+.insumo-form input:hover {
+  border-color: #ff9248;
+}
+
+.insumo-form select:focus,
+.insumo-form input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  align-items: flex-end;
+  height: 42px; /* Mesma altura dos inputs */
+}
+
+.btn-add {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: #4CAF50;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-add:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-add:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-add i {
+  font-size: 24px;
+}
+
+/* Ajuste responsivo para o formulário de insumos */
+@media (max-width: 768px) {
+  .insumo-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-actions {
+    justify-content: flex-end;
+  }
+
+  .btn-add {
+    width: 100%;
+  }
+}
+
+/* ...rest of existing styles... */
 
 .insumo-form {
   background: #f8f8f8;
@@ -605,6 +711,57 @@ textarea {
   font-style: italic;
   display: block;
   padding: 0.5rem 0;
+}
+
+/* ...rest of existing styles... */
+
+/* Estilos para a tabela no modo edição */
+.quantity-input {
+  width: 80px;
+  text-align: center;
+  padding: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255, 146, 72, 0.1);
+}
+
+.actions {
+  width: 60px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon.delete {
+  color: #ff4444;
+}
+
+.btn-icon.delete:hover {
+  background-color: rgba(255, 68, 68, 0.1);
+}
+
+.btn-icon i {
+  font-size: 20px;
+}
+
+.insumo-row.editing {
+  cursor: default;
+}
+
+.insumo-row.editing:hover {
+  background-color: transparent;
 }
 
 /* ...rest of existing styles... */
