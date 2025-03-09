@@ -228,7 +228,8 @@ th {
 .form-actions {
   display: flex;
   align-items: flex-end;
-  padding-bottom: 0.25rem;
+  padding-bottom: 1px;
+  height: 100%;
 }
 
 .items-container {

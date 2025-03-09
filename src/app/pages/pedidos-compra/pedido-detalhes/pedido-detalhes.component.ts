@@ -52,6 +52,7 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   alertMessage = '';
   alertTitle = 'Atenção';
   showConfirmSaveModal = false;
+  showConfirmCancelModal = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -117,6 +118,12 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   onEdit() {
     this.isEditing = true;
     this.originalPedido = { ...this.pedido! };
+    //clona o array de insumos
+    let originalInsumos: Insumo[] = [];
+    this.pedido?.insumos.forEach(e => {
+      originalInsumos.push(e);
+    })
+    this.originalPedido.insumos = originalInsumos;
     this.loadData();
   }
 
@@ -125,14 +132,34 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
     this.ordensDisponiveis = this.dataService.getOrdensDisponiveis();
   }
 
+  private hasChanges(): boolean {
+    if (!this.originalPedido || !this.pedido) return false;
+    return this.originalPedido !== this.pedido;
+  }
+
   cancelEdit() {
-    if (confirm('Tem certeza que deseja cancelar a edição? Todas as alterações serão perdidas.')) {
-      if (this.originalPedido) {
-      }
-      this.pedido = this.originalPedido;
-      this.isEditing = false;
-      this.originalPedido = null;
+    if (this.hasChanges()) {
+      this.showConfirmCancelModal = true;
+    } else {
+      this.confirmCancel();
     }
+  }
+
+  onConfirmCancel() {
+    this.confirmCancel();
+    this.showConfirmCancelModal = false;
+  }
+
+  onCancelCancel() {
+    this.showConfirmCancelModal = false;
+  }
+
+  private confirmCancel() {
+    if (this.originalPedido) {
+      this.pedido = this.originalPedido;
+    }
+    this.isEditing = false;
+    this.originalPedido = null;
   }
 
   onSave() {

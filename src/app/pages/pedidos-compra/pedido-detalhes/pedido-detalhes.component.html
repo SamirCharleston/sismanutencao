@@ -1,4 +1,15 @@
 <div class="pedido-container" *ngIf="pedido">
+  <!-- Adicione o modal de confirmação de cancelamento -->
+  <app-confirm-modal
+    [show]="showConfirmCancelModal"
+    [title]="'Confirmar Cancelamento'"
+    [message]="'Tem certeza que deseja cancelar a edição? Todas as alterações serão perdidas.'"
+    [confirmText]="'Sim'"
+    [cancelText]="'Não'"
+    (confirm)="onConfirmCancel()"
+    (cancel)="onCancelCancel()">
+  </app-confirm-modal>
+
   <!-- Modal de confirmação de exclusão -->
   <app-confirm-modal
   [show]="showConfirmModal"
@@ -338,7 +349,7 @@
       </button>
     </div>
     
-    <div class="image-counter" *ngIf="selectedInsumo">
+    <div class="image-counter" *ngIf="selectedInsumo && selectedInsumo.enderecosImagens">
       {{currentImageIndex + 1}} / {{selectedInsumo.enderecosImagens.length}}
     </div>
     
