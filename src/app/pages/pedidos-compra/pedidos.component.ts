@@ -33,7 +33,6 @@ export class PedidosComponent implements OnInit {
 
   private loadPedidos() {
     this.pedidos = this.dataService.getPedidos();
-    console.log(this.pedidos);
   }
 
   getStatusClass(status: string): string {

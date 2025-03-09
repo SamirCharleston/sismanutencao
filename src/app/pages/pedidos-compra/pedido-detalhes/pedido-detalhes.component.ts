@@ -1,16 +1,18 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pedido } from '../../../models/pedido/pedido';
 import { DataService } from '../../../services/data.service';
 import { Insumo } from '../../../models/pedido/insumo';
 import { ConfirmModalComponent } from '../../../components/confirm-modal/confirm-modal.component';
-
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
+import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-pedido-detalhes',
   standalone: true,
-  imports: [CommonModule, ConfirmModalComponent],
+  imports: [CommonModule, FormsModule, ConfirmModalComponent, DatepickerComponent],
   templateUrl: './pedido-detalhes.component.html',
   styleUrls: ['./pedido-detalhes.component.css', '../../../../styles/shared-buttons.css']
 })
@@ -27,6 +29,18 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   currentImageIndex = 0;
   showHint = false;
   showConfirmModal = false;
+  isEditing = false;
+  originalPedido: Pedido | null = null;
+  formErrors: { [key: string]: string } = {};
+  showErrorModal = false;
+  errorMessage = '';
+  categorias = ['Material de Construção', 'Material Elétrico', 'Material Hidráulico', 'Ferramentas', 'EPI', 'Material de Escritório'];
+  prioridades = ['Baixa', 'Média', 'Alta', 'Urgente'];
+  enderecos = ['Almoxarifado Central', 'Setor de Manutenção', 'Depósito 1', 'Depósito 2'];
+  insumoSelecionado: Insumo | null = null;
+  quantidade: number = 1;
+  insumosDisponiveis: Insumo[] = [];
+  ordensDisponiveis: OrdemDeServico[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -90,23 +104,135 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
-    // TODO: Implement edit functionality
+    this.isEditing = true;
+    this.originalPedido = { ...this.pedido! };
+    this.loadData();
+  }
+
+  private loadData() {
+    this.insumosDisponiveis = this.dataService.getInsumos();
+    this.ordensDisponiveis = this.dataService.getOrdensDisponiveis();
+  }
+
+  cancelEdit() {
+    if (confirm('Tem certeza que deseja cancelar a edição? Todas as alterações serão perdidas.')) {
+      if (this.originalPedido) {
+      }
+      this.pedido = this.originalPedido;
+      this.isEditing = false;
+      this.originalPedido = null;
+    }
+  }
+
+  onSave() {
+    if (this.validateForm()) {
+      try {
+        // Atualiza os valores
+        if (this.pedido) {
+          this.pedido.valorTotal = this.pedido.insumos.reduce(
+            (total, insumo) => total + (insumo.valorUnitario * insumo.quantidade),
+            0
+          );
+          
+          // Aqui você implementaria a lógica real de salvamento no backend
+          console.log('Pedido atualizado:', this.pedido);
+          
+          this.isEditing = false;
+          this.originalPedido = null;
+          this.showError('Pedido atualizado com sucesso!');
+        }
+      } catch (error) {
+        this.showError('Erro ao salvar o pedido.');
+        console.error('Erro ao salvar:', error);
+      }
+    }
+  }
+
+  private validateForm(): boolean {
+    this.formErrors = {};
+    
+    if (!this.pedido?.descricao?.trim()) {
+      this.formErrors['descricao'] = 'Descrição é obrigatória';
+    }
+    if (!this.pedido?.enderecoEntrega) {
+      this.formErrors['enderecoEntrega'] = 'Local de entrega é obrigatório';
+    }
+    if (!this.pedido?.dataEntrega) {
+      this.formErrors['dataEntrega'] = 'Data de entrega é obrigatória';
+    }
+    if (!this.pedido?.solicitante?.trim()) {
+      this.formErrors['solicitante'] = 'Solicitante é obrigatório';
+    }
+    if (!this.pedido?.categoria) {
+      this.formErrors['categoria'] = 'Categoria é obrigatória';
+    }
+    if (!this.pedido?.insumos.length) {
+      this.formErrors['insumos'] = 'Adicione pelo menos um insumo';
+    }
+
+    return Object.keys(this.formErrors).length === 0;
+  }
+
+  onInsumoSelect(insumo: Insumo | null) {
+    if (insumo && !this.pedido?.insumos.some(i => i.id === insumo.id)) {
+      this.quantidade = 1;
+      this.insumoSelecionado = insumo;
+    } else {
+      this.showError('Este insumo já foi adicionado ao pedido');
+      this.insumoSelecionado = null;
+      this.quantidade = 1;
+    }
+  }
+
+  adicionarInsumo() {
+    if (this.validateInsumo()) {
+      const novoInsumo = { ...this.insumoSelecionado!, quantidade: this.quantidade };
+      this.pedido?.insumos.push(novoInsumo);
+      this.insumoSelecionado = null;
+      this.quantidade = 1;
+    }
+  }
+
+  private validateInsumo(): boolean {
+    if (!this.insumoSelecionado) {
+      this.showError('Selecione um insumo');
+      return false;
+    }
+    if (!this.quantidade || this.quantidade <= 0) {
+      this.showError('Quantidade deve ser maior que zero');
+      return false;
+    }
+    return true;
+  }
+
+  private showError(message: string) {
+    this.errorMessage = message;
+    this.showErrorModal = true;
+  }
+
+  onCloseError() {
+    this.showErrorModal = false;
+    this.errorMessage = '';
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.isEditing) {
+      $event.returnValue = true;
+    }
   }
 
   onDelete() {
     this.showConfirmModal = true;
-    console.log('Abrindo modal de confirmação de exclusão');
   } 
 
   onCancelDelete(){
     this.showConfirmModal = false;
-    console.log('Fechando modal de confirmação de exclusão');
   }
 
   onConfirmDelete() {
     if (this.pedido) {
       // TODO: Implement actual delete logic
-      console.log('Deletando pedido:', this.pedido.id);
       this.router.navigate(['/dashboard/pedidos']);
     }
     this.showConfirmModal = false;
@@ -162,5 +288,21 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showHint = false;
     }, 2000);
+  }
+
+  removerInsumo(index: number) {
+    if (this.pedido && this.isEditing) {
+      this.pedido.insumos.splice(index, 1);
+      this.calcularTotal();
+    }
+  }
+
+  private calcularTotal() {
+    if (this.pedido) {
+      this.pedido.valorTotal = this.pedido.insumos.reduce(
+        (total, insumo) => total + (insumo.valorUnitario * insumo.quantidade),
+        0
+      );
+    }
   }
 }

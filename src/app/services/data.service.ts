@@ -257,4 +257,8 @@ export class DataService {
   getPedidos(): Pedido[] {
     return this.pedidos;
   }
+
+  getOrdensDisponiveis(): OrdemDeServico[] {
+    return this.ordens.filter(os => os.status !== 'Concluída');
+  }
 }

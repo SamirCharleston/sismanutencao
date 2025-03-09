@@ -19,22 +19,34 @@
     </div>
     
     <div class="control-panel">
-      <button class="btn-primary" (click)="onEdit()">
-        <i class="material-icons">edit</i>
-        <span>Editar</span>
-      </button>
-      <button class="btn-secondary" (click)="onDelete()">
-        <i class="material-icons">delete</i>
-        <span>Excluir</span>
-      </button>
-      <button class="btn-secondary" (click)="onPrint()">
-        <i class="material-icons">print</i>
-        <span>Imprimir</span>
-      </button>
-      <button class="btn-secondary" (click)="onBack()">
-        <i class="material-icons">arrow_back</i>
-        <span>Voltar</span>
-      </button>
+      <ng-container *ngIf="!isEditing">
+        <button class="btn-primary" (click)="onEdit()">
+          <i class="material-icons">edit</i>
+          <span>Editar</span>
+        </button>
+        <button class="btn-secondary" (click)="onDelete()">
+          <i class="material-icons">delete</i>
+          <span>Excluir</span>
+        </button>
+        <button class="btn-secondary" (click)="onPrint()">
+          <i class="material-icons">print</i>
+          <span>Imprimir</span>
+        </button>
+        <button class="btn-secondary" (click)="onBack()">
+          <i class="material-icons">arrow_back</i>
+          <span>Voltar</span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="isEditing">
+        <button class="btn-primary" (click)="onSave()">
+          <i class="material-icons">save</i>
+          <span>Salvar</span>
+        </button>
+        <button class="btn-secondary" (click)="cancelEdit()">
+          <i class="material-icons">close</i>
+          <span>Cancelar</span>
+        </button>
+      </ng-container>
     </div>
   </div>
 
@@ -42,23 +54,51 @@
     <div class="info-section">
       <h3>Informações Gerais</h3>
       <div class="info-grid">
-        <div class="info-item">
+        <div class="info-item" [class.error]="formErrors['descricao']">
           <label>Descrição</label>
-          <span>{{pedido.descricao}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{pedido.descricao}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <input title="descricao" type="text" [(ngModel)]="pedido.descricao" name="descricao" required>
+            <span class="error-message" *ngIf="formErrors['descricao']">{{formErrors['descricao']}}</span>
+          </ng-container>
         </div>
-        <div class="info-item">
+
+        <div class="info-item" [class.error]="formErrors['solicitante']">
           <label>Solicitante</label>
-          <span>{{pedido.solicitante}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{pedido.solicitante}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <input title="solicitante" type="text" [(ngModel)]="pedido.solicitante" name="solicitante" required>
+            <span class="error-message" *ngIf="formErrors['solicitante']">{{formErrors['solicitante']}}</span>
+          </ng-container>
         </div>
-        <div class="info-item">
+
+        <div class="info-item" [class.error]="formErrors['categoria']">
           <label>Categoria</label>
-          <span>{{pedido.categoria}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{pedido.categoria}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <select title="categoria" [(ngModel)]="pedido.categoria" name="categoria" required>
+              <option *ngFor="let cat of categorias" [value]="cat">{{cat}}</option>
+            </select>
+            <span class="error-message" *ngIf="formErrors['categoria']">{{formErrors['categoria']}}</span>
+          </ng-container>
         </div>
+
         <div class="info-item">
           <label>Prioridade</label>
-          <span [class]="'prioridade-' + pedido.prioridade.toLowerCase()">
-            {{pedido.prioridade}}
-          </span>
+          <ng-container *ngIf="!isEditing">
+            <span [class]="'prioridade-' + pedido.prioridade.toLowerCase()">{{pedido.prioridade}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <select title="prioridade" [(ngModel)]="pedido.prioridade" name="prioridade">
+              <option *ngFor="let p of prioridades" [value]="p">{{p}}</option>
+            </select>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -66,31 +106,86 @@
     <div class="info-section">
       <h3>Datas e Local</h3>
       <div class="info-grid">
+        <!-- Data do Pedido não é editável -->
         <div class="info-item">
           <label>Data do Pedido</label>
           <span>{{formatDate(pedido.dataPedido)}}</span>
         </div>
-        <div class="info-item">
+
+        <div class="info-item" [class.error]="formErrors['dataEntrega']">
           <label>Data de Entrega</label>
-          <span>{{formatDate(pedido.dataEntrega)}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{formatDate(pedido.dataEntrega)}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <app-datepicker 
+              [(value)]="pedido.dataEntrega"
+              name="dataEntrega"
+              placeholder="Selecione a data"
+              required>
+            </app-datepicker>
+            <span class="error-message" *ngIf="formErrors['dataEntrega']">
+              {{formErrors['dataEntrega']}}
+            </span>
+          </ng-container>
         </div>
-        <div class="info-item">
+
+        <div class="info-item" [class.error]="formErrors['enderecoEntrega']">
           <label>Local de Entrega</label>
-          <span>{{pedido.enderecoEntrega}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{pedido.enderecoEntrega}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <select title="enderecoEntrega" [(ngModel)]="pedido.enderecoEntrega" name="enderecoEntrega" required>
+              <option *ngFor="let endereco of enderecos" [value]="endereco">{{endereco}}</option>
+            </select>
+            <span class="error-message" *ngIf="formErrors['enderecoEntrega']">{{formErrors['enderecoEntrega']}}</span>
+          </ng-container>
         </div>
+
         <div class="info-item">
           <label>Tipo</label>
-          <span>{{pedido.paraEstoque ? 'Para Estoque' : 'Para Consumo'}}</span>
+          <ng-container *ngIf="!isEditing">
+            <span>{{pedido.paraEstoque ? 'Para Estoque' : 'Para Consumo'}}</span>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="pedido.paraEstoque" name="paraEstoque">
+              Para Estoque
+            </label>
+          </ng-container>
         </div>
       </div>
     </div>
 
-    <div class="info-section" *ngIf="pedido.OSVinculada">
+    <div class="info-section">
       <h3>OS Vinculada</h3>
-      <div class="os-info">
-        <span class="os-number">OS #{{pedido.OSVinculada.numero}}</span>
-        <span class="os-desc">{{pedido.OSVinculada.descricaoServico}}</span>
-      </div>
+      <ng-container *ngIf="!isEditing">
+        <div class="os-info" *ngIf="pedido.OSVinculada">
+          <span class="os-number">OS #{{pedido.OSVinculada.numero}}</span>
+          <span class="os-desc">{{pedido.OSVinculada.descricaoServico}}</span>
+        </div>
+        <span *ngIf="!pedido.OSVinculada" class="no-os">Nenhuma OS vinculada</span>
+      </ng-container>
+      <ng-container *ngIf="isEditing">
+        <div class="form-group">
+          <label>Ordem de Serviço</label>
+          <div class="os-select-container">
+            <select title="OS-vinculada" [(ngModel)]="pedido.OSVinculada" 
+                    name="osVinculada" 
+                    class="os-select">
+              <option [ngValue]="null">Nenhuma</option>
+              <option *ngFor="let os of ordensDisponiveis" [ngValue]="os">
+                OS #{{os.numero}} - {{os.descricaoServico}}
+                <ng-container *ngIf="os.local">({{os.local}})</ng-container>
+              </option>
+            </select>
+          </div>
+          <span class="helper-text" *ngIf="!pedido.OSVinculada">
+            Selecione uma OS para vincular ao pedido
+          </span>
+        </div>
+      </ng-container>
     </div>
 
     <div class="info-section full-width">
@@ -125,11 +220,52 @@
           </tfoot>
         </table>
       </div>
+      <div class="insumo-form" *ngIf="isEditing">
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label>Adicionar insumo</label>
+            <select title="insumo" [(ngModel)]="insumoSelecionado" 
+                    name="insumo"
+                    (ngModelChange)="onInsumoSelect($event)">
+              <option [ngValue]="null">Selecione um insumo</option>
+              <option *ngFor="let insumo of insumosDisponiveis" [ngValue]="insumo">
+                {{insumo.descricao}} ({{insumo.unidade}}) - {{insumo.valorUnitario | currency:'BRL'}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Quantidade</label>
+            <input title="quantidade" type="number" 
+                   [(ngModel)]="quantidade" 
+                   name="quantidade"
+                   min="1"
+                   [disabled]="!insumoSelecionado">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" 
+                    class="btn-add" 
+                    (click)="adicionarInsumo()"
+                    [disabled]="!insumoSelecionado || !quantidade || quantidade < 1">
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="info-section full-width" *ngIf="pedido.observacoes">
       <h3>Observações</h3>
       <p class="observacoes">{{pedido.observacoes}}</p>
+    </div>
+  </div>
+
+  <div class="error-modal" *ngIf="showErrorModal">
+    <div class="modal-content">
+      <h3>Erro</h3>
+      <p>{{errorMessage}}</p>
+      <button class="btn-primary" (click)="onCloseError()">Ok</button>
     </div>
   </div>
 </div>
