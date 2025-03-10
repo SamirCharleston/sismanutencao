@@ -30,6 +30,9 @@ import { ImageCropperComponent as NgxImageCropperComponent, ImageCroppedEvent, L
         </div>
 
         <div class="modal-footer">
+<!--Renderiza a imagem blob detro do img-->
+          <img [src]="croppedImage" alt="Cropped Image" height="50px"/>
+
           <button class="btn-secondary" (click)="onClose()">Cancelar</button>
           <button class="btn-primary" (click)="onSave()" [disabled]="!croppedImage">
             Salvar
@@ -134,16 +137,23 @@ export class AppImageCropperComponent {
   @Input() show = false;
   @Input() imageFile: File | undefined = undefined;
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<string>();
+  @Output() save = new EventEmitter<{blob: Blob, urlImage: string}>();
 
-  croppedImage: string | null = null;
+  croppedImage: Blob | null = null;
+  urlImage: string | null = null;
 
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64 || null;
+    if (event.blob) {
+        this.urlImage = URL.createObjectURL(event.blob);
+        this.croppedImage = event.blob;
+    } else {
+      console.error('Failed to crop image: Missing blob data');
+    }
   }
 
   loadImageFailed() {
     console.error('Failed to load image');
+    this.onClose();
   }
 
   onClose() {
@@ -153,7 +163,13 @@ export class AppImageCropperComponent {
 
   onSave() {
     if (this.croppedImage) {
-      this.save.emit(this.croppedImage);
+      this.save.emit({
+        blob: this.croppedImage,
+        urlImage: this.urlImage as string,
+      });
+      this.onClose();
+    } else {
+      console.error('Cannot save: Missing cropped image data');
     }
   }
 }

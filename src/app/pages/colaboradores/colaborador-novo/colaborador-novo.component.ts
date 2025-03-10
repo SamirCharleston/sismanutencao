@@ -121,6 +121,7 @@ export class ColaboradorNovoComponent {
     const file = input.files?.[0];
     
     if (file) {
+      // console.log(file);
       // Validar tipo e tamanho do arquivo
       if (!file.type.startsWith('image/')) {
         this.showAlert('Por favor, selecione apenas arquivos de imagem.');
@@ -144,12 +145,9 @@ export class ColaboradorNovoComponent {
     this.selectedFile = undefined;
   }
 
-  onImageSaved(croppedImage: string) {
-    if (croppedImage) {
-      this.colaborador.fotoPerfil = croppedImage;
-    }
+  onImageSaved(image: { blob: Blob, urlImage: string}) {
+    this.colaborador.fotoPerfil = image.urlImage;
     this.showImageCropper = false;
-    this.selectedFile = undefined;
   }
 
   private showAlert(message: string, title: string = 'Atenção') {
