@@ -26,8 +26,8 @@ export class HomeDashboardComponent {
     { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
     { icon: 'speed', label: 'Medições', route: '/dashboard/medicoes' },
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/dashboard/pedidos' },
-    { icon: 'build', label: 'Inventário ferramental', route: '/dashboard/inventario' },
     { icon: 'people', label: 'Colaboradores', route: '/dashboard/colaboradores' },
+    { icon: 'build', label: 'Ferramentas - Inventário coletivo', route: '/dashboard/inventario' },
     { icon: 'analytics', label: 'Estatísticas', route: '/dashboard/estatisticas' }
   ];
 

@@ -1,0 +1,31 @@
+<div class="cards-grid">
+  <div class="card" *ngFor="let colaborador of colaboradores" [routerLink]="['/dashboard/colaboradores', colaborador.id]">
+    <div class="card-image">
+      <img alt="colaborador" [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome">
+      <span class="status-badge" [class]="getStatusClass(colaborador.status)">
+        {{colaborador.status}}
+      </span>
+    </div>
+    <div class="card-content">
+      <h3>{{colaborador.nome}}</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <i class="material-icons">badge</i>
+          <span>{{colaborador.matricula}}</span>
+        </div>
+        <div class="info-item">
+          <i class="material-icons">work</i>
+          <span>{{colaborador.cargo}}</span>
+        </div>
+        <div class="info-item">
+          <i class="material-icons">business</i>
+          <span>{{colaborador.setor}}</span>
+        </div>
+        <div class="info-item">
+          <i class="material-icons">calendar_today</i>
+          <span>{{formatDate(colaborador.dataAdmissao)}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

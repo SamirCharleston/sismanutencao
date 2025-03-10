@@ -4,6 +4,7 @@ import { OrdemDeServico } from '../models/ordem-de-servico/ordem-de-servico';
 import { Medicao } from '../models/medicao/medicao';
 import { Insumo } from '../models/pedido/insumo';
 import { Pedido, PedidoStatus } from '../models/pedido/pedido';
+import { Colaborador } from '../models/colaborador/colaborador';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class DataService {
   private medicoes: Medicao[] = [];
   private insumos: Insumo[] = [];
   private pedidos: Pedido[] = [];
+  private colaboradores: Colaborador[] = [];
 
   constructor() {
     this.generateItems();
@@ -21,6 +23,7 @@ export class DataService {
     this.generateMedicoes();
     this.initializeInsumos();
     this.initializePedidos();
+    this.initializeColaboradores();
   }
 
   private generateItems() {
@@ -238,6 +241,26 @@ export class DataService {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   }
 
+  private initializeColaboradores() {
+    const cargos = ['Técnico', 'Engenheiro', 'Supervisor', 'Analista', 'Assistente'];
+    const setores = ['Manutenção', 'Projetos', 'Qualidade', 'Operações', 'Administrativo'];
+    const status = ['Ativo', 'Férias', 'Licença', 'Inativo', 'Desligado'];
+
+    this.colaboradores = Array.from({ length: 20 }, (_, i) => {
+      const colaborador = new Colaborador();
+      colaborador.id = i + 1;
+      colaborador.matricula = `MAT${String(i + 1).padStart(4, '0')}`;
+      colaborador.nome = `Colaborador ${i + 1}`;
+      colaborador.cargo = cargos[Math.floor(Math.random() * cargos.length)];
+      colaborador.setor = setores[Math.floor(Math.random() * setores.length)];
+      colaborador.status = status[Math.floor(Math.random() * status.length)] as any;
+      colaborador.dataAdmissao = new Date(2020 + Math.floor(Math.random() * 4), 
+                                        Math.floor(Math.random() * 12), 
+                                        Math.floor(Math.random() * 28) + 1);
+      return colaborador;
+    });
+  }
+
   getItems(): Item[] {
     return this.items;
   }
@@ -260,5 +283,9 @@ export class DataService {
 
   getOrdensDisponiveis(): OrdemDeServico[] {
     return this.ordens.filter(os => os.status !== 'Concluída');
+  }
+
+  getColaboradores(): Colaborador[] {
+    return this.colaboradores;
   }
 }

@@ -1,0 +1,61 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="title-section">
+      <h2>Colaboradores</h2>
+      <span class="total-count">Total: {{colaboradores.length}}</span>
+    </div>
+    <div class="actions">
+      <button class="btn-secondary" (click)="toggleView()" title="Alternar visualização">
+        <i class="material-icons">{{viewMode === 'table' ? 'grid_view' : 'list'}}</i>
+      </button>
+      <button class="btn-primary" [routerLink]="['novo']">
+        <i class="material-icons">add</i>
+        <span>Novo Colaborador</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="table-responsive" *ngIf="viewMode === 'table'">
+      <table>
+        <thead>
+          <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Setor</th>
+            <th>Status</th>
+            <th>Data Admissão</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let colaborador of filteredColaboradores" 
+              [routerLink]="[colaborador.id]"
+              class="clickable-row">
+            <td>{{colaborador.matricula}}</td>
+            <td>{{colaborador.nome}}</td>
+            <td>{{colaborador.cargo}}</td>
+            <td>{{colaborador.setor}}</td>
+            <td>
+              <span class="status-badge" [class]="getStatusClass(colaborador.status)">
+                {{colaborador.status}}
+              </span>
+            </td>
+            <td>{{formatDate(colaborador.dataAdmissao)}}</td>
+            <td class="actions-cell">
+              <button class="btn-icon" title="Ver detalhes">
+                <i class="material-icons">visibility</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-colaborador-cards 
+      *ngIf="viewMode === 'cards'"
+      [colaboradores]="filteredColaboradores">
+    </app-colaborador-cards>
+  </div>
+</div>

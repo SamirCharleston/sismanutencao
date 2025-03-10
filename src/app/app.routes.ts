@@ -12,6 +12,7 @@ import { MedicaoNovoComponent } from './pages/medicao-novo/medicao-novo.componen
 import { PedidosComponent } from './pages/pedidos-compra/pedidos.component';
 import { PedidoNovoComponent } from './pages/pedidos-compra/pedido-novo/pedido-novo.component';
 import { PedidoDetalhesComponent } from './pages/pedidos-compra/pedido-detalhes/pedido-detalhes.component';
+import { ColaboradoresComponent } from './pages/colaboradores/colaboradores.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,7 +33,7 @@ export const routes: Routes = [
       { path: 'pedidos/:id', component: PedidoDetalhesComponent },
       { path: 'pedidos', component: PedidosComponent }, // Add this route
       { path: 'inventario', component: DashboardComponent },
-      { path: 'colaboradores', component: DashboardComponent },
+      { path: 'colaboradores', component: ColaboradoresComponent },
       { path: 'estatisticas', component: DashboardComponent },
       { path: 'frota', component: DashboardComponent },
       { path: 'logistica', component: DashboardComponent }
