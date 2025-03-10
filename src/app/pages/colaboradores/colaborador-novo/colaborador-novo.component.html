@@ -16,10 +16,15 @@
     </div>
   </div>
 
-  <form (ngSubmit)="onSubmit()" #colaboradorForm="ngForm" class="form-grid">
+  <form (ngSubmit)="onSubmit()" #colaboradorForm="ngForm" class="form-grid-container">
     <div class="profile-section">
-      <div class="profile-image-container">
-        <img [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome" class="profile-image">
+      <div class="profile-image-container" [class.no-image]="!colaborador.fotoPerfil">
+        <ng-container *ngIf="colaborador.fotoPerfil; else defaultAvatar">
+          <img [src]="colaborador.fotoPerfil" [alt]="colaborador.nome" class="profile-image">
+        </ng-container>
+        <ng-template #defaultAvatar>
+          <i class="material-icons default-avatar">account_circle</i>
+        </ng-template>
         <div class="image-overlay">
           <button type="button" class="btn-change-photo" (click)="onChangePhoto()">
             <i class="material-icons">photo_camera</i>
@@ -33,11 +38,6 @@
       <div class="form-section">
         <h3>Informações Pessoais</h3>
         <div class="form-grid">
-          <div class="form-group" [class.error]="formErrors['nome']">
-            <label>Nome*</label>
-            <input type="text" [(ngModel)]="colaborador.nome" name="nome" required>
-            <span class="error-message" *ngIf="formErrors['nome']">{{formErrors['nome']}}</span>
-          </div>
 
           <div class="form-group" [class.error]="formErrors['matricula']">
             <label>Matrícula*</label>
@@ -45,10 +45,31 @@
             <span class="error-message" *ngIf="formErrors['matricula']">{{formErrors['matricula']}}</span>
           </div>
 
+          <div class="form-group" [class.error]="formErrors['nome']">
+            <label>Nome*</label>
+            <input type="text" [(ngModel)]="colaborador.nome" name="nome" required>
+            <span class="error-message" *ngIf="formErrors['nome']">{{formErrors['nome']}}</span>
+          </div>
+
           <div class="form-group">
-            <label>Data de Nascimento</label>
-            <app-datepicker [(value)]="colaborador.dataNascimento" name="dataNascimento">
+            <label>Data de Nascimento*</label>
+            <app-datepicker [(value)]="colaborador.dataNascimento" name="dataNascimento" required>
             </app-datepicker>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="colaborador.email" name="email">
+          </div>
+
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" [(ngModel)]="colaborador.telefone" name="telefone">
+          </div>
+
+          <div class="form-group">
+            <label>Endereço</label>
+            <input type="text" [(ngModel)]="colaborador.endereco" name="endereco">
           </div>
         </div>
       </div>
@@ -74,6 +95,13 @@
             <span class="error-message" *ngIf="formErrors['setor']">{{formErrors['setor']}}</span>
           </div>
 
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="colaborador.status" name="status" (change)="onStatusChange()">
+              <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
+            </select>
+          </div>
+
           <div class="form-group" [class.error]="formErrors['dataAdmissao']">
             <label>Data de Admissão*</label>
             <app-datepicker [(value)]="colaborador.dataAdmissao" name="dataAdmissao" required>
@@ -81,12 +109,26 @@
             <span class="error-message" *ngIf="formErrors['dataAdmissao']">{{formErrors['dataAdmissao']}}</span>
           </div>
 
-          <div class="form-group">
-            <label>Status</label>
-            <select [(ngModel)]="colaborador.status" name="status">
-              <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
-            </select>
-          </div>
+          <!-- Campos condicionais para desligamento -->
+          <ng-container *ngIf="colaborador.status === 'Desligado'">
+            <div class="form-group" [class.error]="formErrors['dataDesligamento']">
+              <label>Data de Desligamento*</label>
+              <app-datepicker [(value)]="colaborador.dataDesligamento" name="dataDesligamento" required>
+              </app-datepicker>
+              <span class="error-message" *ngIf="formErrors['dataDesligamento']">{{formErrors['dataDesligamento']}}</span>
+            </div>
+
+            <div class="form-group" [class.error]="formErrors['motivoDesligamento']">
+              <label>Motivo do Desligamento*</label>
+              <textarea [(ngModel)]="colaborador.motivoDesligamento" 
+                        name="motivoDesligamento" 
+                        rows="3"
+                        required
+                        placeholder="Digite o motivo do desligamento">
+              </textarea>
+              <span class="error-message" *ngIf="formErrors['motivoDesligamento']">{{formErrors['motivoDesligamento']}}</span>
+            </div>
+          </ng-container>
         </div>
       </div>
 

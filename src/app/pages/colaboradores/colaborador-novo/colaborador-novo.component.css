@@ -25,10 +25,20 @@
   background-color: rgba(0,0,0,0.05);
 }
 
-.form-grid {
+.form-grid, .form-grid-container {
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 2rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-left>h2 {
+    margin-bottom: 0;
 }
 
 .profile-section {
@@ -45,6 +55,22 @@
   position: relative;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-image-container.no-image {
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.default-avatar {
+  color: #ccc;
+  font-size: 120px;
+}
+
+.profile-image-container.no-image .image-overlay {
+  background: rgba(0,0,0,0.5);
 }
 
 .profile-image {
@@ -135,6 +161,27 @@
 
 .form-group.error input,
 .form-group.error select {
+  border-color: #ff4444;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #ff9248;
+  box-shadow: 0 0 0 2px rgba(255,146,72,0.1);
+}
+
+.form-group.error textarea {
   border-color: #ff4444;
 }
 

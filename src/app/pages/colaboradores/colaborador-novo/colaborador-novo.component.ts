@@ -46,9 +46,19 @@ export class ColaboradorNovoComponent {
     }
   }
 
+  onStatusChange() {
+    if (this.colaborador.status === 'Desligado') {
+      this.colaborador.dataDesligamento = new Date();
+    } else {
+      this.colaborador.dataDesligamento = null as any;
+      this.colaborador.motivoDesligamento = '';
+    }
+  }
+
   private validateForm(): boolean {
     this.formErrors = {};
     
+    // Validações básicas
     if (!this.colaborador.nome?.trim()) {
       this.formErrors['nome'] = 'Nome é obrigatório';
     }
@@ -64,8 +74,39 @@ export class ColaboradorNovoComponent {
     if (!this.colaborador.dataAdmissao) {
       this.formErrors['dataAdmissao'] = 'Data de admissão é obrigatória';
     }
+    if (!this.colaborador.dataNascimento) {
+      this.formErrors['dataNascimento'] = 'Data de nascimento é obrigatória';
+    }
+
+    // Validações condicionais para desligamento
+    if (this.colaborador.status === 'Desligado') {
+      if (!this.colaborador.dataDesligamento) {
+        this.formErrors['dataDesligamento'] = 'Data de desligamento é obrigatória';
+      }
+      if (!this.colaborador.motivoDesligamento?.trim()) {
+        this.formErrors['motivoDesligamento'] = 'Motivo do desligamento é obrigatório';
+      }
+    }
+
+    // Validações de email e telefone quando preenchidos
+    if (this.colaborador.email && !this.isValidEmail(this.colaborador.email)) {
+      this.formErrors['email'] = 'Email inválido';
+    }
+    if (this.colaborador.telefone && !this.isValidPhone(this.colaborador.telefone)) {
+      this.formErrors['telefone'] = 'Telefone inválido';
+    }
 
     return Object.keys(this.formErrors).length === 0;
+  }
+
+  private isValidEmail(email: string): boolean {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(email);
+  }
+
+  private isValidPhone(phone: string): boolean {
+    const re = /^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/;
+    return re.test(phone);
   }
 
   onCancel() {
@@ -75,10 +116,6 @@ export class ColaboradorNovoComponent {
   onChangePhoto() {
     // Implementar lógica para upload de foto
     console.log('Alterar foto');
-  }
-
-  getDefaultImage(): string {
-    return 'assets/images/default-profile.png';
   }
 
   private showAlert(message: string, title: string = 'Atenção') {
