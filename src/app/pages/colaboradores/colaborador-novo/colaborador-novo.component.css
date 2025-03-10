@@ -11,6 +11,10 @@
   gap: 1rem;
 }
 
+.image-overlay>input {
+    display: none;
+}
+
 .btn-back {
   background: none;
   border: none;

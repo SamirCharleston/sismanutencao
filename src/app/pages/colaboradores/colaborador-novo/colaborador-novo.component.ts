@@ -6,11 +6,12 @@ import { Colaborador } from '../../../models/colaborador/colaborador';
 import { DataService } from '../../../services/data.service';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AlertModalComponent } from '../../../components/alert-modal/alert-modal.component';
+import { AppImageCropperComponent } from '../../../components/image-cropper/image-cropper.component';
 
 @Component({
   selector: 'app-colaborador-novo',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatepickerComponent, AlertModalComponent],
+  imports: [CommonModule, FormsModule, DatepickerComponent, AlertModalComponent, AppImageCropperComponent],
   templateUrl: './colaborador-novo.component.html',
   styleUrls: ['./colaborador-novo.component.css']
 })
@@ -20,6 +21,8 @@ export class ColaboradorNovoComponent {
   alertMessage = '';
   alertTitle = 'Atenção';
   formErrors: { [key: string]: string } = {};
+  showImageCropper = false;
+  selectedFile:  File | undefined = undefined;
 
   statusOptions: string[] = ['Ativo', 'Inativo', 'Férias', 'Licença', 'Desligado'];
   cargos = ['Técnico', 'Engenheiro', 'Supervisor', 'Analista', 'Assistente'];
@@ -113,9 +116,40 @@ export class ColaboradorNovoComponent {
     this.router.navigate(['/dashboard/colaboradores']);
   }
 
-  onChangePhoto() {
-    // Implementar lógica para upload de foto
-    console.log('Alterar foto');
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    
+    if (file) {
+      // Validar tipo e tamanho do arquivo
+      if (!file.type.startsWith('image/')) {
+        this.showAlert('Por favor, selecione apenas arquivos de imagem.');
+        return;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB
+        this.showAlert('A imagem deve ter no máximo 5MB.');
+        return;
+      }
+
+      this.selectedFile = file;
+      this.showImageCropper = true;
+    }
+    // Limpar o input para permitir selecionar o mesmo arquivo novamente
+    input.value = '';
+  }
+
+  onCropperClose() {
+    this.showImageCropper = false;
+    this.selectedFile = undefined;
+  }
+
+  onImageSaved(croppedImage: string) {
+    if (croppedImage) {
+      this.colaborador.fotoPerfil = croppedImage;
+    }
+    this.showImageCropper = false;
+    this.selectedFile = undefined;
   }
 
   private showAlert(message: string, title: string = 'Atenção') {

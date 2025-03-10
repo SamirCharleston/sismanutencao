@@ -7,6 +7,7 @@ import { DataService } from '../../../services/data.service';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 import { ConfirmModalComponent } from '../../../components/confirm-modal/confirm-modal.component';
 import { AlertModalComponent } from '../../../components/alert-modal/alert-modal.component';
+// import { ImageCropperComponent } from '../../../components/image-cropper/image-cropper.component';
 
 @Component({
   selector: 'app-colaborador-detalhes',
@@ -25,6 +26,7 @@ export class ColaboradorDetalhesComponent implements OnInit {
   showAlertModal = false;
   alertMessage = '';
   alertTitle = 'Atenção';
+  showImageCropper = false;
 
   statusOptions: string[] = ['Ativo', 'Inativo', 'Férias', 'Licença', 'Desligado'];
   cargos = ['Técnico', 'Engenheiro', 'Supervisor', 'Analista', 'Assistente'];
@@ -159,7 +161,16 @@ export class ColaboradorDetalhesComponent implements OnInit {
   }
 
   onChangePhoto() {
-    // Implementar lógica para alterar foto
-    console.log('Alterar foto');
+    this.showImageCropper = true;
+  }
+
+  onCropperClose() {
+    this.showImageCropper = false;
+  }
+
+  onImageSaved(imageData: string) {
+    if (this.colaborador) {
+      this.colaborador.fotoPerfil = imageData;
+    }
   }
 }

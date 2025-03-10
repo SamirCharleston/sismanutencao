@@ -20,13 +20,20 @@
     <div class="profile-section">
       <div class="profile-image-container" [class.no-image]="!colaborador.fotoPerfil">
         <ng-container *ngIf="colaborador.fotoPerfil; else defaultAvatar">
-          <img [src]="colaborador.fotoPerfil" [alt]="colaborador.nome" class="profile-image">
+          <img alt="foto-perfil" [src]="colaborador.fotoPerfil" [alt]="colaborador.nome" class="profile-image">
         </ng-container>
         <ng-template #defaultAvatar>
           <i class="material-icons default-avatar">account_circle</i>
         </ng-template>
         <div class="image-overlay">
-          <button type="button" class="btn-change-photo" (click)="onChangePhoto()">
+          <input
+            title="file"
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            >
+          <button type="button" class="btn-change-photo" (click)="fileInput.click()">
             <i class="material-icons">photo_camera</i>
             <span>Adicionar foto</span>
           </button>
@@ -41,13 +48,13 @@
 
           <div class="form-group" [class.error]="formErrors['matricula']">
             <label>Matrícula*</label>
-            <input type="text" [(ngModel)]="colaborador.matricula" name="matricula" required>
+            <input title="matricula" type="text" [(ngModel)]="colaborador.matricula" name="matricula" required>
             <span class="error-message" *ngIf="formErrors['matricula']">{{formErrors['matricula']}}</span>
           </div>
 
           <div class="form-group" [class.error]="formErrors['nome']">
             <label>Nome*</label>
-            <input type="text" [(ngModel)]="colaborador.nome" name="nome" required>
+            <input title="nome" type="text" [(ngModel)]="colaborador.nome" name="nome" required>
             <span class="error-message" *ngIf="formErrors['nome']">{{formErrors['nome']}}</span>
           </div>
 
@@ -59,17 +66,17 @@
 
           <div class="form-group">
             <label>Email</label>
-            <input type="email" [(ngModel)]="colaborador.email" name="email">
+            <input title="email" type="email" [(ngModel)]="colaborador.email" name="email">
           </div>
 
           <div class="form-group">
             <label>Telefone</label>
-            <input type="tel" [(ngModel)]="colaborador.telefone" name="telefone">
+            <input title="telefone" type="tel" [(ngModel)]="colaborador.telefone" name="telefone">
           </div>
 
           <div class="form-group">
             <label>Endereço</label>
-            <input type="text" [(ngModel)]="colaborador.endereco" name="endereco">
+            <input title="endereco" type="text" [(ngModel)]="colaborador.endereco" name="endereco">
           </div>
         </div>
       </div>
@@ -79,7 +86,7 @@
         <div class="form-grid">
           <div class="form-group" [class.error]="formErrors['cargo']">
             <label>Cargo*</label>
-            <select [(ngModel)]="colaborador.cargo" name="cargo" required>
+            <select title="cargo" [(ngModel)]="colaborador.cargo" name="cargo" required>
               <option value="">Selecione um cargo</option>
               <option *ngFor="let cargo of cargos" [value]="cargo">{{cargo}}</option>
             </select>
@@ -88,7 +95,7 @@
 
           <div class="form-group" [class.error]="formErrors['setor']">
             <label>Setor*</label>
-            <select [(ngModel)]="colaborador.setor" name="setor" required>
+            <select title="setor" [(ngModel)]="colaborador.setor" name="setor" required>
               <option value="">Selecione um setor</option>
               <option *ngFor="let setor of setores" [value]="setor">{{setor}}</option>
             </select>
@@ -97,7 +104,7 @@
 
           <div class="form-group">
             <label>Status</label>
-            <select [(ngModel)]="colaborador.status" name="status" (change)="onStatusChange()">
+            <select title="status" [(ngModel)]="colaborador.status" name="status" (change)="onStatusChange()">
               <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
             </select>
           </div>
@@ -137,17 +144,17 @@
         <div class="form-grid">
           <div class="form-group">
             <label>Email</label>
-            <input type="email" [(ngModel)]="colaborador.email" name="email">
+            <input title="email" type="email" [(ngModel)]="colaborador.email" name="email">
           </div>
 
           <div class="form-group">
             <label>Telefone</label>
-            <input type="tel" [(ngModel)]="colaborador.telefone" name="telefone">
+            <input title="telefone" type="tel" [(ngModel)]="colaborador.telefone" name="telefone">
           </div>
 
           <div class="form-group">
             <label>Endereço</label>
-            <input type="text" [(ngModel)]="colaborador.endereco" name="endereco">
+            <input title="endereco" type="text" [(ngModel)]="colaborador.endereco" name="endereco">
           </div>
         </div>
       </div>
@@ -164,4 +171,11 @@
       </div>
     </div>
   </form>
+
+  <app-app-image-cropper
+    [show]="showImageCropper"
+    [imageFile]="selectedFile"
+    (close)="onCropperClose()"
+    (save)="onImageSaved($event)">
+  </app-app-image-cropper>
 </div>

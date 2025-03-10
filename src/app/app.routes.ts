@@ -35,7 +35,7 @@ export const routes: Routes = [
       { path: 'pedidos/:id', component: PedidoDetalhesComponent },
       { path: 'pedidos', component: PedidosComponent }, // Add this route
       { path: 'colaboradores/novo', component: ColaboradorNovoComponent },
-      { path: 'colaboradores/:id', component: ColaboradorDetalhesComponent },
+      { path: 'colaboradores/:id', component: ColaboradorDetalhesComponent }, // Add this route route
       { path: 'colaboradores', component: ColaboradoresComponent },
       { path: 'inventario', component: DashboardComponent },
       { path: 'estatisticas', component: DashboardComponent },
