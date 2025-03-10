@@ -1,0 +1,157 @@
+<div class="page-container" *ngIf="colaborador">
+  <app-confirm-modal
+    [show]="showConfirmModal"
+    [title]="'Confirmar Exclusão'"
+    [message]="'Tem certeza que deseja excluir este colaborador?'"
+    [confirmText]="'Excluir'"
+    [cancelText]="'Cancelar'"
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()">
+  </app-confirm-modal>
+
+  <app-confirm-modal
+    [show]="showConfirmSaveModal"
+    [title]="'Confirmar Alterações'"
+    [message]="'Deseja salvar as alterações realizadas?'"
+    [confirmText]="'Salvar'"
+    [cancelText]="'Cancelar'"
+    (confirm)="onConfirmSave()"
+    (cancel)="onCancelSave()">
+  </app-confirm-modal>
+
+  <app-confirm-modal
+    [show]="showConfirmCancelModal"
+    [title]="'Confirmar Cancelamento'"
+    [message]="'Tem certeza que deseja cancelar? Todas as alterações serão perdidas.'"
+    [confirmText]="'Sim, cancelar'"
+    [cancelText]="'Não, continuar editando'"
+    (confirm)="onConfirmCancel()"
+    (cancel)="onCancelCancel()">
+  </app-confirm-modal>
+
+  <app-alert-modal
+    [show]="showAlertModal"
+    [title]="alertTitle"
+    [message]="alertMessage"
+    [buttonText]="'OK'"
+    (close)="onCloseAlert()">
+  </app-alert-modal>
+
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <h2>Detalhes do Colaborador</h2>
+    </div>
+    
+    <div class="control-panel">
+        <ng-container *ngIf="!isEditing">
+            <button class="btn-primary" (click)="onEdit()">
+            <i class="material-icons">edit</i>
+            <span>Editar</span>
+            </button>
+        </ng-container>
+        <div class="edit-action" *ngIf="isEditing">
+            <button class="btn-primary" (click)="onSave()">
+            <i class="material-icons">save</i>
+            <span>Salvar</span>
+            </button>
+            <button class="btn-secondary" (click)="cancelEdit()">
+            <i class="material-icons">close</i>
+            <span>Cancelar</span>
+            </button>
+        </div>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <div class="profile-sidebar">
+      <div class="profile-image-container">
+        <img alt="Nome" [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome" class="profile-image">
+        <div class="image-overlay" *ngIf="isEditing">
+          <button class="btn-change-photo" (click)="onChangePhoto()">
+            <i class="material-icons">photo_camera</i>
+            <span>Alterar foto</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="profile-quick-info">
+        <h3>{{colaborador.nome}}</h3>
+        <p class="matricula">{{colaborador.matricula}}</p>
+        <span class="status-badge large" [class]="getStatusClass(colaborador.status)">
+          {{colaborador.status}}
+        </span>
+      </div>
+
+      <div class="profile-contact">
+        <div class="contact-item">
+          <i class="material-icons">email</i>
+          <span>{{colaborador.email ? colaborador.email : 'E-mail não registrado'}}</span>
+        </div>
+        <div class="contact-item">
+          <i class="material-icons">phone</i>
+          <span>{{colaborador.telefone ? colaborador.telefone : 'Telefone não registrado'}}</span>
+        </div>
+        <div class="contact-item">
+          <i class="material-icons">location_on</i>
+          <span>{{colaborador.endereco ? colaborador.endereco : 'Endereço não registrado'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <div class="info-section">
+        <h3>Informações Profissionais</h3>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="material-icons">work</i>
+              <label>Cargo</label>
+            </div>
+            <ng-container *ngIf="!isEditing">
+              <span>{{colaborador.cargo}}</span>
+            </ng-container>
+            <ng-container *ngIf="isEditing">
+              <select title="cargo" [(ngModel)]="colaborador.cargo" name="cargo">
+                <option *ngFor="let cargo of cargos" [value]="cargo">{{cargo}}</option>
+              </select>
+            </ng-container>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="material-icons">business</i>
+              <label>Setor</label>
+            </div>
+            <ng-container *ngIf="!isEditing">
+              <span>{{colaborador.setor}}</span>
+            </ng-container>
+            <ng-container *ngIf="isEditing">
+              <select title="setor" [(ngModel)]="colaborador.setor" name="setor">
+                <option *ngFor="let setor of setores" [value]="setor">{{setor}}</option>
+              </select>
+            </ng-container>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="material-icons">calendar_today</i>
+              <label>Data de Admissão</label>
+            </div>
+            <ng-container *ngIf="!isEditing">
+              <span>{{formatDate(colaborador.dataAdmissao)}}</span>
+            </ng-container>
+            <ng-container *ngIf="isEditing">
+              <app-datepicker [(value)]="colaborador.dataAdmissao" name="dataAdmissao">
+              </app-datepicker>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- Adicione mais seções conforme necessário -->
+    </div>
+  </div>
+</div>

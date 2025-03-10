@@ -245,6 +245,9 @@ export class DataService {
     const cargos = ['Técnico', 'Engenheiro', 'Supervisor', 'Analista', 'Assistente'];
     const setores = ['Manutenção', 'Projetos', 'Qualidade', 'Operações', 'Administrativo'];
     const status = ['Ativo', 'Férias', 'Licença', 'Inativo', 'Desligado'];
+    const fotoPerfill = ['https://www.olhodigital.com.br/wp-content/uploads/2023/03/foto_colaborador_01b.fw_.png', 
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuEgMt-qIvipU3U831fhpmTPt5ZGtrI3IB3A&s',
+    'https://mundocarreira.com.br/wp-content/uploads/2018/09/Aplicativo-Felicidade-Colaborador.jpg']
 
     this.colaboradores = Array.from({ length: 20 }, (_, i) => {
       const colaborador = new Colaborador();
@@ -254,6 +257,7 @@ export class DataService {
       colaborador.cargo = cargos[Math.floor(Math.random() * cargos.length)];
       colaborador.setor = setores[Math.floor(Math.random() * setores.length)];
       colaborador.status = status[Math.floor(Math.random() * status.length)] as any;
+      colaborador.fotoPerfil = fotoPerfill[Math.floor(Math.random() * fotoPerfill.length)];
       colaborador.dataAdmissao = new Date(2020 + Math.floor(Math.random() * 4), 
                                         Math.floor(Math.random() * 12), 
                                         Math.floor(Math.random() * 28) + 1);

@@ -101,4 +101,5 @@ export class MedicaoNovoComponent {
   onCancel() {
     this.router.navigate(['/dashboard/medicoes']);
   }
+  
 }

@@ -11,6 +11,16 @@
   margin-bottom: 2rem;
 }
 
+.back-title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.back-title>h2 {
+  margin-bottom: 0;
+}
+
 .header h2 {
   color: #333;
   font-size: 1.5rem;

@@ -13,6 +13,8 @@ import { PedidosComponent } from './pages/pedidos-compra/pedidos.component';
 import { PedidoNovoComponent } from './pages/pedidos-compra/pedido-novo/pedido-novo.component';
 import { PedidoDetalhesComponent } from './pages/pedidos-compra/pedido-detalhes/pedido-detalhes.component';
 import { ColaboradoresComponent } from './pages/colaboradores/colaboradores.component';
+import { ColaboradorDetalhesComponent } from './pages/colaboradores/colaborador-detalhes/colaborador-detalhes.component';
+import { ColaboradorNovoComponent } from './pages/colaboradores/colaborador-novo/colaborador-novo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -32,8 +34,10 @@ export const routes: Routes = [
       { path: 'pedidos/novo', component: PedidoNovoComponent },
       { path: 'pedidos/:id', component: PedidoDetalhesComponent },
       { path: 'pedidos', component: PedidosComponent }, // Add this route
-      { path: 'inventario', component: DashboardComponent },
+      { path: 'colaboradores/novo', component: ColaboradorNovoComponent },
+      { path: 'colaboradores/:id', component: ColaboradorDetalhesComponent },
       { path: 'colaboradores', component: ColaboradoresComponent },
+      { path: 'inventario', component: DashboardComponent },
       { path: 'estatisticas', component: DashboardComponent },
       { path: 'frota', component: DashboardComponent },
       { path: 'logistica', component: DashboardComponent }

@@ -1,6 +1,9 @@
 <div class="medicao-container" *ngIf="medicao">
   <div class="medicao-header">
     <div class="header-left">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
       <h2>Medição #{{medicao.numero}}</h2>
       <span class="data">{{getMesAno(medicao.dataMedicao)}}</span>
     </div>

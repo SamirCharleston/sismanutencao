@@ -1,7 +1,7 @@
 <div class="cards-grid">
   <div class="card" *ngFor="let colaborador of colaboradores" [routerLink]="['/dashboard/colaboradores', colaborador.id]">
     <div class="card-image">
-      <img alt="colaborador" [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome">
+      <img class="img-profile" alt="colaborador" [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome">
       <span class="status-badge" [class]="getStatusClass(colaborador.status)">
         {{colaborador.status}}
       </span>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Colaborador } from '../../models/colaborador/colaborador';
 import { DataService } from '../../services/data.service';
 import { SearchService } from '../../services/search.service';
@@ -26,6 +26,7 @@ export class ColaboradoresComponent implements OnInit {
   viewMode: 'table' | 'cards' = 'cards';
 
   constructor(
+    private router: Router,
     private dataService: DataService,
     private searchService: SearchService
   ) {}
@@ -64,5 +65,9 @@ export class ColaboradoresComponent implements OnInit {
 
   toggleView() {
     this.viewMode = this.viewMode === 'table' ? 'cards' : 'table';
+  }
+
+  onBack() {
+    this.router.navigate(['/dashboard']);
   }
 }

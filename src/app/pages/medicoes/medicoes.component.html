@@ -1,6 +1,11 @@
 <div class="medicoes-container">
   <div class="header">
-    <h2>Medições</h2>
+    <div class="back-title">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <h2>Medições</h2>
+    </div>
     <button class="btn-add" (click)="onNovaMedicao()">
       <i class="material-icons">add</i>
       <span>Nova Medição</span>

@@ -91,6 +91,10 @@ export class MedicaoDetalhesComponent implements OnInit {
     };
   }
 
+  onBack() {
+    this.router.navigate(['/dashboard/medicoes']);
+  }
+
   onModalConfirm() {
     if (this.modalAction) {
       this.modalAction();

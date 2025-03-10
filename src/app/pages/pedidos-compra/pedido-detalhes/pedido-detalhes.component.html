@@ -34,6 +34,9 @@
 
   <div class="pedido-header">
     <div class="header-left">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
       <h2>Pedido #{{pedido.numero}}</h2>
       <span class="status-badge" [class]="getStatusClass(pedido.status)">
         {{pedido.status}}

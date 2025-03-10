@@ -33,4 +33,8 @@ export class MedicoesComponent implements OnInit {
   onNovaMedicao() {
     this.router.navigate(['/dashboard/medicoes/novo']);
   }
+
+  onBack() {
+    this.router.navigate(['/dashboard']);
+  }
 }

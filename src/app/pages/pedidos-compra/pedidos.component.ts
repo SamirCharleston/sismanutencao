@@ -54,4 +54,8 @@ export class PedidosComponent implements OnInit {
   visualizarPedido(pedido: Pedido) {
     this.router.navigate(['/dashboard/pedidos', pedido.id]);
   }
+
+  onBack() {
+    this.router.navigate(['/dashboard']);
+  }
 }

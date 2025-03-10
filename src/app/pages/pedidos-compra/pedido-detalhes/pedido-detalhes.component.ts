@@ -360,4 +360,6 @@ export class PedidoDetalhesComponent implements OnInit, OnDestroy {
     // Recalcula o valor total sempre que uma quantidade for alterada
     this.calcularTotal();
   }
+
+  
 }

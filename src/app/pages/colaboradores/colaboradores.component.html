@@ -1,6 +1,9 @@
 <div class="page-container">
   <div class="page-header">
     <div class="title-section">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
       <h2>Colaboradores</h2>
       <span class="total-count">Total: {{colaboradores.length}}</span>
     </div>
@@ -8,7 +11,7 @@
       <button class="btn-secondary" (click)="toggleView()" title="Alternar visualização">
         <i class="material-icons">{{viewMode === 'table' ? 'grid_view' : 'list'}}</i>
       </button>
-      <button class="btn-primary" [routerLink]="['novo']">
+      <button class="btn-add" [routerLink]="['novo']">
         <i class="material-icons">add</i>
         <span>Novo Colaborador</span>
       </button>

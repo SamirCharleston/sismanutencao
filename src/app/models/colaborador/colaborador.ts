@@ -24,6 +24,7 @@ export class Colaborador {
     this.dataNascimento = new Date();
     this.dataAdmissao = new Date();
     this.status = 'Ativo';
+    this.fotoPerfil = '';
   }
 }
 
