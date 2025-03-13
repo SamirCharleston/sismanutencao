@@ -1,0 +1,61 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <h1>Nova Ferramenta</h1>
+    </div>
+
+    <form [formGroup]="ferramentaForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Nome</label>
+          <input type="text" formControlName="nome" placeholder="Nome da ferramenta">
+          <span class="error" *ngIf="ferramentaForm.get('nome')?.errors?.['required'] && ferramentaForm.get('nome')?.touched">
+            Nome é obrigatório
+          </span>
+        </div>
+
+        <div class="form-field">
+          <label>Categoria</label>
+          <select formControlName="categoria">
+            <option value="">Selecione uma categoria</option>
+            <option *ngFor="let cat of categorias" [value]="cat">{{cat}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Descrição</label>
+        <textarea formControlName="descricao" rows="3" placeholder="Descrição detalhada da ferramenta"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Localização</label>
+          <input type="text" formControlName="localizacao" placeholder="Local de armazenamento">
+        </div>
+
+        <div class="form-field">
+          <label>Marca</label>
+          <input type="text" formControlName="marca" placeholder="Marca da ferramenta">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Quantidade</label>
+          <input type="number" formControlName="quantidade" min="1">
+        </div>
+
+        <div class="form-field">
+          <label>URL da Imagem</label>
+          <input type="text" formControlName="imagemUrl" placeholder="URL da imagem da ferramenta">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn primary" [disabled]="!ferramentaForm.valid">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
