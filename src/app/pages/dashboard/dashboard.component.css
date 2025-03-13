@@ -7,9 +7,12 @@
 .main-content {
   flex: 1;
   padding: 1rem;
-  padding-top: calc(64px + 1rem); /* Height of header + padding */
   margin-left: 60px;
   transition: margin-left 0.3s ease;
+}
+
+.p-top-0 {
+  padding-top: 0;
 }
 
 .main-content.menu-expanded {

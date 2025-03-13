@@ -8,10 +8,10 @@ import { LoaderService } from '../../../services/loader.service';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
-export class HomeComponent {
+export class LoginComponent {
   loginData = {
     username: '',
     password: ''

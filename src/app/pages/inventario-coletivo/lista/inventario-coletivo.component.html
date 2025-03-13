@@ -28,47 +28,67 @@
 
     <div class="tools-grid" *ngIf="!loading">
       <div *ngFor="let ferramenta of filteredFerramentas" class="tool-card">
-        <div class="tool-header">
-          <span class="status-badge" [class]="ferramenta.status">
+        <div class="tool-left">
+          <img alt [src]="ferramenta.imagemUrl || 'assets/images/tool-placeholder.png'" [alt]="ferramenta.nome">
+          <div class="tool-status" [class]="ferramenta.status">
             <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
-            {{getStatusText(ferramenta.status)}}
-          </span>
-          <span class="quantity">Qtd: {{ferramenta.quantidade}}</span>
-        </div>
-
-        <div class="tool-image">
-          <img [src]="ferramenta.imagemUrl || 'assets/images/tool-placeholder.png'" 
-               [alt]="ferramenta.nome">
+          </div>
         </div>
 
         <div class="tool-content">
-          <div class="tool-info">
-            <h3 class="tool-title">{{ferramenta.nome}}</h3>
-            <p class="tool-description">{{ferramenta.descricao}}</p>
+          <div class="tool-header">
+            <h3>{{ferramenta.nome}}</h3>
+            <div class="stock-info">
+              <span class="tool-quantity" [class.low-stock]="ferramenta.quantidade < 3">
+                <mat-icon>inventory_2</mat-icon>
+                {{ferramenta.quantidade}}
+                <small>unidades</small>
+              </span>
+            </div>
           </div>
 
+          <p class="tool-description">{{ferramenta.descricao}}</p>
+          
           <div class="tool-details">
-            <div class="info-row">
-              <mat-icon>category</mat-icon>
-              <span>{{ferramenta.categoria}}</span>
+            <div class="detail-group">
+              <div class="detail-row">
+                <mat-icon>category</mat-icon>
+                <span>{{ferramenta.categoria}} | {{ferramenta.marca}}</span>
+              </div>
+              <div class="detail-row">
+                <mat-icon>place</mat-icon>
+                <span>{{ferramenta.localizacao}}</span>
+              </div>
             </div>
 
-            <div class="info-row">
-              <mat-icon>place</mat-icon>
-              <span>{{ferramenta.localizacao}}</span>
-            </div>
-
-            <div class="info-row" *ngIf="ferramenta.custodiante?.nome">
-              <mat-icon>person</mat-icon>
-              <span>{{ferramenta.custodiante.nome}}</span>
+            <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.custodiante">
+              <div class="user-header">Em uso por:</div>
+              <div class="user-details">
+                <mat-icon>person</mat-icon>
+                <span>{{ferramenta.custodiante.nome}}</span>
+              </div>
             </div>
           </div>
 
           <div class="tool-footer">
-            <span class="tool-brand">{{ferramenta.marca}}</span>
-            <button class="btn icon" title="Ver detalhes">
-              <mat-icon>visibility</mat-icon>
-            </button>
+            <div class="tool-status-text" [class]="ferramenta.status">
+              {{getStatusText(ferramenta.status)}}
+            </div>
+            <div class="action-buttons">
+              <button class="action-btn" title="Ver detalhes">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button class="action-btn" 
+                      *ngIf="ferramenta.status === 'disponivel'"
+                      title="Retirar ferramenta">
+                <mat-icon>person_add</mat-icon>
+              </button>
+              <button class="action-btn" 
+                      *ngIf="ferramenta.status === 'em_uso'"
+                      title="Devolver ferramenta">
+                <mat-icon>assignment_return</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
       </div>

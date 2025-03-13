@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { SearchService } from '../../services/search.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { SearchService } from '../../services/search.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <header class="header">
+    <header *ngIf="showHeader" class="header">
       <button 
         *ngIf="showBackButton" 
         class="back-button"
@@ -119,11 +119,19 @@ import { SearchService } from '../../services/search.service';
 })
 export class HeaderComponent {
   searchValue: string = '';
+  showHeader = false;
 
   constructor(
     private searchService: SearchService,
     private router: Router
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Only show header in dashboard routes
+        this.showHeader = event.url.endsWith('/dashboard');
+      }
+    });
+  }
 
   get showBackButton(): boolean {
     const currentRoute = this.router.url;

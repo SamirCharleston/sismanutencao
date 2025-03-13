@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/auth/login/login.component';
+import { LoginComponent } from './pages/auth/login/login.component';
 import { RegistrarComponent } from './pages/auth/registrar/registrar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeDashboardComponent } from './pages/dashboard/home-dashboard/home-dashboard.component';
@@ -19,7 +19,7 @@ import { InventarioColetivoComponent } from './pages/inventario-coletivo/lista/i
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: LoginComponent },
   { path: 'registrar', component: RegistrarComponent },
   { 
     path: 'dashboard', 

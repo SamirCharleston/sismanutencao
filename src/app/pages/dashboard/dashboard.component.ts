@@ -13,6 +13,7 @@ import { MenuService } from '../../services/menu.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  
   menuItems = [
     { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
     { icon: 'speed', label: 'Medições', route: '/medicoes' },
