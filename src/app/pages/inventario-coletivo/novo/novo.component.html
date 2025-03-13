@@ -16,7 +16,7 @@
 
         <div class="form-field">
           <label>Categoria</label>
-          <select formControlName="categoria">
+          <select title="categoria" formControlName="categoria">
             <option value="">Selecione uma categoria</option>
             <option *ngFor="let cat of categorias" [value]="cat">{{cat}}</option>
           </select>
@@ -43,7 +43,7 @@
       <div class="form-row">
         <div class="form-field">
           <label>Quantidade</label>
-          <input type="number" formControlName="quantidade" min="1">
+          <input title="numero" type="number" formControlName="quantidade" min="1">
         </div>
 
         <div class="form-field">

@@ -20,6 +20,7 @@ export class InventarioColetivoComponent implements OnInit {
   searchTerm = '';
   selectedCategory = 'Todas';
   categories = ['Todas', 'Mecânica', 'Elétrica', 'Medição'];
+  showErrorIcon = Array(this.ferramentas.length).fill(false);
 
   constructor(
     private dataService: DataService,
@@ -69,5 +70,10 @@ export class InventarioColetivoComponent implements OnInit {
       case 'manutencao': return 'Em manutenção';
       default: return 'Status desconhecido';
     }
+  }
+
+  handleImageError(i: number): void {
+    // container.style.backgroundColor = '#ddd';
+    this.showErrorIcon[i] = true;
   }
 }

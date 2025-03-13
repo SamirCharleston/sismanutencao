@@ -27,12 +27,11 @@
     </div>
 
     <div class="tools-grid" *ngIf="!loading">
-      <div *ngFor="let ferramenta of filteredFerramentas" class="tool-card">
+      <div *ngFor="let ferramenta of filteredFerramentas; let i = index" class="tool-card">
         <div class="tool-left">
-          <img alt [src]="ferramenta.imagemUrl || 'assets/images/tool-placeholder.png'" [alt]="ferramenta.nome">
-          <div class="tool-status" [class]="ferramenta.status">
-            <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
-          </div>
+          <img alt [src]="ferramenta.imagemUrl" 
+               [alt]="ferramenta.nome"
+               (error)="handleImageError(i)">
         </div>
 
         <div class="tool-content">
@@ -62,7 +61,7 @@
             </div>
 
             <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.custodiante">
-              <div class="user-header">Em uso por:</div>
+              <div class="user-header"></div>
               <div class="user-details">
                 <mat-icon>person</mat-icon>
                 <span>{{ferramenta.custodiante.nome}}</span>
@@ -71,8 +70,9 @@
           </div>
 
           <div class="tool-footer">
-            <div class="tool-status-text" [class]="ferramenta.status">
-              {{getStatusText(ferramenta.status)}}
+            <div class="status-badge" [class]="ferramenta.status">
+              <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
+              <span>{{getStatusText(ferramenta.status)}}</span>
             </div>
             <div class="action-buttons">
               <button class="action-btn" title="Ver detalhes">
