@@ -1,20 +1,21 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { RegistrarComponent } from './pages/registrar/registrar.component';
+import { HomeComponent } from './pages/auth/login/login.component';
+import { RegistrarComponent } from './pages/auth/registrar/registrar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeDashboardComponent } from './pages/dashboard/home-dashboard/home-dashboard.component';
-import { OrdensDeServicoComponent } from './pages/ordens-de-servico/ordens-de-servico.component';
-import { OrdemDetalhesComponent } from './pages/ordem-detalhes/ordem-detalhes.component';
-import { MedicoesComponent } from './pages/medicoes/medicoes.component';
-import { MedicaoDetalhesComponent } from './pages/medicao-detalhes/medicao-detalhes.component';
-import { OrdemNovoComponent } from './pages/ordem-novo/ordem-novo.component';
-import { MedicaoNovoComponent } from './pages/medicao-novo/medicao-novo.component';
-import { PedidosComponent } from './pages/pedidos-compra/pedidos.component';
-import { PedidoNovoComponent } from './pages/pedidos-compra/pedido-novo/pedido-novo.component';
-import { PedidoDetalhesComponent } from './pages/pedidos-compra/pedido-detalhes/pedido-detalhes.component';
-import { ColaboradoresComponent } from './pages/colaboradores/colaboradores.component';
-import { ColaboradorDetalhesComponent } from './pages/colaboradores/colaborador-detalhes/colaborador-detalhes.component';
-import { ColaboradorNovoComponent } from './pages/colaboradores/colaborador-novo/colaborador-novo.component';
+import { OrdensDeServicoComponent } from './pages/ordem-servico/lista/ordens-de-servico.component';
+import { OrdemDetalhesComponent } from './pages/ordem-servico/detalhes/ordem-detalhes.component';
+import { MedicoesComponent } from './pages/medicao/lista/medicoes.component';
+import { MedicaoDetalhesComponent } from './pages/medicao/detalhes/medicao-detalhes.component';
+import { OrdemNovoComponent } from './pages/ordem-servico/novo/ordem-novo.component';
+import { MedicaoNovoComponent } from './pages/medicao/novo/medicao-novo.component';
+import { PedidosComponent } from './pages/pedidos-compra/lista/pedidos.component';
+import { PedidoNovoComponent } from './pages/pedidos-compra/novo/pedido-novo.component';
+import { PedidoDetalhesComponent } from './pages/pedidos-compra/detalhes/pedido-detalhes.component';
+import { ColaboradoresComponent } from './pages/colaboradores/lista/colaboradores.component';
+import { ColaboradorDetalhesComponent } from './pages/colaboradores/detalhes/colaborador-detalhes.component';
+import { ColaboradorNovoComponent } from './pages/colaboradores/novo/colaborador-novo.component';
+import { InventarioColetivoComponent } from './pages/inventario-coletivo/lista/inventario-coletivo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -37,7 +38,7 @@ export const routes: Routes = [
       { path: 'colaboradores/novo', component: ColaboradorNovoComponent },
       { path: 'colaboradores/:id', component: ColaboradorDetalhesComponent }, // Add this route route
       { path: 'colaboradores', component: ColaboradoresComponent },
-      { path: 'inventario', component: DashboardComponent },
+      { path: 'inventario', component: InventarioColetivoComponent },
       { path: 'estatisticas', component: DashboardComponent },
       { path: 'frota', component: DashboardComponent },
       { path: 'logistica', component: DashboardComponent }

@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
-import { Item } from '../../models/ordem-de-servico/item';
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
+import { Item } from '../../../models/ordem-de-servico/item';
 
 @Component({
   selector: 'app-ordem-novo',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './ordem-novo.component.html',
-  styleUrls: ['./ordem-novo.component.css', '../../styles/shared-buttons.css']
+  styleUrls: ['./ordem-novo.component.css']
 })
 export class OrdemNovoComponent {
   ordem: OrdemDeServico = new OrdemDeServico();

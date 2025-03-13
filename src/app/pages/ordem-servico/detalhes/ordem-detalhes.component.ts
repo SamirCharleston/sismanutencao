@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from '../../services/data.service';
-import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
-import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
-import { Item } from '../../models/ordem-de-servico/item';
-import { Arquivo } from '../../models/ordem-de-servico/arquivo';
+import { DataService } from '../../../services/data.service';
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
+import { ConfirmModalComponent } from '../../../components/confirm-modal/confirm-modal.component';
+import { Item } from '../../../models/ordem-de-servico/item';
+import { Arquivo } from '../../../models/ordem-de-servico/arquivo';
 
 @Component({
   selector: 'app-ordem-detalhes',
   standalone: true,
   imports: [CommonModule, FormsModule, ConfirmModalComponent],
   templateUrl: './ordem-detalhes.component.html',
-  styleUrls: ['./ordem-detalhes.component.css', '../../styles/shared-buttons.css']
+  styleUrls: ['./ordem-detalhes.component.css']
 })
 export class OrdemDetalhesComponent implements OnInit {
   ordem: OrdemDeServico = new OrdemDeServico();

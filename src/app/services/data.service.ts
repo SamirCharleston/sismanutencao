@@ -5,6 +5,9 @@ import { Medicao } from '../models/medicao/medicao';
 import { Insumo } from '../models/pedido/insumo';
 import { Pedido, PedidoStatus } from '../models/pedido/pedido';
 import { Colaborador } from '../models/colaborador/colaborador';
+import { Observable, of } from 'rxjs';
+import { Ferramenta, StatusFerramenta } from '../models/ferramenta/ferramenta';
+import { HistoricoFerramenta } from '../models/ferramenta/historico-ferramenta';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +19,121 @@ export class DataService {
   private insumos: Insumo[] = [];
   private pedidos: Pedido[] = [];
   private colaboradores: Colaborador[] = [];
+  private historicoFerramentas: HistoricoFerramenta[] = [
+    {
+      id: 1,
+      colaborador: this.colaboradores[0],
+      dataRetirada: new Date('2023-01-13'),
+      dataDevolucao: new Date('2023-01-14'),
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+    },
+    {
+      id: 2,
+      colaborador: this.colaboradores[1],
+      dataRetirada: new Date('2023-01-15'),
+      dataDevolucao: new Date('2023-01-16'),
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+    },
+    {
+      id: 3,
+      colaborador: this.colaboradores[2],
+      dataRetirada: new Date('2023-01-20'),
+      dataDevolucao: new Date('2023-01-21'),
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+    },
+    {
+      id: 4,
+      colaborador: this.colaboradores[3],
+      dataRetirada: new Date('2023-01-25'),
+      dataDevolucao: new Date('2023-01-26'),
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+    },
+    {
+      id: 5,
+      colaborador: this.colaboradores[4],
+      dataRetirada: new Date('2023-02-01'),
+      dataDevolucao: new Date('2023-02-02'),
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+    }
+  ];
+  private ferramentas: Ferramenta[] = [
+    {
+      id: 1,
+      nome: 'Chave de Fenda Phillips',
+      descricao: 'Chave de fenda phillips profissional 1/4',
+      categoria: 'Mecânica',
+      status: 'disponivel',
+      localizacao: 'Armário A1',
+      imagemUrl: 'https://madeirasgasometro.vtexassets.com/arquivos/ids/170972/chave-de-fenda-5-16-x-4-vonder-plus-imagem-01.jpg?v=636858456547700000',
+      dataAquisicao: new Date('2023-01-15'),
+      quantidade: 10,
+      marca: 'Tramontina',
+      historicoDeUso: [],
+      manutencao: false,
+      custodiante: this.colaboradores[0]
+    },
+    {
+      id: 2,
+      nome: 'Multímetro Digital',
+      descricao: 'Multímetro digital com display LCD',
+      categoria: 'Elétrica',
+      status: 'em_uso',
+      localizacao: 'Gaveta B3',
+      imagemUrl: 'https://www.deere.com.br/assets/images/region-3/products/home-and-workshop-products/ferramenta-thumb.png',
+      dataAquisicao: new Date('2023-02-20'),
+      quantidade: 5,
+      marca: 'Minipa',
+      historicoDeUso: [],
+      manutencao: false,
+      custodiante: this.colaboradores[0]
+    },
+    // Add 18 more tools with realistic data
+    {
+      id: 3,
+      nome: 'Alicate Universal',
+      descricao: 'Alicate universal profissional 8"',
+      categoria: 'Mecânica',
+      status: 'disponivel',
+      localizacao: 'Armário A2',
+      imagemUrl: 'https://cdn.leroymerlin.com.br/contents/40_tipos_de_ferramentas_nomes_e_para_que_servem_c3ee_original.jpg',
+      dataAquisicao: new Date('2023-03-10'),
+      quantidade: 8,
+      marca: 'Gedore',
+      historicoDeUso: [],
+      manutencao: false,
+      custodiante: this.colaboradores[1]
+    },
+    {
+      id: 4,
+      nome: 'Martelo de Unha',
+      descricao: 'Martelo de unha 23mm',
+      categoria: 'Mecânica',
+      status: 'disponivel',
+      localizacao: 'Armário A3',
+      imagemUrl: 'https://img.lojadomecanico.com.br/IMAGENS/2/139/131290/1571843097346.JPG',
+      dataAquisicao: new Date('2023-04-05'),
+      quantidade: 7,
+      marca: 'Tramontina',
+      historicoDeUso: [],
+      manutencao: false,
+      custodiante: this.colaboradores[1]
+    },
+    {
+      id: 5,
+      nome: 'Serra Tico-T',
+      descricao: 'Serra tico-tico 500W',
+      categoria: 'Mecânica',
+      status: 'disponivel',
+      localizacao: 'Armário A4',
+      imagemUrl: 'https://img.lojadomecanico.com.br/IMAGENS/2/139/131290/1571843097346.JPG',
+      dataAquisicao: new Date('2023-05-12'),
+      quantidade: 6,
+      marca: 'Bosch',
+      historicoDeUso: [],
+      manutencao: false,
+      custodiante: this.colaboradores[2]
+    },
+  ];
 
   constructor() {
     this.generateItems();
@@ -24,6 +142,7 @@ export class DataService {
     this.initializeInsumos();
     this.initializePedidos();
     this.initializeColaboradores();
+    this.initializeFerramentas();
   }
 
   private generateItems() {
@@ -265,6 +384,33 @@ export class DataService {
     });
   }
 
+  private initializeFerramentas() {
+    const marcas = ['Tramontina', 'Gedore', 'Bosch', 'Makita', 'DeWalt', 'Stanley', 'Minipa'];
+    const categorias = ['Mecânica', 'Elétrica', 'Medição', 'Hidráulica'];
+    const localizacoes = ['Armário A1', 'Armário A2', 'Gaveta B1', 'Gaveta B2', 'Estante C1'];
+    const status: StatusFerramenta[] = ['disponivel', 'em_uso', 'manutencao'];
+
+    // Generate remaining tools
+    for (let i = 4; i <= 20; i++) {
+      const ferramenta: Ferramenta = {
+        id: i,
+        nome: `Ferramenta ${i}`,
+        descricao: `Descrição da ferramenta ${i}`,
+        categoria: categorias[Math.floor(Math.random() * categorias.length)],
+        status: status[Math.floor(Math.random() * status.length)],
+        localizacao: localizacoes[Math.floor(Math.random() * localizacoes.length)],
+        imagemUrl: `assets/images/tools/tool${i}.jpg`,
+        dataAquisicao: new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1),
+        quantidade: Math.floor(Math.random() * 10) + 1,
+        marca: marcas[Math.floor(Math.random() * marcas.length)],
+        historicoDeUso: [],
+        manutencao: Math.random() > 0.8,
+        custodiante: this.colaboradores[Math.floor(Math.random() * this.colaboradores.length)]
+      };
+      this.ferramentas.push(ferramenta);
+    }
+  }
+
   getItems(): Item[] {
     return this.items;
   }
@@ -291,5 +437,17 @@ export class DataService {
 
   getColaboradores(): Colaborador[] {
     return this.colaboradores;
+  }
+
+  getFerramentas(): Observable<Ferramenta[]> {
+    return of(this.ferramentas);
+  }
+
+  getFerramentaPorId(id: string): Observable<Ferramenta | undefined> {
+    return of(this.ferramentas.find(f => f.id === Number(id)));
+  }
+
+  getHistoricoFerramentas(): HistoricoFerramenta[] {
+    return this.historicoFerramentas;
   }
 }

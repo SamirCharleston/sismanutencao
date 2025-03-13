@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Colaborador } from '../../models/colaborador/colaborador';
-import { DataService } from '../../services/data.service';
-import { SearchService } from '../../services/search.service';
-import { ColaboradorCardsComponent } from './colaborador-cards/colaborador-cards.component';
+import { Colaborador } from '../../../models/colaborador/colaborador';
+import { DataService } from '../../../services/data.service';
+import { SearchService } from '../../../services/search.service';
+import { ColaboradorCardsComponent } from '../colaborador-cards/colaborador-cards.component';
 
 @Component({
   selector: 'app-colaboradores',

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Pedido } from '../../models/pedido/pedido';
-import { DataService } from '../../services/data.service';
-import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
+import { Pedido } from '../../../models/pedido/pedido';
+import { DataService } from '../../../services/data.service';
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
 
 @Component({
   selector: 'app-pedidos',

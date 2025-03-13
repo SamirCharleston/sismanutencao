@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
-import { SearchService } from '../../services/search.service';
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
+import { SearchService } from '../../../services/search.service';
 import { Subscription } from 'rxjs';
-import { OrdemSortComponent } from '../../components/ordem-sort/ordem-sort.component';
-import { DataService } from '../../services/data.service';
-import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { OrdemSortComponent } from '../../../components/ordem-sort/ordem-sort.component';
+import { DataService } from '../../../services/data.service';
+import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loading-spinner.component';
 import { Router } from '@angular/router';
 
 @Component({

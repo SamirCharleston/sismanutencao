@@ -1,0 +1,82 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <h1>Inventário Coletivo</h1>
+      <button class="btn primary" routerLink="novo">
+        <mat-icon>add</mat-icon>
+        Nova Ferramenta
+      </button>
+    </div>
+
+    <div class="filters">
+      <div class="search-field">
+        <input type="text" 
+               [(ngModel)]="searchTerm" 
+               placeholder="Digite para buscar..."
+               class="input-field">
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+
+      <div class="select-field">
+        <select title="categoria" [(ngModel)]="selectedCategory" class="input-field">
+          <option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tools-grid" *ngIf="!loading">
+      <div *ngFor="let ferramenta of filteredFerramentas" class="tool-card">
+        <div class="tool-header">
+          <span class="status-badge" [class]="ferramenta.status">
+            <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
+            {{getStatusText(ferramenta.status)}}
+          </span>
+          <span class="quantity">Qtd: {{ferramenta.quantidade}}</span>
+        </div>
+
+        <div class="tool-image">
+          <img [src]="ferramenta.imagemUrl || 'assets/images/tool-placeholder.png'" 
+               [alt]="ferramenta.nome">
+        </div>
+
+        <div class="tool-content">
+          <div class="tool-info">
+            <h3 class="tool-title">{{ferramenta.nome}}</h3>
+            <p class="tool-description">{{ferramenta.descricao}}</p>
+          </div>
+
+          <div class="tool-details">
+            <div class="info-row">
+              <mat-icon>category</mat-icon>
+              <span>{{ferramenta.categoria}}</span>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>place</mat-icon>
+              <span>{{ferramenta.localizacao}}</span>
+            </div>
+
+            <div class="info-row" *ngIf="ferramenta.custodiante?.nome">
+              <mat-icon>person</mat-icon>
+              <span>{{ferramenta.custodiante.nome}}</span>
+            </div>
+          </div>
+
+          <div class="tool-footer">
+            <span class="tool-brand">{{ferramenta.marca}}</span>
+            <button class="btn icon" title="Ver detalhes">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Carregando...</span>
+    </div>
+  </div>
+</div>

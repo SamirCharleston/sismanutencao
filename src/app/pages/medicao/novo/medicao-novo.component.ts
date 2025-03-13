@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Medicao } from '../../models/medicao/medicao';
-import { OrdemDeServico } from '../../models/ordem-de-servico/ordem-de-servico';
-import { DataService } from '../../services/data.service';
-import { DatepickerComponent } from '../../components/datepicker/datepicker.component';
+import { Medicao } from '../../../models/medicao/medicao';
+import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
+import { DataService } from '../../../services/data.service';
+import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 
 @Component({
   selector: 'app-medicao-novo',

@@ -17,7 +17,7 @@ export class DashboardComponent {
     { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
     { icon: 'speed', label: 'Medições', route: '/medicoes' },
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/pedidos' },
-    { icon: 'build', label: 'Inventário ferramental', route: '/inventario' },
+    { icon: 'build', label: 'Inventário Coletivo', route: '/dashboard/inventario' },
     { icon: 'people', label: 'Colaboradores', route: '/colaboradores' },
     { icon: 'analytics', label: 'Estatísticas', route: '/estatisticas' },
     { icon: 'local_shipping', label: 'Frota', route: '/frota' },

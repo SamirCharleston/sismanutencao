@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { DataService } from '../../services/data.service';
-import { Medicao } from '../../models/medicao/medicao';
+import { DataService } from '../../../services/data.service';
+import { Medicao } from '../../../models/medicao/medicao';
 
 @Component({
   selector: 'app-medicoes',
