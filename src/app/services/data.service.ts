@@ -25,35 +25,45 @@ export class DataService {
       colaborador: this.colaboradores[0],
       dataRetirada: new Date('2023-01-13'),
       dataDevolucao: new Date('2023-01-14'),
-      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta',
+      quantidade: 2,
+      devolvido: false
     },
     {
       id: 2,
       colaborador: this.colaboradores[1],
       dataRetirada: new Date('2023-01-15'),
       dataDevolucao: new Date('2023-01-16'),
-      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta',
+      quantidade: 1,
+      devolvido: false
     },
     {
       id: 3,
       colaborador: this.colaboradores[2],
       dataRetirada: new Date('2023-01-20'),
       dataDevolucao: new Date('2023-01-21'),
-      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta',
+      quantidade: 1,
+      devolvido: true
     },
     {
       id: 4,
       colaborador: this.colaboradores[3],
       dataRetirada: new Date('2023-01-25'),
       dataDevolucao: new Date('2023-01-26'),
-      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta',
+      quantidade: 5,
+      devolvido: false
     },
     {
       id: 5,
       colaborador: this.colaboradores[4],
       dataRetirada: new Date('2023-02-01'),
       dataDevolucao: new Date('2023-02-02'),
-      observacoes: 'Observações sobre a retirada e devolução da ferramenta'
+      observacoes: 'Observações sobre a retirada e devolução da ferramenta',
+      quantidade: 5,
+      devolvido: true
     }
   ];
   private ferramentas: Ferramenta[] = [
@@ -70,7 +80,9 @@ export class DataService {
       marca: 'Tramontina',
       historicoDeUso: [],
       manutencao: false,
-      custodiante: this.colaboradores[0]
+      custodiante: this.colaboradores[0],
+      quantidadeDisponivel: 10,
+      quantidadeEmUso: 0
     },
     {
       id: 2,
@@ -85,9 +97,10 @@ export class DataService {
       marca: 'Minipa',
       historicoDeUso: [],
       manutencao: false,
-      custodiante: this.colaboradores[0]
+      custodiante: this.colaboradores[0],
+      quantidadeDisponivel: 4,
+      quantidadeEmUso: 1
     },
-    // Add 18 more tools with realistic data
     {
       id: 3,
       nome: 'Alicate Universal',
@@ -101,7 +114,9 @@ export class DataService {
       marca: 'Gedore',
       historicoDeUso: [],
       manutencao: false,
-      custodiante: this.colaboradores[1]
+      custodiante: this.colaboradores[1],
+      quantidadeDisponivel: 8,
+      quantidadeEmUso: 0
     },
     {
       id: 4,
@@ -116,7 +131,9 @@ export class DataService {
       marca: 'Tramontina',
       historicoDeUso: [],
       manutencao: false,
-      custodiante: this.colaboradores[1]
+      custodiante: this.colaboradores[1],
+      quantidadeDisponivel: 7,
+      quantidadeEmUso: 0
     },
     {
       id: 5,
@@ -131,7 +148,9 @@ export class DataService {
       marca: 'Bosch',
       historicoDeUso: [],
       manutencao: false,
-      custodiante: this.colaboradores[2]
+      custodiante: this.colaboradores[2],
+      quantidadeDisponivel: 6,
+      quantidadeEmUso: 0
     },
   ];
 
@@ -405,7 +424,9 @@ export class DataService {
         marca: marcas[Math.floor(Math.random() * marcas.length)],
         historicoDeUso: [],
         manutencao: Math.random() > 0.8,
-        custodiante: this.colaboradores[Math.floor(Math.random() * this.colaboradores.length)]
+        custodiante: this.colaboradores[Math.floor(Math.random() * this.colaboradores.length)],
+        quantidadeDisponivel: Math.floor(Math.random() * 10) + 1,
+        quantidadeEmUso: Math.floor(Math.random() * 5)
       };
       this.ferramentas.push(ferramenta);
     }

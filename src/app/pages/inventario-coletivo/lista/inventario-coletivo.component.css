@@ -341,7 +341,8 @@ mat-card-content {
 .stock-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .tool-quantity {
@@ -358,6 +359,11 @@ mat-card-content {
 .tool-quantity.low-stock {
   background: #ffebee;
   color: #c62828;
+}
+
+.tool-quantity.in-use {
+  background: #fff3e0;
+  color: #f57c00;
 }
 
 .tool-quantity mat-icon {

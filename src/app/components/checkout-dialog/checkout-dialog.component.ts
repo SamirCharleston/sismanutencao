@@ -85,10 +85,14 @@ export class CheckoutDialogComponent {
     this.colaboradores = this.dataService.getColaboradores();
   }
 
+  get maxQuantity(): number {
+    return this.ferramenta?.quantidadeDisponivel || this.ferramenta?.quantidade || 0;
+  }
+
   get isValid(): boolean {
     return !!this.selectedColaborador && 
            this.quantidade > 0 && 
-           this.quantidade <= (this.ferramenta?.quantidade || 0);
+           this.quantidade <= this.maxQuantity;
   }
 
   onClose() {

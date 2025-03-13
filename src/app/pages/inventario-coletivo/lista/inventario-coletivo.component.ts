@@ -89,21 +89,29 @@ export class InventarioColetivoComponent implements OnInit {
 
   handleCheckout(event: { colaborador: Colaborador; quantidade: number; observacoes: string }) {
     if (this.selectedFerramenta) {
-      // Update ferramenta status
-      this.selectedFerramenta.status = 'em_uso';
-      this.selectedFerramenta.quantidade -= event.quantidade;
-      this.selectedFerramenta.custodiante = event.colaborador;
+      // Update quantities
+      this.selectedFerramenta.quantidadeDisponivel = (this.selectedFerramenta.quantidadeDisponivel || this.selectedFerramenta.quantidade) - event.quantidade;
+      this.selectedFerramenta.quantidadeEmUso = (this.selectedFerramenta.quantidadeEmUso || 0) + event.quantidade;
+      
+      // Update status if all items are checked out
+      if (this.selectedFerramenta.quantidadeDisponivel === 0) {
+        this.selectedFerramenta.status = 'em_uso';
+      }
 
       // Add to history
       const historicoItem: HistoricoFerramenta = {
         id: Math.random() * 1000,
         colaborador: event.colaborador,
         dataRetirada: new Date(),
-        dataDevolucao: new Date(), // Will be set when returned
-        observacoes: event.observacoes
+        dataDevolucao: new Date(),
+        quantidade: event.quantidade,
+        observacoes: event.observacoes,
+        devolvido: false
       };
 
       this.selectedFerramenta.historicoDeUso.push(historicoItem);
+      this.selectedFerramenta.custodiante = event.colaborador;
+      
       this.showCheckoutDialog = false;
       this.selectedFerramenta = undefined;
     }

@@ -15,6 +15,8 @@ export class Ferramenta {
   custodiante: Colaborador = new Colaborador();
   historicoDeUso!: HistoricoFerramenta[];
   manutencao!: boolean;
+  quantidadeDisponivel!: number;
+  quantidadeEmUso!: number;
 }
 
 export type StatusFerramenta = 'disponivel' | 'em_uso' | 'manutencao';

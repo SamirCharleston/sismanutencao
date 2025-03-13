@@ -38,10 +38,15 @@
           <div class="tool-header">
             <h3>{{ferramenta.nome}}</h3>
             <div class="stock-info">
-              <span class="tool-quantity" [class.low-stock]="ferramenta.quantidade < 3">
+              <span class="tool-quantity" [class.low-stock]="ferramenta.quantidadeDisponivel < 3">
                 <mat-icon>inventory_2</mat-icon>
-                {{ferramenta.quantidade}}
-                <small>unidades</small>
+                {{ferramenta.quantidadeDisponivel || ferramenta.quantidade}}
+                <small>disponível</small>
+              </span>
+              <span class="tool-quantity in-use" *ngIf="ferramenta.quantidadeEmUso">
+                <mat-icon>people</mat-icon>
+                {{ferramenta.quantidadeEmUso}}
+                <small>em uso</small>
               </span>
             </div>
           </div>

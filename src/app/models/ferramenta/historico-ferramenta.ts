@@ -6,4 +6,6 @@ export class HistoricoFerramenta {
   dataRetirada!: Date;
   dataDevolucao!: Date;
   observacoes!: string;
+  quantidade!: number;
+  devolvido!: boolean;
 }
