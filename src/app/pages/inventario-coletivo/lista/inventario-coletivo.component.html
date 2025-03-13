@@ -75,11 +75,14 @@
               <span>{{getStatusText(ferramenta.status)}}</span>
             </div>
             <div class="action-buttons">
-              <button class="action-btn" title="Ver detalhes">
+              <button class="action-btn" 
+                      [routerLink]="['/dashboard/inventario', ferramenta.id]" 
+                      title="Ver detalhes">
                 <mat-icon>visibility</mat-icon>
               </button>
               <button class="action-btn" 
                       *ngIf="ferramenta.status === 'disponivel'"
+                      (click)="openCheckoutDialog(ferramenta)"
                       title="Retirar ferramenta">
                 <mat-icon>person_add</mat-icon>
               </button>
@@ -100,3 +103,10 @@
     </div>
   </div>
 </div>
+
+<app-checkout-dialog
+  [show]="showCheckoutDialog"
+  [ferramenta]="selectedFerramenta"
+  (close)="showCheckoutDialog = false"
+  (confirm)="handleCheckout($event)">
+</app-checkout-dialog>

@@ -17,6 +17,7 @@ import { ColaboradorDetalhesComponent } from './pages/colaboradores/detalhes/col
 import { ColaboradorNovoComponent } from './pages/colaboradores/novo/colaborador-novo.component';
 import { InventarioColetivoComponent } from './pages/inventario-coletivo/lista/inventario-coletivo.component';
 import { NovoComponent } from './pages/inventario-coletivo/novo/novo.component';
+import { DetalhesComponent } from './pages/inventario-coletivo/detalhes/detalhes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'colaboradores/:id', component: ColaboradorDetalhesComponent }, // Add this route route
       { path: 'colaboradores', component: ColaboradoresComponent },
       { path: 'inventario/novo', component: NovoComponent },
+      { path: 'inventario/:id', component: DetalhesComponent },
       { path: 'inventario', component: InventarioColetivoComponent },
       { path: 'estatisticas', component: DashboardComponent },
       { path: 'frota', component: DashboardComponent },

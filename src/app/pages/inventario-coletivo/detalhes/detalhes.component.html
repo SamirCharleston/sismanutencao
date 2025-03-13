@@ -1,0 +1,98 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <button class="btn back" (click)="onBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar
+      </button>
+      <h1>Detalhes da Ferramenta</h1>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Carregando...</span>
+    </div>
+
+    <div class="tool-details" *ngIf="!loading && ferramenta">
+      <div class="details-grid">
+        <!-- Left Column -->
+        <div class="left-column">
+          <div class="tool-image-card">
+            <img alt [src]="ferramenta.imagemUrl" [alt]="ferramenta.nome" (error)="onImageError($event)">
+            <div class="status-badge" [class]="ferramenta.status">
+              <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
+              <span>{{getStatusText(ferramenta.status)}}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Informações Básicas</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="label">Categoria</span>
+                <span class="value">{{ferramenta.categoria}}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Marca</span>
+                <span class="value">{{ferramenta.marca}}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Localização</span>
+                <span class="value">{{ferramenta.localizacao}}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Quantidade</span>
+                <span class="value">{{ferramenta.quantidade}} unidades</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Data de Aquisição</span>
+                <span class="value">{{ferramenta.dataAquisicao | date}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+          <div class="info-card">
+            <h3>Descrição</h3>
+            <p class="description">{{ferramenta.descricao}}</p>
+          </div>
+
+          <div class="info-card" *ngIf="ferramenta.custodiante">
+            <h3>Custodiante Atual</h3>
+            <div class="custodian-info">
+              <div class="user-avatar">
+                <img alt [src]="ferramenta.custodiante.fotoPerfil" [alt]="ferramenta.custodiante.nome"
+                     (error)="onImageError($event)">
+              </div>
+              <div class="user-details">
+                <span class="name">{{ferramenta.custodiante.nome}}</span>
+                <span class="role">{{ferramenta.custodiante.cargo}}</span>
+                <span class="department">{{ferramenta.custodiante.setor}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Histórico de Uso</h3>
+            <div class="history-list" *ngIf="ferramenta.historicoDeUso.length > 0; else noHistory">
+              <div class="history-item" *ngFor="let history of ferramenta.historicoDeUso">
+                <div class="history-header">
+                  <span class="history-date">
+                    {{history.dataRetirada | date}} - {{history.dataDevolucao | date}}
+                  </span>
+                  <span class="history-user">{{history.colaborador.nome}}</span>
+                </div>
+                <p class="history-obs" *ngIf="history.observacoes">{{history.observacoes}}</p>
+              </div>
+            </div>
+            <ng-template #noHistory>
+              <p class="no-data">Nenhum registro de uso encontrado</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

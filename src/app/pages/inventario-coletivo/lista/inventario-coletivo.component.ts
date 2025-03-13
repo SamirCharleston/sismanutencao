@@ -6,11 +6,14 @@ import { DataService } from '../../../services/data.service';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CheckoutDialogComponent } from '../../../components/checkout-dialog/checkout-dialog.component';
+import { Colaborador } from '../../../models/colaborador/colaborador';
+import { HistoricoFerramenta } from '../../../models/ferramenta/historico-ferramenta';
 
 @Component({
   selector: 'app-inventario-coletivo',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, CheckoutDialogComponent],
   templateUrl: './inventario-coletivo.component.html',
   styleUrls: ['./inventario-coletivo.component.css']
 })
@@ -21,6 +24,8 @@ export class InventarioColetivoComponent implements OnInit {
   selectedCategory = 'Todas';
   categories = ['Todas', 'Mecânica', 'Elétrica', 'Medição'];
   showErrorIcon = Array(this.ferramentas.length).fill(false);
+  showCheckoutDialog = false;
+  selectedFerramenta?: Ferramenta;
 
   constructor(
     private dataService: DataService,
@@ -75,5 +80,32 @@ export class InventarioColetivoComponent implements OnInit {
   handleImageError(i: number): void {
     // container.style.backgroundColor = '#ddd';
     this.showErrorIcon[i] = true;
+  }
+
+  openCheckoutDialog(ferramenta: Ferramenta) {
+    this.selectedFerramenta = ferramenta;
+    this.showCheckoutDialog = true;
+  }
+
+  handleCheckout(event: { colaborador: Colaborador; quantidade: number; observacoes: string }) {
+    if (this.selectedFerramenta) {
+      // Update ferramenta status
+      this.selectedFerramenta.status = 'em_uso';
+      this.selectedFerramenta.quantidade -= event.quantidade;
+      this.selectedFerramenta.custodiante = event.colaborador;
+
+      // Add to history
+      const historicoItem: HistoricoFerramenta = {
+        id: Math.random() * 1000,
+        colaborador: event.colaborador,
+        dataRetirada: new Date(),
+        dataDevolucao: new Date(), // Will be set when returned
+        observacoes: event.observacoes
+      };
+
+      this.selectedFerramenta.historicoDeUso.push(historicoItem);
+      this.showCheckoutDialog = false;
+      this.selectedFerramenta = undefined;
+    }
   }
 }
