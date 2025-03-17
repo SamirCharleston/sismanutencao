@@ -18,6 +18,7 @@ import { ColaboradorNovoComponent } from './pages/colaboradores/novo/colaborador
 import { InventarioColetivoComponent } from './pages/inventario-coletivo/lista/inventario-coletivo.component';
 import { NovoComponent } from './pages/inventario-coletivo/novo/novo.component';
 import { DetalhesComponent } from './pages/inventario-coletivo/detalhes/detalhes.component';
+import { FrotaDashboardComponent } from './pages/frota/frota-dashboard/frota-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -44,7 +45,7 @@ export const routes: Routes = [
       { path: 'inventario/:id', component: DetalhesComponent },
       { path: 'inventario', component: InventarioColetivoComponent },
       { path: 'estatisticas', component: DashboardComponent },
-      { path: 'frota', component: DashboardComponent },
+      { path: 'frota', component: FrotaDashboardComponent },
       { path: 'logistica', component: DashboardComponent }
     ]
   }

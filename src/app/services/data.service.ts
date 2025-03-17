@@ -8,6 +8,7 @@ import { Colaborador } from '../models/colaborador/colaborador';
 import { Observable, of } from 'rxjs';
 import { Ferramenta, StatusFerramenta } from '../models/ferramenta/ferramenta';
 import { EmprestimoFerramenta } from '../models/ferramenta/emprestimo-ferramenta';
+import { Carro } from '../models/frota/carro';
 
 @Injectable({
   providedIn: 'root'
@@ -477,5 +478,20 @@ export class DataService {
 
   getHistoricoFerramentas(): EmprestimoFerramenta[] {
     return this.historicoFerramentas;
+  }
+
+  getCarros(): Observable<Carro[]> {
+    // Mock data for demonstration purposes
+    const carros: Carro[] = [
+      { id: 1, status: 'disponivel', proxManuProgramada: new Date(), placa: 'ABC-1234', modelo: 'Modelo A', marca: 'Marca A', ano: 2020, quilometragem: 10000 , combustivel: 'Flex', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg' },
+      { id: 2, status: 'em_uso', proxManuProgramada: new Date(), placa: 'DEF-5678', modelo: 'Modelo B', marca: 'Marca B', ano: 2021, quilometragem: 20000, combustivel: 'Gasolina', imagemUrl: 'https://stellantis3.dam-broadcast.com/medias/domain12808/media107880/2364222-h60naklro5-whr.jpg' },
+      { id: 3, status: 'manutencao', proxManuProgramada: new Date(), placa: 'GHI-9012', modelo: 'Modelo C', marca: 'Marca C', ano: 2022, quilometragem: 30000 , combustivel: 'Etanol', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg' },
+      { id: 4, status: 'inativo', proxManuProgramada: new Date(), placa: 'JKL-3456', modelo: 'Modelo D', marca: 'Marca D', ano: 2023, quilometragem: 40000 , combustivel: 'Diesel', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg' },
+      { id: 5, status: 'disponivel', proxManuProgramada: new Date(), placa: 'MNO-7890', modelo: 'Modelo E', marca: 'Marca E', ano: 2024, quilometragem: 50000 , combustivel: 'GNV', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg' },
+      { id: 6, status: 'em_uso', proxManuProgramada: new Date(), placa: 'PQR-1234', modelo: 'Modelo F', marca: 'Marca F', ano: 2025, quilometragem: 60000 , combustivel: 'Flex', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg'},
+      { id: 7, status: 'manutencao', proxManuProgramada: new Date(), placa: 'STU-5678', modelo: 'Modelo G', marca: 'Marca G', ano: 2026, quilometragem: 70000 , combustivel: 'Gasolina', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg'},
+      { id: 8, status: 'inativo', proxManuProgramada: new Date(), placa: 'VWX-9012', modelo: 'Modelo H', marca: 'Marca H', ano: 2027, quilometragem: 80000 , combustivel: 'Etanol', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg'},
+    ];
+    return of(carros);
   }
 }

@@ -1,1 +1,110 @@
-<p>frota-dashboard works!</p>
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <h1>Gerenciamento de Frota</h1>
+      <button class="btn primary" routerLink="novo">
+        <mat-icon>add</mat-icon>
+        Novo Veículo
+      </button>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon total">
+          <mat-icon>directions_car</mat-icon>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{metricas.total}}</span>
+          <span class="metric-label">Total de Veículos</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon available">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{metricas.disponiveis}}</span>
+          <span class="metric-label">Disponíveis</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon in-use">
+          <mat-icon>commute</mat-icon>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{metricas.emUso}}</span>
+          <span class="metric-label">Em Uso</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon maintenance">
+          <mat-icon>build</mat-icon>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{metricas.emManutencao}}</span>
+          <span class="metric-label">Em Manutenção</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="action-cards">
+      <div class="action-card" routerLink="manutencoes">
+        <mat-icon>build_circle</mat-icon>
+        <h3>Manutenções</h3>
+        <p>Gerenciar manutenções preventivas e corretivas</p>
+        <span class="alert" *ngIf="metricas.proximasManutencoes > 0">
+          {{metricas.proximasManutencoes}} agendadas
+        </span>
+      </div>
+
+      <div class="action-card" routerLink="documentos">
+        <mat-icon>description</mat-icon>
+        <h3>Documentos</h3>
+        <p>Licenciamentos e documentações dos veículos</p>
+      </div>
+
+      <div class="action-card" routerLink="relatorios">
+        <mat-icon>assessment</mat-icon>
+        <h3>Relatórios</h3>
+        <p>Análises e relatórios da frota</p>
+      </div>
+
+      <div class="action-card" routerLink="motoristas">
+        <mat-icon>people</mat-icon>
+        <h3>Motoristas</h3>
+        <p>Gerenciar motoristas e atribuições</p>
+      </div>
+    </div>
+
+    <!-- Vehicle List -->
+    <div class="vehicles-section">
+      <h2>Veículos Recentes</h2>
+      <div class="vehicle-grid">
+        <div *ngFor="let carro of carros.slice(0,4)" class="vehicle-card">
+          <div class="vehicle-image">
+            <img alt [src]="carro.imagemUrl || 'assets/images/car-placeholder.png'" [alt]="carro.modelo">
+            <div class="status-badge" [style.background-color]="getStatusColor(carro.status)">
+              <mat-icon>{{getStatusIcon(carro.status)}}</mat-icon>
+            </div>
+          </div>
+          <div class="vehicle-info">
+            <h3>{{carro.marca}} {{carro.modelo}}</h3>
+            <p class="plate">{{carro.placa}}</p>
+            <div class="details">
+              <span>{{carro.quilometragem}} km</span>
+              <span>{{carro.combustivel}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn secondary view-all" routerLink="lista">
+        Ver todos os veículos
+      </button>
+    </div>
+  </div>
+</div>
