@@ -54,8 +54,8 @@ export class FrotaDashboardComponent implements OnInit {
       emManutencao: this.carros.filter(c => c.status === 'manutencao').length,
       inativos: this.carros.filter(c => c.status === 'inativo').length,
       proximasManutencoes: this.carros.filter(c => {
-        if (!c.proxManuProgramada) return false;
-        const dias = Math.floor((c.proxManuProgramada.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+        if (!c.proxRevisao) return false;
+        const dias = Math.floor((c.proxRevisao.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
         return dias <= 7;
       }).length
     };

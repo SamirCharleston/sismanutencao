@@ -1,0 +1,119 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <button class="btn back" (click)="onCancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar
+      </button>
+      <h1>Novo Veículo</h1>
+    </div>
+
+    <form [formGroup]="veiculoForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-section">
+        <h2>Informações Básicas</h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Placa*</label>
+            <input type="text" formControlName="placa" placeholder="ABC1234" uppercase>
+            <span class="error" *ngIf="veiculoForm.get('placa')?.errors?.['pattern']">
+              Formato inválido (ABC1234)
+            </span>
+          </div>
+
+          <div class="form-field">
+            <label>Marca*</label>
+            <input type="text" formControlName="marca" placeholder="Marca do veículo">
+          </div>
+
+          <div class="form-field">
+            <label>Modelo*</label>
+            <input type="text" formControlName="modelo" placeholder="Modelo do veículo">
+          </div>
+
+          <div class="form-field">
+            <label>Ano*</label>
+            <input type="number" formControlName="ano" placeholder="Ano do veículo">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Documentação</h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>RENAVAM*</label>
+            <input type="text" formControlName="renavam" placeholder="Número do RENAVAM">
+            <span class="error" *ngIf="veiculoForm.get('renavam')?.errors?.['pattern']">
+              RENAVAM deve conter 11 números
+            </span>
+          </div>
+
+          <div class="form-field">
+            <label>Chassi*</label>
+            <input type="text" formControlName="chassi" placeholder="Número do chassi">
+            <span class="error" *ngIf="veiculoForm.get('chassi')?.errors?.['minlength']">
+              Chassi deve conter 17 caracteres
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Informações de Uso</h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Quilometragem*</label>
+            <input type="number" formControlName="quilometragem" placeholder="Km atual">
+          </div>
+
+          <div class="form-field">
+            <label>Combustível*</label>
+            <select title="combustivel" formControlName="combustivel">
+              <option *ngFor="let tipo of tiposCombustivel" [value]="tipo">
+                {{tipo}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Setor</label>
+            <input type="text" formControlName="setor" placeholder="Setor responsável">
+          </div>
+
+          <div class="form-field">
+            <label>Motorista</label>
+            <input type="text" formControlName="motorista" placeholder="Motorista designado">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Manutenção</h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Ultima Revisão</label>
+            <input title="ultimaRevisao" type="date" formControlName="ultimaRevisao">
+          </div>
+
+          <div class="form-field">
+            <label>Próxima Revisão</label>
+            <input title="proxRevisao" type="date" formControlName="proxRevisao">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Imagem</h2>
+        <div class="form-field">
+          <label>URL da Imagem</label>
+          <input type="text" formControlName="imagemUrl" placeholder="URL da imagem do veículo">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn primary" [disabled]="!veiculoForm.valid">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

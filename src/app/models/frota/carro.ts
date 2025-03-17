@@ -6,10 +6,10 @@ export class Carro {
   ano!: number;
   quilometragem!: number;
   status!: StatusCarro;
-  ultimaManutencao?: Date;
-  proxManuProgramada?: Date;
+  ultimaRevisao?: Date; // Mudar para revisao
+  proxRevisao?: Date; // Mudar para revisao
   imagemUrl?: string;
-  motorista?: string;
+  motorista?: string; // Mudar para responsavel
   setor?: string;
   combustivel: TipoCombustivel = 'Gasolina';
   renavam?: string;
