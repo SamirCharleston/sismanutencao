@@ -59,17 +59,17 @@
                 <mat-icon>category</mat-icon>
                 <span>{{ferramenta.categoria}} | {{ferramenta.marca}}</span>
               </div>
-              <div class="detail-row">
+              <!-- <div class="detail-row">
                 <mat-icon>place</mat-icon>
                 <span>{{ferramenta.localizacao}}</span>
-              </div>
+              </div> -->
             </div>
 
-            <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.custodiante">
+            <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.historicoDeUso.length > 0">
               <div class="user-header"></div>
               <div class="user-details">
                 <mat-icon>person</mat-icon>
-                <span>{{ferramenta.custodiante.nome}}</span>
+                <span>{{ferramenta.historicoDeUso[ferramenta.historicoDeUso.length].responsavel.nome}}</span>
               </div>
             </div>
           </div>

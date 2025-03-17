@@ -28,7 +28,9 @@ export class HomeDashboardComponent {
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/dashboard/pedidos' },
     { icon: 'people', label: 'Colaboradores', route: '/dashboard/colaboradores' },
     { icon: 'build', label: 'Ferramentas - Inventário coletivo', route: '/dashboard/inventario' },
-    { icon: 'analytics', label: 'Estatísticas', route: '/dashboard/estatisticas' }
+    { icon: 'local_shipping', label: 'Frota', route: '/dashboard/frota' },
+    { icon: 'route', label: 'Logística', route: '/dashboard/logistica' },
+    { icon: 'analytics', label: 'Estatísticas', route: '/dashboard/estatisticas' },
   ];
 
   filteredItems = this.menuItems;

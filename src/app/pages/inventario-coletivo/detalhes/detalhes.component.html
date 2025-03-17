@@ -36,10 +36,10 @@
                 <span class="label">Marca</span>
                 <span class="value">{{ferramenta.marca}}</span>
               </div>
-              <div class="info-item">
+              <!-- <div class="info-item">
                 <span class="label">Localização</span>
                 <span class="value">{{ferramenta.localizacao}}</span>
-              </div>
+              </div> -->
               <div class="info-item">
                 <span class="label">Quantidade</span>
                 <span class="value">{{ferramenta.quantidade}} unidades</span>
@@ -59,17 +59,20 @@
             <p class="description">{{ferramenta.descricao}}</p>
           </div>
 
-          <div class="info-card" *ngIf="ferramenta.custodiante">
-            <h3>Custodiante Atual</h3>
+          <div class="info-card" *ngIf="ferramenta.historicoDeUso.length > 0">
+            <!-- <h3 *ngIf(ferramenta.custodiante)>Responsáveis</h3> -->
+            <h3>Responsável</h3>
             <div class="custodian-info">
-              <div class="user-avatar">
-                <img alt [src]="ferramenta.custodiante.fotoPerfil" [alt]="ferramenta.custodiante.nome"
-                     (error)="onImageError($event)">
-              </div>
-              <div class="user-details">
-                <span class="name">{{ferramenta.custodiante.nome}}</span>
-                <span class="role">{{ferramenta.custodiante.cargo}}</span>
-                <span class="department">{{ferramenta.custodiante.setor}}</span>
+              <div *ngFor="let ferramenta of ferramenta.historicoDeUso">
+                <div class="user-avatar">
+                  <img alt [src]="ferramenta.responsavel.fotoPerfil" [alt]="ferramenta.responsavel.nome"
+                       (error)="onImageError($event)">
+                </div>
+                <div class="user-details">
+                  <span class="name">{{ferramenta.responsavel.nome}}</span>
+                  <span class="role">{{ferramenta.responsavel.cargo}}</span>
+                  <span class="department">{{ferramenta.responsavel.setor}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -82,7 +85,7 @@
                   <span class="history-date">
                     {{history.dataRetirada | date}} - {{history.dataDevolucao | date}}
                   </span>
-                  <span class="history-user">{{history.colaborador.nome}}</span>
+                  <span class="history-user">{{history.responsavel.nome}}</span>
                 </div>
                 <p class="history-obs" *ngIf="history.observacoes">{{history.observacoes}}</p>
               </div>

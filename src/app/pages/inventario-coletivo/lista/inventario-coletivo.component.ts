@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CheckoutDialogComponent } from '../../../components/checkout-dialog/checkout-dialog.component';
 import { Colaborador } from '../../../models/colaborador/colaborador';
-import { HistoricoFerramenta } from '../../../models/ferramenta/historico-ferramenta';
+import { EmprestimoFerramenta } from '../../../models/ferramenta/emprestimo-ferramenta';
 
 @Component({
   selector: 'app-inventario-coletivo',
@@ -99,18 +99,19 @@ export class InventarioColetivoComponent implements OnInit {
       }
 
       // Add to history
-      const historicoItem: HistoricoFerramenta = {
+      const historicoItem: EmprestimoFerramenta = {
         id: Math.random() * 1000,
-        colaborador: event.colaborador,
+        responsavel: event.colaborador,
         dataRetirada: new Date(),
         dataDevolucao: new Date(),
-        quantidade: event.quantidade,
+        ferramenta: this.selectedFerramenta,
         observacoes: event.observacoes,
-        devolvido: false
+        devolvido: false,
+        quantidade: Math.random() * 10
       };
 
       this.selectedFerramenta.historicoDeUso.push(historicoItem);
-      this.selectedFerramenta.custodiante = event.colaborador;
+      this.selectedFerramenta.historicoDeUso[this.selectedFerramenta.historicoDeUso.length].responsavel = event.colaborador;
       
       this.showCheckoutDialog = false;
       this.selectedFerramenta = undefined;

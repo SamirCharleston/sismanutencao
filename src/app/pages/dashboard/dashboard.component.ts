@@ -16,13 +16,13 @@ export class DashboardComponent {
   
   menuItems = [
     { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
-    { icon: 'speed', label: 'Medições', route: '/medicoes' },
-    { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/pedidos' },
+    { icon: 'speed', label: 'Medições', route: '/dashboard/ordens' },
+    { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/dashboard/pedidos' },
     { icon: 'build', label: 'Inventário Coletivo', route: '/dashboard/inventario' },
-    { icon: 'people', label: 'Colaboradores', route: '/colaboradores' },
-    { icon: 'analytics', label: 'Estatísticas', route: '/estatisticas' },
-    { icon: 'local_shipping', label: 'Frota', route: '/frota' },
-    { icon: 'route', label: 'Logística', route: '/logistica' }
+    { icon: 'people', label: 'Colaboradores', route: '/dashboard/colaboradores' },
+    { icon: 'local_shipping', label: 'Frota', route: '/dashboard/frota' },
+    { icon: 'route', label: 'Logística', route: '/dashboard/logistica' },
+    { icon: 'analytics', label: 'Estatísticas', route: '/dashboard/estatisticas' },
   ];
 
   constructor(public menuService: MenuService) {}
