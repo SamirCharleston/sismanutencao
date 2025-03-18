@@ -17,66 +17,68 @@
       </button>
     </div>
   </div> -->
-<div class="main-container">
-    <div class="header-container">
-      <div class="back-title-container">
-        <button class="btn-back" (click)="onBack()">
-          <i class="material-icons">arrow_back</i>
-        </button>
-        <h2 class="title-container">Colaboradores</h2>
+<div class="page-container">
+  <div class="main-container">
+      <div class="header-container">
+        <div class="back-title-container">
+          <button class="btn-back" (click)="onBack()">
+            <i class="material-icons">arrow_back</i>
+          </button>
+          <h2 class="title-container">Colaboradores</h2>
+        </div>
+        <div class="actions">
+          <button class="btn-secondary" (click)="toggleView()" title="Alternar visualização">
+            <i class="material-icons">{{viewMode === 'table' ? 'grid_view' : 'list'}}</i>
+          </button>
+          <button class="btn-primary" (click)="onNovoColaborador()">
+            <i class="material-icons">add</i>
+            <span>Novo Colaborador</span>
+          </button>
+        </div>
       </div>
-      <div class="actions">
-        <button class="btn-secondary" (click)="toggleView()" title="Alternar visualização">
-          <i class="material-icons">{{viewMode === 'table' ? 'grid_view' : 'list'}}</i>
-        </button>
-        <button class="btn-primary" (click)="onNovoColaborador()">
-          <i class="material-icons">add</i>
-          <span>Novo Colaborador</span>
-        </button>
+  
+    <div class="body-grid content-grid">
+      <div class="table-responsive" *ngIf="viewMode === 'table'">
+        <table>
+          <thead>
+            <tr>
+              <th>Matrícula</th>
+              <th>Nome</th>
+              <th>Cargo</th>
+              <th>Setor</th>
+              <th>Status</th>
+              <th>Data Admissão</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let colaborador of filteredColaboradores" 
+                [routerLink]="[colaborador.id]"
+                class="clickable-row">
+              <td>{{colaborador.matricula}}</td>
+              <td>{{colaborador.nome}}</td>
+              <td>{{colaborador.cargo}}</td>
+              <td>{{colaborador.setor}}</td>
+              <td>
+                <span class="status-badge" [class]="getStatusClass(colaborador.status)">
+                  {{colaborador.status}}
+                </span>
+              </td>
+              <td>{{formatDate(colaborador.dataAdmissao)}}</td>
+              <td class="actions-cell">
+                <button class="btn-icon" title="Ver detalhes">
+                  <i class="material-icons">visibility</i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+  
+      <app-colaborador-cards 
+        *ngIf="viewMode === 'cards'"
+        [colaboradores]="filteredColaboradores">
+      </app-colaborador-cards>
     </div>
-
-  <div class="body-grid content-grid">
-    <div class="table-responsive" *ngIf="viewMode === 'table'">
-      <table>
-        <thead>
-          <tr>
-            <th>Matrícula</th>
-            <th>Nome</th>
-            <th>Cargo</th>
-            <th>Setor</th>
-            <th>Status</th>
-            <th>Data Admissão</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let colaborador of filteredColaboradores" 
-              [routerLink]="[colaborador.id]"
-              class="clickable-row">
-            <td>{{colaborador.matricula}}</td>
-            <td>{{colaborador.nome}}</td>
-            <td>{{colaborador.cargo}}</td>
-            <td>{{colaborador.setor}}</td>
-            <td>
-              <span class="status-badge" [class]="getStatusClass(colaborador.status)">
-                {{colaborador.status}}
-              </span>
-            </td>
-            <td>{{formatDate(colaborador.dataAdmissao)}}</td>
-            <td class="actions-cell">
-              <button class="btn-icon" title="Ver detalhes">
-                <i class="material-icons">visibility</i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <app-colaborador-cards 
-      *ngIf="viewMode === 'cards'"
-      [colaboradores]="filteredColaboradores">
-    </app-colaborador-cards>
   </div>
 </div>

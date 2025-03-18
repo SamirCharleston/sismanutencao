@@ -7,122 +7,124 @@
         Nova Ferramenta
       </button>
     </div> -->
-<div class="main-container">
-  <div class="header-container">
-    <div class="back-title-container">
-      <button class="btn-back" (click)="onBack()">
-        <i class="material-icons">arrow_back</i>
-      </button>
-      <h2 class="title-container">Inventário Coletivo</h2>
+<div class="page-container">
+  <div class="main-container">
+    <div class="header-container">
+      <div class="back-title-container">
+        <button class="btn-back" (click)="onBack()">
+          <i class="material-icons">arrow_back</i>
+        </button>
+        <h2 class="title-container">Inventário Coletivo</h2>
+      </div>
+      
+      <div>
+        <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
+        <button class="btn-primary" (click)="onNovaFerramenta()">
+          <i class="material-icons">add</i>
+          <span>Nova Ferramenta</span>
+        </button>
+      </div>
     </div>
-    
-    <div>
-      <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
-      <button class="btn-primary" (click)="onNovaFerramenta()">
-        <i class="material-icons">add</i>
-        <span>Nova Ferramenta</span>
-      </button>
+    <div class="filters">
+      <div class="search-field">
+        <input type="text" 
+               [(ngModel)]="searchTerm" 
+               placeholder="Digite para buscar..."
+               class="input-field">
+        <mat-icon class="search-icon">search</mat-icon>
+      </div>
+  
+      <div class="select-field">
+        <select title="categoria" [(ngModel)]="selectedCategory" class="input-field">
+          <option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </option>
+        </select>
+      </div>
     </div>
-  </div>
-  <div class="filters">
-    <div class="search-field">
-      <input type="text" 
-             [(ngModel)]="searchTerm" 
-             placeholder="Digite para buscar..."
-             class="input-field">
-      <mat-icon class="search-icon">search</mat-icon>
-    </div>
-
-    <div class="select-field">
-      <select title="categoria" [(ngModel)]="selectedCategory" class="input-field">
-        <option *ngFor="let category of categories" [value]="category">
-          {{category}}
-        </option>
-      </select>
-    </div>
-  </div>
-
-
-    <div class="body-grid tools-grid" *ngIf="!loading">
-      <div *ngFor="let ferramenta of filteredFerramentas; let i = index" class="tool-card">
-        <div class="tool-left">
-          <img alt [src]="ferramenta.imagemUrl" 
-               [alt]="ferramenta.nome"
-               (error)="handleImageError(i)">
-        </div>
-
-        <div class="tool-content">
-          <div class="tool-header">
-            <h3>{{ferramenta.nome}}</h3>
-            <div class="stock-info">
-              <span class="tool-quantity" [class.low-stock]="ferramenta.quantidadeDisponivel < 3">
-                <mat-icon>inventory_2</mat-icon>
-                {{ferramenta.quantidadeDisponivel || ferramenta.quantidade}}
-                <small>disponível</small>
-              </span>
-              <span class="tool-quantity in-use" *ngIf="ferramenta.quantidadeEmUso">
-                <mat-icon>people</mat-icon>
-                {{ferramenta.quantidadeEmUso}}
-                <small>em uso</small>
-              </span>
-            </div>
+  
+  
+      <div class="body-grid tools-grid" *ngIf="!loading">
+        <div *ngFor="let ferramenta of filteredFerramentas; let i = index" class="tool-card">
+          <div class="tool-left">
+            <img alt [src]="ferramenta.imagemUrl" 
+                 [alt]="ferramenta.nome"
+                 (error)="handleImageError(i)">
           </div>
-
-          <p class="tool-description">{{ferramenta.descricao}}</p>
-          
-          <div class="tool-details">
-            <div class="detail-group">
-              <div class="detail-row">
-                <mat-icon>category</mat-icon>
-                <span>{{ferramenta.categoria}} | {{ferramenta.marca}}</span>
-              </div>
-              <!-- <div class="detail-row">
-                <mat-icon>place</mat-icon>
-                <span>{{ferramenta.localizacao}}</span>
-              </div> -->
-            </div>
-
-            <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.historicoDeUso.length > 0">
-              <div class="user-header"></div>
-              <div class="user-details">
-                <mat-icon>person</mat-icon>
-                <span>{{ferramenta.historicoDeUso[ferramenta.historicoDeUso.length].responsavel.nome}}</span>
+  
+          <div class="tool-content">
+            <div class="tool-header">
+              <h3>{{ferramenta.nome}}</h3>
+              <div class="stock-info">
+                <span class="tool-quantity" [class.low-stock]="ferramenta.quantidadeDisponivel < 3">
+                  <mat-icon>inventory_2</mat-icon>
+                  {{ferramenta.quantidadeDisponivel || ferramenta.quantidade}}
+                  <small>disponível</small>
+                </span>
+                <span class="tool-quantity in-use" *ngIf="ferramenta.quantidadeEmUso">
+                  <mat-icon>people</mat-icon>
+                  {{ferramenta.quantidadeEmUso}}
+                  <small>em uso</small>
+                </span>
               </div>
             </div>
-          </div>
-
-          <div class="tool-footer">
-            <div class="status-badge" [class]="ferramenta.status">
-              <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
-              <span>{{getStatusText(ferramenta.status)}}</span>
+  
+            <p class="tool-description">{{ferramenta.descricao}}</p>
+            
+            <div class="tool-details">
+              <div class="detail-group">
+                <div class="detail-row">
+                  <mat-icon>category</mat-icon>
+                  <span>{{ferramenta.categoria}} | {{ferramenta.marca}}</span>
+                </div>
+                <!-- <div class="detail-row">
+                  <mat-icon>place</mat-icon>
+                  <span>{{ferramenta.localizacao}}</span>
+                </div> -->
+              </div>
+  
+              <div class="user-info" *ngIf="ferramenta.status === 'em_uso' && ferramenta.historicoDeUso.length > 0">
+                <div class="user-header"></div>
+                <div class="user-details">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ferramenta.historicoDeUso[ferramenta.historicoDeUso.length].responsavel.nome}}</span>
+                </div>
+              </div>
             </div>
-            <div class="action-buttons">
-              <button class="action-btn" 
-                      [routerLink]="['/dashboard/inventario', ferramenta.id]" 
-                      title="Ver detalhes">
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button class="action-btn" 
-                      *ngIf="ferramenta.status === 'disponivel'"
-                      (click)="openCheckoutDialog(ferramenta)"
-                      title="Retirar ferramenta">
-                <mat-icon>person_add</mat-icon>
-              </button>
-              <button class="action-btn" 
-                      *ngIf="ferramenta.status === 'em_uso'"
-                      title="Devolver ferramenta">
-                <mat-icon>assignment_return</mat-icon>
-              </button>
+  
+            <div class="tool-footer">
+              <div class="status-badge" [class]="ferramenta.status">
+                <mat-icon>{{getStatusIcon(ferramenta.status)}}</mat-icon>
+                <span>{{getStatusText(ferramenta.status)}}</span>
+              </div>
+              <div class="action-buttons">
+                <button class="action-btn" 
+                        [routerLink]="['/dashboard/inventario', ferramenta.id]" 
+                        title="Ver detalhes">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button class="action-btn" 
+                        *ngIf="ferramenta.status === 'disponivel'"
+                        (click)="openCheckoutDialog(ferramenta)"
+                        title="Retirar ferramenta">
+                  <mat-icon>person_add</mat-icon>
+                </button>
+                <button class="action-btn" 
+                        *ngIf="ferramenta.status === 'em_uso'"
+                        title="Devolver ferramenta">
+                  <mat-icon>assignment_return</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="loading" *ngIf="loading">
-      <div class="spinner"></div>
-      <span>Carregando...</span>
-    </div>
+  
+      <div class="loading" *ngIf="loading">
+        <div class="spinner"></div>
+        <span>Carregando...</span>
+      </div>
+  </div>
 </div>
 
 <app-checkout-dialog

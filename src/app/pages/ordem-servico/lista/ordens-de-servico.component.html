@@ -1,60 +1,63 @@
-<div class="main-container">
-  <div class="header-container">
-    <div class="back-title-container">
-      <button class="btn-back" (click)="onBack()">
-        <i class="material-icons">arrow_back</i>
+<div class="page-container">
+  <div class="main-container">
+    <div class="header-container">
+      <div class="back-title-container">
+        <button class="btn-back" (click)="onBack()">
+          <i class="material-icons">arrow_back</i>
+        </button>
+        <h2 class="title-container">Ordens de Serviço</h2>
+      </div>
+      <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
+      <button class="btn-primary" (click)="onNovaOrdem()">
+        <i class="material-icons">add</i>
+        <span>Nova OS</span>
       </button>
-      <h2 class="title-container">Ordens de Serviço</h2>
     </div>
-    <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
-    <button class="btn-primary" (click)="onNovaOrdem()">
-      <i class="material-icons">add</i>
-      <span>Nova OS</span>
-    </button>
-  </div>
-
-<!-- <div class="ordens-container">
-  <div class="header">
-    <h2>Ordens de Serviço</h2>
-    <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
-    <button class="btn-add" (click)="onNovaOrdem()">
-      <i class="material-icons">add</i>
-      <span>Nova OS</span>
-    </button>
-  </div> -->
-
-  <div class="content">
-    
-    <div class="os-grid">
-      <div *ngFor="let os of displayedOrdens" 
-           class="os-card"
-           (click)="navigateToDetails(os)">
-        <div class="warning-indicator" *ngIf="isOverdue(os)">
-          <i class="material-icons">warning</i>
-        </div>
-        <div class="os-content">
-          <div class="os-header">
-            <span class="os-number">OS #{{os.numero}}</span>
-            <span class="status-badge" [class]="os.status.toLowerCase()">{{os.status}}</span>
+  
+  <!-- <div class="ordens-container">
+    <div class="header">
+      <h2>Ordens de Serviço</h2>
+      <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
+      <button class="btn-add" (click)="onNovaOrdem()">
+        <i class="material-icons">add</i>
+        <span>Nova OS</span>
+      </button>
+    </div> -->
+  
+    <div class="content">
+      
+      <div class="os-grid">
+        <div *ngFor="let os of displayedOrdens" 
+             class="os-card"
+             (click)="navigateToDetails(os)">
+          <div class="warning-indicator" *ngIf="isOverdue(os)">
+            <i class="material-icons">warning</i>
           </div>
-          <div class="os-details">
-            <div class="os-info">
-              <i class="material-icons">numbers</i>
-              <span>GLPI: {{os.glpi}}</span>
+          <div class="os-content">
+            <div class="os-header">
+              <span class="os-number">OS #{{os.numero}}</span>
+              <span class="status-badge" [class]="os.status.toLowerCase()">{{os.status}}</span>
             </div>
-            <div class="os-info">
-              <i class="material-icons">location_on</i>
-              <span>{{os.local}}</span>
-            </div>
-            <div class="os-info">
-              <i class="material-icons">calendar_today</i>
-              <span>{{os.dataFim | date:'dd/MM/yyyy'}}</span>
+            <div class="os-details">
+              <div class="os-info">
+                <i class="material-icons">numbers</i>
+                <span>GLPI: {{os.glpi}}</span>
+              </div>
+              <div class="os-info">
+                <i class="material-icons">location_on</i>
+                <span>{{os.local}}</span>
+              </div>
+              <div class="os-info">
+                <i class="material-icons">calendar_today</i>
+                <span>{{os.dataFim | date:'dd/MM/yyyy'}}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
   </div>
 
-  <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
 </div>

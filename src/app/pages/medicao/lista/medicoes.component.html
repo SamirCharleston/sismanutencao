@@ -11,49 +11,51 @@
       <span>Nova Medição</span>
     </button>
   </div> -->
-<div class="main-container">
-  <div class="header-container">
-    <div class="back-title-container">
-      <button class="btn-back" (click)="onBack()">
-        <i class="material-icons">arrow_back</i>
+<div class="page-container">
+  <div class="main-container">
+    <div class="header-container">
+      <div class="back-title-container">
+        <button class="btn-back" (click)="onBack()">
+          <i class="material-icons">arrow_back</i>
+        </button>
+        <h2 class="title-container">Medições</h2>
+      </div>
+      <button class="btn-primary" (click)="onNovaMedicao()">
+        <i class="material-icons">add</i>
+        <span>Nova Medição</span>
       </button>
-      <h2 class="title-container">Medições</h2>
     </div>
-    <button class="btn-primary" (click)="onNovaMedicao()">
-      <i class="material-icons">add</i>
-      <span>Nova Medição</span>
-    </button>
-  </div>
-
-  <div class="body-grid medicoes-grid">
-    <div class="medicao-card" *ngFor="let medicao of medicoes" [routerLink]="['/dashboard/medicoes', medicao.numero]">
-      <div class="medicao-header">
-        <span class="numero">Medição {{medicao.numero}}</span>
-        <span class="data">{{getMesAno(medicao.dataMedicao)}}</span>
-      </div>
-      
-      <div class="medicao-body">
-        <div class="valor-container">
-          <span class="label">Valor Total</span>
-          <span class="valor">{{medicao.totalMedicao | currency:'BRL'}}</span>
+  
+    <div class="body-grid medicoes-grid">
+      <div class="medicao-card" *ngFor="let medicao of medicoes" [routerLink]="['/dashboard/medicoes', medicao.numero]">
+        <div class="medicao-header">
+          <span class="numero">Medição {{medicao.numero}}</span>
+          <span class="data">{{getMesAno(medicao.dataMedicao)}}</span>
         </div>
-        <div class="ordens-info">
-          <span class="ordens-count">{{medicao.ordensDeServico.length}} OS(s)</span>
-          <span class="ans">ANS: {{medicao.ansLogistica}}%</span>
+        
+        <div class="medicao-body">
+          <div class="valor-container">
+            <span class="label">Valor Total</span>
+            <span class="valor">{{medicao.totalMedicao | currency:'BRL'}}</span>
+          </div>
+          <div class="ordens-info">
+            <span class="ordens-count">{{medicao.ordensDeServico.length}} OS(s)</span>
+            <span class="ans">ANS: {{medicao.ansLogistica}}%</span>
+          </div>
         </div>
-      </div>
-
-      <div class="medicao-footer">
-        <div class="actions">
-          <button class="btn-icon" title="Visualizar">
-            <i class="material-icons">visibility</i>
-          </button>
-          <button class="btn-icon" title="Imprimir">
-            <i class="material-icons">print</i>
-          </button>
-          <button class="btn-icon" title="Exportar">
-            <i class="material-icons">download</i>
-          </button>
+  
+        <div class="medicao-footer">
+          <div class="actions">
+            <button class="btn-icon" title="Visualizar">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button class="btn-icon" title="Imprimir">
+              <i class="material-icons">print</i>
+            </button>
+            <button class="btn-icon" title="Exportar">
+              <i class="material-icons">download</i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
