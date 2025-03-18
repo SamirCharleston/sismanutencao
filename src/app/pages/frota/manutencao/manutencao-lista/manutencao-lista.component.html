@@ -1,0 +1,119 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <button class="btn back" routerLink="/dashboard/frota">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar
+      </button>
+      <h1>Manutenções</h1>
+      <button class="btn primary" routerLink="novo">
+        <mat-icon>add</mat-icon>
+        Nova Manutenção
+      </button>
+    </div>
+
+    <div class="filters">
+      <div class="search-field">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por placa ou descrição..." class="input-field">
+        <mat-icon>search</mat-icon>
+      </div>
+
+      <div class="filter-fields">
+        <select title="status" [(ngModel)]="selectedStatus" class="input-field">
+          <option value="todas">Todos os Status</option>
+          <option *ngFor="let status of statusOptions" [value]="status">
+            {{status | titlecase}}
+          </option>
+        </select>
+
+        <select title="tipo" [(ngModel)]="selectedTipo" class="input-field">
+          <option value="todas">Todos os Tipos</option>
+          <option *ngFor="let tipo of tipoOptions" [value]="tipo">
+            {{tipo | titlecase}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="maintenance-grid" *ngIf="!loading">
+      <div class="maintenance-card" *ngFor="let manutencao of filteredManutencoes">
+        <div class="card-header">
+          <div class="header-left">
+            <span class="plate">{{manutencao.carro.placa}}</span>
+            <span class="model">{{manutencao.carro.marca}} {{manutencao.carro.modelo}}</span>
+          </div>
+          <div class="status-badge" [style.background-color]="getStatusColor(manutencao.status)">
+            <mat-icon>{{getStatusIcon(manutencao.status)}}</mat-icon>
+            <span>{{manutencao.status | titlecase}}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="maintenance-type">
+            <mat-icon>{{getTipoIcon(manutencao.tipo)}}</mat-icon>
+            <span>{{manutencao.tipo | titlecase}}</span>
+          </div>
+
+          <p class="description">{{manutencao.descricao}}</p>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <mat-icon>calendar_today</mat-icon>
+              <div class="info-text">
+                <span class="label">Período</span>
+                <span>{{manutencao.dataInicio | date}} - {{manutencao.dataFim | date}}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>speed</mat-icon>
+              <div class="info-text">
+                <span class="label">Quilometragem</span>
+                <span>{{manutencao.quilometragem}} km</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>store</mat-icon>
+              <div class="info-text">
+                <span class="label">Oficina</span>
+                <span>{{manutencao.oficina}}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>receipt</mat-icon>
+              <div class="info-text">
+                <span class="label">Nota Fiscal</span>
+                <span>{{manutencao.notaFiscal || 'N/A'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="cost">
+            <span class="label">Custo Total</span>
+            <span class="value">{{formatCurrency(manutencao.custo)}}</span>
+          </div>
+          <div class="actions">
+            <button class="btn-icon" title="Ver detalhes">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button class="btn-icon" title="Editar" *ngIf="manutencao.status === 'pendente'">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="btn-icon delete" title="Excluir" *ngIf="manutencao.status === 'pendente'">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Carregando...</span>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,5 @@
+import { Arquivo } from "../ordem-de-servico/arquivo";
+
 export class Carro {
   id!: number;
   placa!: string;
@@ -14,6 +16,7 @@ export class Carro {
   combustivel: TipoCombustivel = 'Gasolina';
   renavam?: string;
   chassi?: string;
+  arqDocumentos?: Arquivo[];
 }
 
 export type StatusCarro = 'disponivel' | 'em_uso' | 'manutencao' | 'inativo';

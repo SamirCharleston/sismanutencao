@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { Ferramenta, StatusFerramenta } from '../models/ferramenta/ferramenta';
 import { EmprestimoFerramenta } from '../models/ferramenta/emprestimo-ferramenta';
 import { Carro } from '../models/frota/carro';
+import { CarroManutencao } from '../models/frota/carro-manutencao';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class DataService {
   private insumos: Insumo[] = [];
   private pedidos: Pedido[] = [];
   private colaboradores: Colaborador[] = [];
+  private carros: Carro[] = [];
 
   private ferramentas: Ferramenta[] = [
     {
@@ -493,5 +495,30 @@ export class DataService {
       { id: 8, status: 'inativo', proxRevisao: new Date(), placa: 'VWX-9012', modelo: 'Modelo H', marca: 'Marca H', ano: 2027, quilometragem: 80000 , combustivel: 'Etanol', imagemUrl: 'https://www.autoo.com.br/fotos/2024/6/1280_960/fiat_strada_2025_1_04062024_78905_1280_960.jpg'},
     ];
     return of(carros);
+  }
+
+  getManutencoesCarros(): Observable<CarroManutencao[]> {
+    const manutencoes: CarroManutencao[] = [
+      {
+        id: 1,
+        carro: this.carros[0],
+        tipo: 'preventiva',
+        status: 'pendente',
+        dataInicio: new Date(),
+        dataFim: new Date(),
+        descricao: 'Revisão programada',
+        quilometragem: 15000,
+        oficina: 'Oficina ABC',
+        custo: 500,
+        notaFiscal: 'NF-123',
+        observacoes: 'Troca de óleo e filtros',
+        itensServico: [
+          { id: 1, descricao: 'Óleo', quantidade: 4, valorUnitario: 50, valorTotal: 200 },
+          { id: 2, descricao: 'Filtro de óleo', quantidade: 1, valorUnitario: 30, valorTotal: 30 }
+        ]
+      }
+      // Add more mock maintenance records as needed
+    ];
+    return of(manutencoes);
   }
 }

@@ -1,0 +1,106 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <button class="btn back" (click)="onCancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar
+      </button>
+      <h1>Nova Manutenção</h1>
+    </div>
+
+    <form [formGroup]="manutencaoForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-section">
+        <h2>Informações Básicas</h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Veículo*</label>
+            <select title="carro" formControlName="carro">
+              <option [ngValue]="null">Selecione um veículo</option>
+              <option *ngFor="let carro of carros$ | async" [ngValue]="carro">
+                {{carro.placa}} - {{carro.marca}} {{carro.modelo}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Tipo de Manutenção*</label>
+            <select title="tipo" formControlName="tipo">
+              <option value="">Selecione o tipo</option>
+              <option *ngFor="let tipo of tiposManutencao" [value]="tipo">
+                {{tipo | titlecase}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Data Início*</label>
+            <input title="datainicio" type="date" formControlName="dataInicio">
+          </div>
+
+          <div class="form-field">
+            <label>Data Fim*</label>
+            <input title="datafim" type="date" formControlName="dataFim">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Detalhes do Serviço</h2>
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label>Descrição*</label>
+            <textarea formControlName="descricao" rows="3" 
+                      placeholder="Descreva o serviço a ser realizado"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label>Quilometragem*</label>
+            <input title="quilometro" type="number" formControlName="quilometragem">
+          </div>
+
+          <div class="form-field">
+            <label>Oficina*</label>
+            <input title="ofina" type="text" formControlName="oficina">
+          </div>
+
+          <div class="form-field">
+            <label>Custo Estimado*</label>
+            <input title="custo" type="number" formControlName="custo">
+          </div>
+
+          <div class="form-field">
+            <label>Nota Fiscal</label>
+            <input title="notafiscal" type="text" formControlName="notaFiscal">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Itens do Serviço</h2>
+        <button type="button" class="btn secondary" (click)="addItemServico()">
+          <mat-icon>add</mat-icon>
+          Adicionar Item
+        </button>
+
+        <div class="items-list" formArrayName="itensServico">
+          <!-- Items will be rendered here -->
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Observações</h2>
+        <div class="form-field full-width">
+          <textarea formControlName="observacoes" rows="4" 
+                    placeholder="Observações adicionais"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn primary" [disabled]="!manutencaoForm.valid">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

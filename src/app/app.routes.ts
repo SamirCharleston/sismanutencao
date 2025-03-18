@@ -20,6 +20,9 @@ import { NovoComponent } from './pages/inventario-coletivo/novo/novo.component';
 import { DetalhesComponent } from './pages/inventario-coletivo/detalhes/detalhes.component';
 import { FrotaDashboardComponent } from './pages/frota/frota-dashboard/frota-dashboard.component';
 import { NovoVeiculoComponent } from './pages/frota/novo/novo.component';
+import { ManutencaoNovoComponent } from './pages/frota/manutencao/manutencao-novo/manutencao-novo.component';
+import { ManutencaoListaComponent } from './pages/frota/manutencao/manutencao-lista/manutencao-lista.component';
+import { DocumentosListaComponent } from './pages/frota/documentos/lista/documentos-lista.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -47,6 +50,9 @@ export const routes: Routes = [
       { path: 'inventario', component: InventarioColetivoComponent },
       { path: 'estatisticas', component: DashboardComponent },
       { path: 'frota/novo', component: NovoVeiculoComponent },
+      { path: 'frota/manutencoes/novo', component: ManutencaoNovoComponent },
+      { path: 'frota/manutencoes', component: ManutencaoListaComponent },
+      { path: 'frota/documentos', component: DocumentosListaComponent },
       { path: 'frota', component: FrotaDashboardComponent },
       { path: 'logistica', component: DashboardComponent }
     ]

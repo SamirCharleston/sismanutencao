@@ -245,11 +245,13 @@ export class OrdemDetalhesComponent implements OnInit {
     
     Array.from(files).forEach(file => {
       // Aqui você implementaria o upload real para o backend
-      const arquivo = {
+      const arquivo: Arquivo = {
         nome: file.name,
         tipo: this.getFileType(file.name),
         tamanho: file.size,
-        url: URL.createObjectURL(file)
+        url: URL.createObjectURL(file),
+        type: '', // Add appropriate value for 'type'
+        content: new Blob() // Add appropriate value for 'content'
       };
       this.ordem.arquivos!.push(arquivo);
     });

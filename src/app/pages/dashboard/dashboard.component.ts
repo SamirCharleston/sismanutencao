@@ -16,7 +16,7 @@ export class DashboardComponent {
   
   menuItems = [
     { icon: 'assignment', label: 'Ordens de serviço', route: '/dashboard/ordens' },
-    { icon: 'speed', label: 'Medições', route: '/dashboard/ordens' },
+    { icon: 'speed', label: 'Medições', route: '/dashboard/medicoes' },
     { icon: 'shopping_cart', label: 'Pedidos de compra', route: '/dashboard/pedidos' },
     { icon: 'build', label: 'Inventário Coletivo', route: '/dashboard/inventario' },
     { icon: 'people', label: 'Colaboradores', route: '/dashboard/colaboradores' },

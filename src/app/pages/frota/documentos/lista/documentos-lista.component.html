@@ -1,0 +1,66 @@
+<div class="page-container">
+  <div class="content-card">
+    <div class="header">
+      <button class="btn back" routerLink="/dashboard/frota">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar
+      </button>
+      <h1>Documentação da Frota</h1>
+    </div>
+
+    <div class="filters">
+      <div class="search-field">
+        <input type="text" [(ngModel)]="searchTerm" 
+               placeholder="Buscar por placa ou modelo..." 
+               class="input-field">
+        <mat-icon>search</mat-icon>
+      </div>
+    </div>
+
+    <div class="vehicles-grid" *ngIf="!loading">
+      <div class="vehicle-card" *ngFor="let veiculo of filteredVeiculos">
+        <div class="vehicle-header">
+          <div class="vehicle-info">
+            <span class="plate">{{veiculo.placa}}</span>
+            <span class="model">{{veiculo.marca}} {{veiculo.modelo}}</span>
+          </div>
+          <div class="doc-count">
+            <mat-icon>folder</mat-icon>
+            <span>{{getTotalDocumentos(veiculo)}} documentos</span>
+          </div>
+        </div>
+
+        <div class="documents-list" *ngIf="veiculo.arqDocumentos?.length">
+          <div class="document-item" *ngFor="let doc of veiculo.arqDocumentos">
+            <div class="doc-info">
+              <mat-icon>description</mat-icon>
+              <span class="doc-name">{{doc.nome}}</span>
+            </div>
+            <div class="doc-actions">
+              <button class="btn-icon" (click)="downloadDocumento(doc)">
+                <mat-icon>download</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-docs" *ngIf="!veiculo.arqDocumentos?.length">
+          <mat-icon>info</mat-icon>
+          <span>Nenhum documento cadastrado</span>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn primary" [routerLink]="['/dashboard/frota/documentos/upload', veiculo.id]">
+            <mat-icon>upload_file</mat-icon>
+            Adicionar Documento
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Carregando...</span>
+    </div>
+  </div>
+</div>
