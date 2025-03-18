@@ -70,4 +70,7 @@ export class ColaboradoresComponent implements OnInit {
   onBack() {
     this.router.navigate(['/dashboard']);
   }
+  onNovoColaborador() {
+    this.router.navigate(['/dashboard/colaboradores/novo']);
+  }
 }

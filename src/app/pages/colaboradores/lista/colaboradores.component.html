@@ -1,4 +1,4 @@
-<div class="page-container">
+<!-- <div class="page-container">
   <div class="page-header">
     <div class="title-section">
       <button class="btn-back" (click)="onBack()">
@@ -16,9 +16,27 @@
         <span>Novo Colaborador</span>
       </button>
     </div>
-  </div>
+  </div> -->
+<div class="main-container">
+    <div class="header-container">
+      <div class="back-title-container">
+        <button class="btn-back" (click)="onBack()">
+          <i class="material-icons">arrow_back</i>
+        </button>
+        <h2 class="title-container">Colaboradores</h2>
+      </div>
+      <div class="actions">
+        <button class="btn-secondary" (click)="toggleView()" title="Alternar visualização">
+          <i class="material-icons">{{viewMode === 'table' ? 'grid_view' : 'list'}}</i>
+        </button>
+        <button class="btn-primary" (click)="onNovoColaborador()">
+          <i class="material-icons">add</i>
+          <span>Novo Colaborador</span>
+        </button>
+      </div>
+    </div>
 
-  <div class="content-grid">
+  <div class="body-grid content-grid">
     <div class="table-responsive" *ngIf="viewMode === 'table'">
       <table>
         <thead>

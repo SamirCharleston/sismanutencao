@@ -1,4 +1,4 @@
-<div class="cards-grid">
+<div class="body-grid cards-grid">
   <div class="card" *ngFor="let colaborador of colaboradores" [routerLink]="['/dashboard/colaboradores', colaborador.id]">
     <div class="card-image">
       <img class="img-profile" alt="colaborador" [src]="colaborador.fotoPerfil || getDefaultImage()" [alt]="colaborador.nome">

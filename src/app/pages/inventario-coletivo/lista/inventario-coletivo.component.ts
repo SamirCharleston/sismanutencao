@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ferramenta, StatusFerramenta } from '../../../models/ferramenta/ferramenta';
 import { DataService } from '../../../services/data.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CheckoutDialogComponent } from '../../../components/checkout-dialog/checkout-dialog.component';
@@ -29,7 +29,8 @@ export class InventarioColetivoComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -116,5 +117,12 @@ export class InventarioColetivoComponent implements OnInit {
       this.showCheckoutDialog = false;
       this.selectedFerramenta = undefined;
     }
+  }
+
+  onNovaFerramenta() {
+    this.router.navigate(['/dashboard/inventario/novo']);
+  }
+  onBack() {
+    this.router.navigate(['/dashboard']);
   }
 }

@@ -1,4 +1,4 @@
-<div class="page-container">
+<!-- <div class="page-container">
   <div class="content-card">
     <div class="header">
       <h1>Inventário Coletivo</h1>
@@ -6,27 +6,44 @@
         <mat-icon>add</mat-icon>
         Nova Ferramenta
       </button>
+    </div> -->
+<div class="main-container">
+  <div class="header-container">
+    <div class="back-title-container">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <h2 class="title-container">Inventário Coletivo</h2>
+    </div>
+    
+    <div>
+      <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
+      <button class="btn-primary" (click)="onNovaFerramenta()">
+        <i class="material-icons">add</i>
+        <span>Nova Ferramenta</span>
+      </button>
+    </div>
+  </div>
+  <div class="filters">
+    <div class="search-field">
+      <input type="text" 
+             [(ngModel)]="searchTerm" 
+             placeholder="Digite para buscar..."
+             class="input-field">
+      <mat-icon class="search-icon">search</mat-icon>
     </div>
 
-    <div class="filters">
-      <div class="search-field">
-        <input type="text" 
-               [(ngModel)]="searchTerm" 
-               placeholder="Digite para buscar..."
-               class="input-field">
-        <mat-icon class="search-icon">search</mat-icon>
-      </div>
-
-      <div class="select-field">
-        <select title="categoria" [(ngModel)]="selectedCategory" class="input-field">
-          <option *ngFor="let category of categories" [value]="category">
-            {{category}}
-          </option>
-        </select>
-      </div>
+    <div class="select-field">
+      <select title="categoria" [(ngModel)]="selectedCategory" class="input-field">
+        <option *ngFor="let category of categories" [value]="category">
+          {{category}}
+        </option>
+      </select>
     </div>
+  </div>
 
-    <div class="tools-grid" *ngIf="!loading">
+
+    <div class="body-grid tools-grid" *ngIf="!loading">
       <div *ngFor="let ferramenta of filteredFerramentas; let i = index" class="tool-card">
         <div class="tool-left">
           <img alt [src]="ferramenta.imagemUrl" 
@@ -106,7 +123,6 @@
       <div class="spinner"></div>
       <span>Carregando...</span>
     </div>
-  </div>
 </div>
 
 <app-checkout-dialog

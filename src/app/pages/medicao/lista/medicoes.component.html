@@ -1,4 +1,4 @@
-<div class="medicoes-container">
+<!-- <div class="medicoes-container">
   <div class="header">
     <div class="back-title">
       <button class="btn-back" (click)="onBack()">
@@ -10,9 +10,22 @@
       <i class="material-icons">add</i>
       <span>Nova Medição</span>
     </button>
+  </div> -->
+<div class="main-container">
+  <div class="header-container">
+    <div class="back-title-container">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <h2 class="title-container">Medições</h2>
+    </div>
+    <button class="btn-primary" (click)="onNovaMedicao()">
+      <i class="material-icons">add</i>
+      <span>Nova Medição</span>
+    </button>
   </div>
 
-  <div class="medicoes-grid">
+  <div class="body-grid medicoes-grid">
     <div class="medicao-card" *ngFor="let medicao of medicoes" [routerLink]="['/dashboard/medicoes', medicao.numero]">
       <div class="medicao-header">
         <span class="numero">Medição {{medicao.numero}}</span>

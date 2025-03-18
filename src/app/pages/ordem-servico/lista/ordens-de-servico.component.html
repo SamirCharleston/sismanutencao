@@ -1,4 +1,19 @@
-<div class="ordens-container">
+<div class="main-container">
+  <div class="header-container">
+    <div class="back-title-container">
+      <button class="btn-back" (click)="onBack()">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <h2 class="title-container">Ordens de Serviço</h2>
+    </div>
+    <!-- <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort> -->
+    <button class="btn-primary" (click)="onNovaOrdem()">
+      <i class="material-icons">add</i>
+      <span>Nova OS</span>
+    </button>
+  </div>
+
+<!-- <div class="ordens-container">
   <div class="header">
     <h2>Ordens de Serviço</h2>
     <app-ordem-sort (sortChange)="onSort($event)"></app-ordem-sort>
@@ -6,7 +21,7 @@
       <i class="material-icons">add</i>
       <span>Nova OS</span>
     </button>
-  </div>
+  </div> -->
 
   <div class="content">
     

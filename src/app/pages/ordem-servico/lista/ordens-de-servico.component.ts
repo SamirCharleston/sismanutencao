@@ -135,4 +135,7 @@ export class OrdensDeServicoComponent implements OnInit, OnDestroy {
   onNovaOrdem() {
     this.router.navigate(['/dashboard/ordens/novo']);
   }
+  onBack() {
+    this.router.navigate(['/dashboard']);
+  }
 }
