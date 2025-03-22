@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OrdemDeServico } from '../../../models/ordem-de-servico/ordem-de-servico';
 import { SearchService } from '../../../services/search.service';
 import { Subscription } from 'rxjs';
-import { OrdemSortComponent } from '../../../components/ordem-sort/ordem-sort.component';
+// import { OrdemSortComponent } from '../../../components/ordem-sort/ordem-sort.component';
 import { DataService } from '../../../services/data.service';
 import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loading-spinner.component';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-ordens-de-servico',
   standalone: true,
-  imports: [CommonModule, OrdemSortComponent, LoadingSpinnerComponent],
+  imports: [CommonModule, LoadingSpinnerComponent],
   providers: [DatePipe],
   templateUrl: './ordens-de-servico.component.html',
   styleUrls: ['./ordens-de-servico.component.css']
